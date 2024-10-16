@@ -1,0 +1,58 @@
+.login-background {
+    background: linear-gradient(135deg, #1c1c1c 0%, #2a2a72 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+
+    z-index: 1; /* Đảm bảo nền có z-index thấp */
+}
+
+.star, .floating-orb {
+    z-index: 0; /* Đặt ngôi sao và quỹ đạo trong lớp thấp hơn */
+}
+
+.star {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: twinkle 2s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+.floating-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+    animation: float 20s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(50px, 50px); }
+    50% { transform: translate(100px, -50px); }
+    75% { transform: translate(-50px, 100px); }
+}
+.login-background .ant-input-outlined:focus, :where(.css-dev-only-do-not-override-11lehqq).ant-input-outlined:focus-within{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.login-background .ant-input-outlined:hover{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.login-background .ant-input::placeholder {
+    color: rgba(255, 255, 255, 0.7); /* Change this color as needed */
+}
+
+.login-background .ant-input-password::placeholder {
+    color: rgba(255, 255, 255, 0.7); /* Change this color as needed */
+}
+.ant-form-item{
+    margin-bottom: 0 !important;
+}
