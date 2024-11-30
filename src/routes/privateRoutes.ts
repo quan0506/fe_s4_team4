@@ -1,25 +1,21 @@
 import HomePage from '../Page/home/HomePage'
-import AllRoomsPage from '../Page/booking_rooms/AllRoomsPage';
-import FindBookingPage from  '../Page/booking_rooms/FindBookingPage'
-import RoomDetailsBookingPage from '../Page/booking_rooms/RoomDetailsPage'
 import ProfilePage from '../Page/profile/ProfilePage';
 import EditProfilePage from '../Page/profile/EditProfilePage'
+import IndexBooking from '../Page/booking/IndexBooking.jsx'
+import Bookinginformation from '../Page/booking/Bookinginformation/Bookinginformation'
+import IndexServices from '../Page/Services/IndexServices.jsx'
+import DiscountCode from  '../Page/home/DiscountCode/DiscountCode.jsx'
+import IndexFasterDetails from '../Page/FasterDetails/IndexFasterDetails'
+import DetailBranches from '../Page/FasterDetails/DetailBranches'
+import IndexBranchoffice from '../Page/FasterDetails/AllBranchoffice/IndexBranchoffice'
 const privateRoutes = {
   home: {
     path: '/',
     component: HomePage
   },
-  rooms:{
-    path: '/rooms',
-    component: AllRoomsPage,
-  },
-  booking:{
-    path: '/find-booking',
-    component: FindBookingPage,
-  },
-  roombook: {
-    path: '/room-details-book/:roomId',
-    component: RoomDetailsBookingPage
+  services : {
+    path: '/services',
+    component : IndexServices
   },
   profile:{
     path: '/profile',
@@ -29,8 +25,30 @@ const privateRoutes = {
     path: '/edit-profile',
     component: EditProfilePage,
   },
-
-
+  Bookking : {
+    path: '/booking',
+    component: IndexBooking,
+  },
+  Bookinginformation: {
+    path: '/bookinginformation/:id',
+    component: Bookinginformation
+  },
+  DiscountCode : {
+    path: '/discountcode',
+    component: DiscountCode
+  },
+  FasterDetails : {
+    path: '/fasterdetails',
+    component: IndexFasterDetails
+  },
+  DetailBranches : {
+    path: '/detailbranches/:id',
+    component: DetailBranches,
+  },
+  IndexBranchoffice : {
+    path: '/allbranchoffice/:id',
+    component: IndexBranchoffice,
+  }
 };
 
 export default privateRoutes;

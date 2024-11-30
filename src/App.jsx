@@ -1,21 +1,16 @@
 import AppLayout from "./layouts";
 import './index.css'
-import {Toaster} from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {useEffect} from "react";
+import 'react-slideshow-image/dist/styles.css';
 
 function App() {
-
   return (
     <>
-          <AppLayout/>
-          <Toaster
-            position="top-center"
-            reverseOrder={false}
-          />
+      <AppLayout />
+      <Toaster position="top-center" reverseOrder={false} />
     </>
-
   );
 }
 

@@ -1,163 +1,104 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Dropdown, Space, Menu, Drawer } from 'antd';
-import { UserOutlined, DownOutlined, MenuOutlined } from '@ant-design/icons';
-import { Link, useNavigate } from "react-router-dom";
-
-const ApiService = {
-  isAuthenticated: () => false,
-  isAdmin: () => false,
-  isUser: () => false,
-  logout: () => {},
-};
-
-const Header = () => {
-  const items = [
-    { key: '1', label: 'English', countryCode: 'gb' },
-    { key: '2', label: 'Deutsch', countryCode: 'de' },
-    { key: '3', label: 'Français', countryCode: 'fr' },
-    { key: '4', label: 'TIẾNG VIỆT', countryCode: 'vn' },
-  ];
-
-  const isAuthenticated = ApiService.isAuthenticated();
-  const isAdmin = ApiService.isAdmin();
-  const isUser = ApiService.isUser();
-  const navigate = useNavigate();
-  const [selectedLanguage, setSelectedLanguage] = useState(items[3]);
+import { ShoppingCart, UserRound, Home, Hotel , BookOpen, Network, Menu, X ,Heart  ,LogIn} from "lucide-react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {Button} from "antd";
+export const Header = () => {
+  const [showCart, setShowCart] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 768);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    // Call handleResize once to set initial state
-    handleResize();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  const handleLogout = () => {
-    const isLogout = window.confirm('Are you sure you want to logout this user?');
-    if (isLogout) {
-      ApiService.logout();
-      navigate('/home');
-    }
-  };
-
-  const handleLanguageChange = ({ key }) => {
-    const selected = items.find(item => item.key === key);
-    setSelectedLanguage(selected);
-  };
-
-  const languageMenu = (
-    <Menu onClick={handleLanguageChange}>
-      {items.map((item) => (
-        <Menu.Item key={item.key}>
-          <Space>
-            <img
-              src={`https://flagcdn.com/24x18/${item.countryCode}.png`}
-              alt={item.label}
-              style={{ width: 20, height: 15 }}
-            />
-            {item.label}
-          </Space>
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
-
-  const NavItems = () => (
-    <Menu mode="horizontal" style={{ border: 'none', background: 'transparent' }}>
-      <Menu.Item key="home"><Link to="/">Home</Link></Menu.Item>
-      <Menu.Item key="rooms"><Link to="/rooms">Rooms</Link></Menu.Item>
-      <Menu.Item key="find-booking"><Link to="/find-booking">Find my Booking</Link></Menu.Item>
-      {isUser && <Menu.Item key="profile"><Link to="/profile">Profile</Link></Menu.Item>}
-      {isAdmin && <Menu.Item key="admin"><Link to="/admin">Admin</Link></Menu.Item>}
-    </Menu>
-  );
-
+  const menuItems = [
+    { icon: Home, label: "Trang chủ", path: "/" },
+    { icon: Hotel , label: "Đặt phòng", path: "/booking" },
+    { icon: BookOpen, label: "Chi nhánh", path: "/fasterdetails" },
+    { icon: ShoppingCart, label: "Dịch vụ", path: "/services" },
+  ];
+  const token = window.localStorage.getItem("token");
   return (
-    <div id='menuhome'>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 2rem', background: 'white', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)' }}>
-        <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#003366' }}>logo</div>
-
-        {isDesktop ? (
-          <nav>
-            <NavItems />
-          </nav>
-        ) : null}
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <Dropdown overlay={languageMenu} trigger={['click']}>
-            <a onClick={e => e.preventDefault()}>
-              <Space>
-                <img
-                  src={`https://flagcdn.com/24x18/${selectedLanguage.countryCode}.png`}
-                  alt={selectedLanguage.label}
-                  style={{ width: 20, height: 15 }}
-                />
-                <span className="hidden md:inline">{selectedLanguage.label}</span>
-                <DownOutlined />
-              </Space>
-            </a>
-          </Dropdown>
-
-          <div className={`flex items-center gap-4 ${isDesktop ? 'md:flex' : 'hidden'}`}>
-            {!isAuthenticated && (
-              <>
-                <Link to='/login'>
-                  <Button icon={<UserOutlined />}>Login</Button>
-                </Link>
-                <Link to='/register'>
-                  <Button icon={<UserOutlined />}>Register</Button>
-                </Link>
-              </>
-            )}
-            {isAuthenticated && (
-              <Button onClick={handleLogout}>Logout</Button>
-            )}
-          </div>
-
-          {!isDesktop && (
-            <Button
-              icon={<MenuOutlined />}
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="md:hidden"
-            />
-          )}
-
-          <Drawer
-            title="Menu"
-            placement="right"
-            onClose={() => setIsMobileMenuOpen(false)}
-            visible={isMobileMenuOpen}
-          >
-            <Menu mode="vertical" style={{ border: 'none' }}>
-              <Menu.Item key="home"><Link to="/">Home</Link></Menu.Item>
-              <Menu.Item key="rooms"><Link to="/rooms">Rooms</Link></Menu.Item>
-              <Menu.Item key="find-booking"><Link to="/find-booking">Find my Booking</Link></Menu.Item>
-              {isUser && <Menu.Item key="profile"><Link to="/profile">Profile</Link></Menu.Item>}
-              {isAdmin && <Menu.Item key="admin"><Link to="/admin">Admin</Link></Menu.Item>}
-              {!isAuthenticated && (
-                <>
-                  <Menu.Item key="login"><Link to='/login'>Login</Link></Menu.Item>
-                  <Menu.Item key="register"><Link to='/register'>Register</Link></Menu.Item>
-                </>
-              )}
-              {isAuthenticated && (
-                <Menu.Item key="logout" onClick={handleLogout}>Logout</Menu.Item>
-              )}
-            </Menu>
-          </Drawer>
+    <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md shadow-lg z-50">
+      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+        {/* Left Section: Logo */}
+        <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              Logo
+            </div>
+          </Link>
         </div>
-      </header>
-    </div>
+
+        {/* Center Section: Menu */}
+        <div className="hidden md:flex items-center gap-8 flex-1 justify-center">
+          {menuItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors group"
+            >
+              <item.icon className="w-5 h-5 group-hover:scale-110 transition-transform"/>
+              <span className="font-medium">{item.label}</span>
+            </Link>
+          ))}
+        </div>
+        {/* Right Section: Actions */}
+        <div className="flex items-center gap-6">
+          <Link
+            to='/discountcode'
+            className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-secondary/80 transition-colors"
+          >
+            <Heart className="w-6 h-6 text-gray-700"/>
+            <span className="hidden md:inline font-medium text-gray-700">Special offers</span>
+          </Link>
+          <button
+            onClick={() => setShowCart(!showCart)}
+            className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-secondary/80 transition-colors relative"
+          >
+            <ShoppingCart className="w-6 h-6 text-gray-700"/>
+            <span className="hidden md:inline font-medium text-gray-700">Cart</span>
+          </button>
+          {token ? (
+            <button
+              onClick={() => setShowProfile(!showProfile)}
+              className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-secondary/80 transition-colors"
+            >
+              <UserRound className="w-6 h-6 text-gray-700"/>
+              <span className="hidden md:inline font-medium text-gray-700">Profile</span>
+            </button>
+          ) : (
+            <Button>
+              <span className="hidden md:inline font-medium text-gray-700">Login</span>
+            </Button>
+          )}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 hover:bg-secondary/80 rounded-lg transition-colors"
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6 text-gray-700"/>
+            ) : (
+              <Menu className="w-6 h-6 text-gray-700"/>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white border-t">
+          <div className="container mx-auto py-4 px-4 space-y-4">
+            {menuItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/80 transition-colors"
+              >
+                <item.icon className="w-5 h-5 text-primary"/>
+                <span className="font-medium text-gray-700">{item.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </nav>
+
   );
 };
-
-export default Header;

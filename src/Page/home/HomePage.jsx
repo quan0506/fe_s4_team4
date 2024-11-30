@@ -7,6 +7,8 @@ import Awards from "./New/Awards";
 import ContentHome from "./New/ContentHome";
 import ImageSlider from "./New/SileImg";
 import SileAutoImg from "./New/SileAutoImg.jsx";
+import Article from "./New/Article.jsx";
+import FooterComponent from "../../component/Footer.jsx";
 const HomePage = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -43,7 +45,7 @@ const HomePage = () => {
       const nextIndex = (currentSlide + 1) % images.length;
       emblaApi.scrollTo(nextIndex);
     };
-    const id = setInterval(advanceSlide, 3000); // Change slide every 3 seconds
+    const id = setInterval(advanceSlide, 3000);
     return () => {
       clearInterval(id);
     };
@@ -130,6 +132,10 @@ const HomePage = () => {
       <div className=''>
         <SileAutoImg/>
       </div>
+      <div>
+        <Article/>
+      </div>
+      <FooterComponent />
     </div>
   );
 };

@@ -13,12 +13,12 @@ function RegisterPage() {
             const response = await upstashService.registerUser({
                 ...values
             });
-            if (response.statusCode === 200) {
+            console.log(response)
                 toast.success('User registered successfully');
                 navigate('/login')
-            }
         } catch (error) {
-            toast.error(error.response?.data?.message || error.message);
+            console.log(error)
+            toast.error(error.response?.data);
         }
     };
     useEffect(() => {
@@ -43,7 +43,7 @@ function RegisterPage() {
                   >
                       <Input
                         prefix={<UserOutlined className="site-form-item-icon"/>}
-                        placeholder="firstname"
+                        placeholder="Firstname"
                         className=" bg-transparent border-b border-white/30 focus:border-white text-white placeholder-white/70 w-full"
                       />
                   </Form.Item>
@@ -53,7 +53,7 @@ function RegisterPage() {
                   >
                       <Input
                         prefix={<UserOutlined className="site-form-item-icon"/>}
-                        placeholder="firstname"
+                        placeholder="LastName"
                         className=" bg-transparent border-b border-white/30 focus:border-white text-white placeholder-white/70 w-full"
                       />
                   </Form.Item>
@@ -64,6 +64,16 @@ function RegisterPage() {
                       <Input
                         prefix={<UserOutlined className="site-form-item-icon"/>}
                         placeholder="Email"
+                        className=" bg-transparent border-b border-white/30 focus:border-white text-white placeholder-white/70 w-full"
+                      />
+                  </Form.Item>
+                  <Form.Item
+                    name="phone"
+                    rules={[{required: true, message: 'Please input your Phone!'}]}
+                  >
+                      <Input
+                        prefix={<UserOutlined className="site-form-item-icon"/>}
+                        placeholder="Phone"
                         className=" bg-transparent border-b border-white/30 focus:border-white text-white placeholder-white/70 w-full"
                       />
                   </Form.Item>

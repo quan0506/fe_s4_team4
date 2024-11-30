@@ -1,35 +1,25 @@
 import axiosClient from "./axiosClient";
 const upstashService = {
     loginUser: async (param) => {
-        const url ='login' ;
+        const url ='auth/login' ;
         return await axiosClient.post( url , param)
       },
     registerUser : async (param) => {
-        const url ='' ;
+        const url ='/auth/register-user?role=USER';
         return await axiosClient.post( url , param)
     },
-    getBookingByConfirmationCode: async (param) => {
-        const url ='' ;
-        return await axiosClient.get(url)
+    // branches
+    getallbranches : async () => {
+        const url ='/admin/branches/all';
+        return await axiosClient.get( url )
     },
-    isAdmin: async (param) => {
-        const url ='' ;
-        return await axiosClient.get(url)
+    getBranchesid : async (id) => {
+        const url =`/admin/branches/${id}`;
+        return await axiosClient.get( url )
     },
-    getAllRooms: async (param) => {
-        const url ='' ;
-        return await axiosClient.get(url)
-    },
-    isAuthenticated: async (param) => {
-        const url ='' ;
-        return await axiosClient.get(url)
-    },
-    getRoomTypes: async (param) => {
-        const url ='' ;
-        return await axiosClient.get(url)
-    },
-    isUser: async () => {
-        const url ='' ;
+    // phong
+    getRoomId : async (id) => {
+        const url =`/rooms/room/${id}`;
         return await axiosClient.get(url)
     }
 

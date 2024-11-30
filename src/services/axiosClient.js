@@ -1,6 +1,6 @@
 import queryString from 'query-string';
 import axios from "axios";
-import {access_Token, API_URL} from "../constants";
+import {access_Token, API_URL} from "../constants/index.js";
 
 const axiosClient = axios.create({
   baseURL: API_URL,

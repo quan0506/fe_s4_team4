@@ -5,6 +5,8 @@ import './Login.css'
 import {Link, useNavigate} from "react-router-dom";
 import {createOrbs, createStars} from "../../../component/Background.js";
 import upstashService from "../../../services/upstashService.js";
+import {access_Token} from "../../../constants/index.js";
+import toast from "react-hot-toast";
 const Login = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -18,13 +20,12 @@ const Login = () => {
       const response = await upstashService.loginUser({
         ... values
       });
-      if (response.statusCode === 200) {
-        localStorage.setItem('token', response.token);
-        navigate('/home');
-      }
+      console.log(response)
+        localStorage.setItem(access_Token, response.token);
+        navigate('/');
     } catch (error) {
-      console.log(error.response?.data?.message || error.message);
-      console.log('Login failed. Please try again.');
+      console.log(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message);
     }
   };
   return (
