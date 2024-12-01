@@ -3,10 +3,8 @@ import GenericTable from "../../../component/GenericTable.jsx";
 import {useModalHandlers} from "../../../constants/ModalHandlers.jsx";
 import ModalHotel from "./ModalHotel.jsx";
 import {Button} from "antd";
-
 export default function IndexHotel() {
   const { isModalVisible, selectedNotification, handleRowClick, handleModalClose } = useModalHandlers(null);
-
   const headers = ['Project Name', 'Status', 'Created At'];
   const listProject = {
     contents: [

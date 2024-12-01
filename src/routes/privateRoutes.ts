@@ -51,6 +51,8 @@ const privateRoutes = {
     path: '/allbranchoffice/:id',
     component: IndexBranchoffice,
   },
+
+  // Admin
   indexAdmin : {
     path: '/admin/IndexDashboard',
     component : IndexDashboard

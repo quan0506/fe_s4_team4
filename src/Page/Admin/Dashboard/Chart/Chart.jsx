@@ -73,106 +73,97 @@ const Chart = () => {
     : emptyData;
 
   return (
-    <Card
-      sx={{
-        width: '100%',
-        bgcolor: 'rgba(20,20,32,1)',
-        borderRadius: '15px',
-      }}
-    >
-      <CardHeader
-        title={
-          <Box>
-            <Box
-              className="flexs boderbottm"
-              sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}
-            >
-              <Typography variant="h6" className='text-white'>User CTO number stake/unstake</Typography>
-              <Select
-                defaultValue="unstake"
-                style={{ width: 120 }}
-                onChange={value => setStatus(value)}
-                options={[
-                  { value: 'unstake', label: 'Unstake' },
-                  { value: 'stake', label: 'Stake' },
-                ]}
-              />
-            </Box>
-            <Box
-              className="flexs"
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Box>
-                <span className="text-xs text-gray-400">TOTAL CT0</span>
-                <Typography variant="h5" fontWeight="bold"  className='text-white'>
-                  {totalAmount.toLocaleString()}/CTO
-                </Typography>
+    <div className='fillininformation '>
+      <Card
+        sx={{
+          width: '100%',
+          bgcolor: 'rgba(20,20,32,1)',
+          borderRadius: '15px',
+          background:'rgb(49 54 66)'
+        }}
+      >
+        <CardHeader
+          title={
+            <Box>
+              <Box
+                className="flexs boderbottm"
+                sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}
+              >
+                <Typography variant="h6" className='text-white'>User CTO number stake/unstake</Typography>
+                <DatePicker
+                  defaultValue={selectedDate}
+                  onChange={date => setSelectedDate(date || dayjs(new Date()))}
+                  allowClear={false}
+                />
+
               </Box>
-              <DatePicker
-                defaultValue={selectedDate}
-                onChange={date => setSelectedDate(date || dayjs(new Date()))}
-                allowClear={false}
-              />
+              <Box
+                className="flexs"
+              >
+                <Box>
+                  <span className="text-xs text-gray-400">TOTAL CT0</span>
+                  <Typography variant="h5" fontWeight="bold"  className='text-white'>
+                    {totalAmount.toLocaleString()}/CTO
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
+          }
+        />
+        <CardContent>
+          <Box height={300}>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={chartData}>
+                <defs>
+                  <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#FFD700" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#FFD700" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid
+                  horizontal={true}
+                  vertical={false}
+                  strokeDasharray="6 6"
+                  stroke="rgba(255,255,255,0.1)"
+                />
+                <XAxis
+                  dataKey="time"
+                  stroke="#718096"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#718096' }}
+                  interval={1}
+                  minTickGap={20}
+                />
+                <YAxis
+                  stroke="#718096"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#718096' }}
+                  domain={['auto', 'auto']}
+                  allowDecimals={false}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#2D3748',
+                    border: 'none',
+                    color: 'white',
+                  }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="amount"
+                  stroke="#FFD700"
+                  fillOpacity={1}
+                  fill="url(#colorAmount)"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </Box>
-        }
-      />
-      <CardContent>
-        <Box height={300}>
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chartData}>
-              <defs>
-                <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#FFD700" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#FFD700" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid
-                horizontal={true}
-                vertical={false}
-                strokeDasharray="6 6"
-                stroke="rgba(255,255,255,0.1)"
-              />
-              <XAxis
-                dataKey="time"
-                stroke="#718096"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: '#718096' }}
-                interval={1}
-                minTickGap={20}
-              />
-              <YAxis
-                stroke="#718096"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: '#718096' }}
-                domain={['auto', 'auto']}
-                allowDecimals={false}
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#2D3748',
-                  border: 'none',
-                  color: 'white',
-                }}
-              />
-              <Area
-                type="monotone"
-                dataKey="amount"
-                stroke="#FFD700"
-                fillOpacity={1}
-                fill="url(#colorAmount)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </Box>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
+
   );
 };
 

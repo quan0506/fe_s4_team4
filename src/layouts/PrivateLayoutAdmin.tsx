@@ -45,7 +45,8 @@ const PrivateLayoutAdmin = () => {
     ];
 
     useEffect(() => {
-        const currentKey = Object.keys(itemRoute)?.find(key => itemRoute[key as keyof typeof itemRoute] === currentRoute);
+        let currentKey: string;
+        currentKey = Object.keys(itemRoute)?.find(key => itemRoute[key as keyof typeof itemRoute] === currentRoute);
         if (currentKey) {
             if (currentKey.includes(".")) {
                 const parentKey = currentKey.split(".")[0];
