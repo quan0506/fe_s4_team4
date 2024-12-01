@@ -11,7 +11,8 @@ const { Title, Text } = Typography;
 export default function BookingInformation() {
   const [currentStep, setCurrentStep] = useState(0);
   const [startDate, setStartDate] = useState([]);
-
+  const [discountcode , setDiscountcode] = useState('');
+  console.log(discountcode)
   const { id } = useParams();
   const { data: litsroomid } = useQuery(
     'av.litsroomid',
@@ -43,6 +44,7 @@ export default function BookingInformation() {
           <Col xs={24} sm={16} md={currentStep === 2 ? 24 : 16}>
             {currentStep === 0 && (
               <Fillininformation
+                setDiscountcode={setDiscountcode}
                 setStartDate={setStartDate}
                 setCurrentStep={setCurrentStep}
               />

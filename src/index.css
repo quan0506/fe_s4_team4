@@ -198,6 +198,6 @@ input::placeholder{
 }
 
 
-.ant-picker-outlined{
+.fillininformation .ant-picker-outlined , .ant-input-outlined{
     background: rgb(108 106 126) !important;
 }

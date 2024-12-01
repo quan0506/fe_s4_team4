@@ -8,6 +8,8 @@ import DiscountCode from  '../Page/home/DiscountCode/DiscountCode.jsx'
 import IndexFasterDetails from '../Page/FasterDetails/IndexFasterDetails'
 import DetailBranches from '../Page/FasterDetails/DetailBranches'
 import IndexBranchoffice from '../Page/FasterDetails/AllBranchoffice/IndexBranchoffice'
+import IndexDashboard from "../Page/Admin/Dashboard/IndexDashboard";
+import IndexHotel from "../Page/Admin/Hotel/IndexHotel"
 const privateRoutes = {
   home: {
     path: '/',
@@ -48,6 +50,14 @@ const privateRoutes = {
   IndexBranchoffice : {
     path: '/allbranchoffice/:id',
     component: IndexBranchoffice,
+  },
+  indexAdmin : {
+    path: '/admin/IndexDashboard',
+    component : IndexDashboard
+  },
+  IndexHotel: {
+    path: '/admin/Hotel',
+    component : IndexHotel
   }
 };
 
