@@ -21,7 +21,15 @@ const upstashService = {
     getRoomId : async (id) => {
         const url =`/rooms/room/${id}`;
         return await axiosClient.get(url)
+    },
+    getAllRoom : async () => {
+        const url =`/rooms/all-rooms`;
+        return await axiosClient.get(url)
+    },
+    // shuttles
+    getShuttlesid : async (id) => {
+        const url =`/shuttles/all?branchId=${id}`;
+        return await axiosClient.get(url)
     }
-
 }
 export default upstashService

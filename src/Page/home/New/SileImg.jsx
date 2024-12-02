@@ -12,6 +12,7 @@ export default function ImageSlider() {
     'av.listDetails',
     () => upstashService.getallbranches()
   );
+  console.log(listDetails)
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % displayedHotels?.length)
   }
@@ -75,6 +76,9 @@ export default function ImageSlider() {
                   <div className="p-4">
                     <p className="text-gray-700 text-base mb-4 line-clamp-3">{hotel.address}</p>
                     <button
+                      onClick={() => {
+                        navigate(`/detailbranches/${hotel.id}`)
+                      }}
                       className="w-full h-[40px] bg-orange-200 text-black hover:bg-orange-300"
                     >
                       VIEW MORE

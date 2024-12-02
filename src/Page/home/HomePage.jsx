@@ -126,16 +126,18 @@ const HomePage = () => {
       <div className='w-1/2 text-center mx-auto'>
         <ContentHome/>
       </div>
+      <h2 className="font-serif text-4xl md:text-5xl font-bold text-gradient  text-[#d3b772]">Chi nhánh nổi bật</h2>
       <div className='text-center '>
         <ImageSlider/>
       </div>
-      <div className=''>
+      <h2 className="font-serif text-4xl md:text-5xl font-bold text-gradient  text-[#d3b772]">Các phòng nổi bật</h2>
+      <div>
         <SileAutoImg/>
       </div>
       <div>
         <Article/>
       </div>
-      <FooterComponent />
+      <FooterComponent/>
     </div>
   );
 };

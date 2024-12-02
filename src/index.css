@@ -201,3 +201,6 @@ input::placeholder{
 .fillininformation .ant-picker-outlined , .ant-input-outlined{
     background: rgb(108 106 126) !important;
 }
+.Article .slick-next{
+    display: none !important;
+}

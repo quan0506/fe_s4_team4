@@ -3,21 +3,22 @@ import ProfilePage from '../Page/profile/ProfilePage';
 import EditProfilePage from '../Page/profile/EditProfilePage'
 import IndexBooking from '../Page/booking/IndexBooking.jsx'
 import Bookinginformation from '../Page/booking/Bookinginformation/Bookinginformation'
-import IndexServices from '../Page/Services/IndexServices.jsx'
+import IndexServices from '../component/Services/IndexServices.jsx'
 import DiscountCode from  '../Page/home/DiscountCode/DiscountCode.jsx'
 import IndexFasterDetails from '../Page/FasterDetails/IndexFasterDetails'
 import DetailBranches from '../Page/FasterDetails/DetailBranches'
 import IndexBranchoffice from '../Page/FasterDetails/AllBranchoffice/IndexBranchoffice'
 import IndexDashboard from "../Page/Admin/Dashboard/IndexDashboard";
 import IndexHotel from "../Page/Admin/Hotel/IndexHotel"
+import Shuttles from "../Page/FasterDetails/Service/Shuttles.jsx"
 const privateRoutes = {
   home: {
     path: '/',
     component: HomePage
   },
   services : {
-    path: '/services',
-    component : IndexServices
+    path: '/fasterdetails/services/:id',
+    component : Shuttles
   },
   profile:{
     path: '/profile',

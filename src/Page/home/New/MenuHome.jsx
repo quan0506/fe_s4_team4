@@ -80,14 +80,16 @@ const HeaderHome = () => {
           </Link>
           {!isMobile && (
             <>
-              <Dropdown
-                trigger={['click']}
-                menu={{
-                  items,
-                }}
-              >
-                <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />}/>
-              </Dropdown>
+            {token && (
+                <Dropdown
+                  trigger={['click']}
+                  menu={{
+                    items,
+                  }}
+                >
+                  <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />}/>
+                </Dropdown>
+              )}
               {!token && (
                 <Link to='/login'>
                   <Button size='middle' className="bg-transparent text-white border-white px-2 sm:px-4">
@@ -131,11 +133,7 @@ const HeaderHome = () => {
               <span>Login</span>
             </Button>
           </Link>
-          <Link to='/register' onClick={toggleDrawer}>
-            <Button size='large' className="w-full bg-green-500 text-white border-none">
-              <span>Register</span>
-            </Button>
-          </Link>
+
           <Button size='large' className="w-full bg-red-500 text-white border-none" onClick={() => { handleLogout(); toggleDrawer(); }}>
             <span>Logout</span>
           </Button>

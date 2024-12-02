@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 function SlideAutoImg() {
   const [isPaused, setIsPaused] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
   const images = [
     { src: "./img1.webp", text: "Premium Design" },
     { src: "./img1.webp", text: "Elegant Style" },
@@ -28,7 +27,7 @@ function SlideAutoImg() {
     <div
       className="w-full overflow-hidden bg-white"
     >
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="marquee-container">
           <Marquee
             gradient={false}

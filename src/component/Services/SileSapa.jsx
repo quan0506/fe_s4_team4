@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Slide } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
 import { Button } from "antd"
-import { SlideButton } from "../../component/SlideButton.jsx"
+import { SlideButton } from "../SlideButton.jsx"
 import { MapPin, Clock } from 'lucide-react'
 
 export default function SlideSapa() {

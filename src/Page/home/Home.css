@@ -106,5 +106,6 @@
 .image-wrapper:hover .image-text {
     transform: translateY(0);
 }
-
-
+.Article .slick-dots {
+    display: none !important;
+}

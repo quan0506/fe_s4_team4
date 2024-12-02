@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 
-const CardWithMotion = ({ icon: Icon, text, hoverScale = 1.05, className = "", ...props }) => {
+const CardWithMotion = ({ icon: Icon, text, hoverScale = 1.05, className = "", onClick, ...props }) => {
   return (
     <motion.div
+      onClick={onClick}
       whileHover={{ scale: hoverScale }}
       className={`flex flex-col items-center justify-center p-4 rounded-lg cursor-pointer bg-white/5 border border-white/10 hover:border-orange-200 transition-colors ${className}`}
       {...props}

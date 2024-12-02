@@ -4,13 +4,14 @@ import { Button } from "antd";
 import {useQuery} from "react-query";
 import upstashService from "../../services/upstashService.js";
 import HeaderPega from "../../component/HeaderPega.jsx";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import CardWithMotion from "../../component/CardWithMotion.jsx";
 const IndexFasterDetails = () => {
   const { data: listhotel } = useQuery(
     'av.listhotel',
     () => upstashService.getallbranches()
   );
+  const navigate = useNavigate();
   // console.log('listhotel' , listhotel)
   return (
     <div className="min-h-screen bg-[#1c2638] from-navy via-navy-light
@@ -78,6 +79,9 @@ const IndexFasterDetails = () => {
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                   <CardWithMotion
+                    onClick={() => {
+                      navigate(`services/${branch?.id}`);
+                    }}
                     icon={CarTaxiFront}
                     text="Dịch vụ xe"
                   />

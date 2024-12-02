@@ -4,7 +4,7 @@ import {ArrowRightOutlined, EnvironmentOutlined, StarFilled, WifiOutlined} from 
 import {Car, SpadeIcon as Spa, Utensils} from "lucide-react";
 import {useState} from "react";
 const { Title, Text, Paragraph } = Typography
-const Room = ({title,location,description,images,originalPrice,discountedPrice,rating , setOpen}) => {
+const Room = ({title,location,description,images,originalPrice,discountedPrice,rating , setOpen,key}) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [sliderRef, setSliderRef] = useState(null)
   const formatter = new Intl.NumberFormat('vi-VN', {
@@ -28,6 +28,7 @@ const Room = ({title,location,description,images,originalPrice,discountedPrice,r
   return (
     <>
       <Card
+        key={key}
         hoverable
         className="w-full  mx-auto overflow-hidden transition-all duration-300
         hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] bg-[rgb(51,61,77)]"
