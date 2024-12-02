@@ -9,8 +9,12 @@ import IndexFasterDetails from '../Page/FasterDetails/IndexFasterDetails'
 import DetailBranches from '../Page/FasterDetails/DetailBranches'
 import IndexBranchoffice from '../Page/FasterDetails/AllBranchoffice/IndexBranchoffice'
 import IndexDashboard from "../Page/Admin/Dashboard/IndexDashboard";
-import IndexHotel from "../Page/Admin/Hotel/IndexHotel"
+// import IndexHotel from "../Page/Admin/Hotel/IndexHotel"
 import Shuttles from "../Page/FasterDetails/Service/Shuttles.jsx"
+import IndexBranch from "../Page/Admin/Branch/IndexBranch";
+import IndexReview from "../Page/Admin/Review/IndexReview";
+
+
 const privateRoutes = {
   home: {
     path: '/',
@@ -58,10 +62,19 @@ const privateRoutes = {
     path: '/admin/IndexDashboard',
     component : IndexDashboard
   },
-  IndexHotel: {
-    path: '/admin/Hotel',
-    component : IndexHotel
-  }
+  IndexBranch: {
+    path: '/admin/branches',
+    component : IndexBranch
+  },
+  // IndexUser: {
+  //   path: '/admin/users',
+  //   component : IndexUser
+  // }
+
+  IndexReview: {
+    path: '/admin/reviews',
+    component : IndexReview
+  },
 };
 
 export default privateRoutes;

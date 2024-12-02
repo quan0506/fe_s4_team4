@@ -5,7 +5,17 @@ import '../Page/Admin/index.css';
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
-import { Wallet, House, Users, BellRing, Cog, FileClock, ChartArea, Radius, Network } from 'lucide-react';
+import {
+    Wallet,
+    House,
+    Users,
+    BellRing,
+    FileClock,
+    ChartArea,
+    Radius,
+    Network,
+    LayoutDashboard, TicketPercent, Settings, MessageSquareText
+} from 'lucide-react';
 const { Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
 function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[]): MenuItem {
@@ -18,7 +28,15 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 }
 const itemRoute = {
     '1': '/admin/IndexDashboard',
-    '2': '/admin/Hotel',
+    '2': '/admin/branches',
+    '3': '/admin/reviews',
+    '4': '',
+    '5': '',
+    '6': '',
+    '7': '',
+    '8': '',
+
+
 };
 const PrivateLayoutAdmin = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -39,8 +57,15 @@ const PrivateLayoutAdmin = () => {
     }, [isTablet]);
 
     const items: MenuItem[] = [
-        getItem("Dashboard", "1", <ChartArea />),
-        getItem("Khách sạn", "2", <ChartArea />),
+        getItem("Trang chủ", "1", <LayoutDashboard />),
+        getItem("Chi nhanh", "2", <House />),
+        getItem("Đánh giá", "3", <MessageSquareText />),
+        getItem("", "4", ),
+        getItem("", "5", ),
+        getItem("", "6", ),
+        getItem("", "7", ),
+        getItem("", "8", ),
+        getItem("Cài đặt", "9", <Settings />),
 
     ];
 
