@@ -6,15 +6,8 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
 import {
-    Wallet,
     House,
-    Users,
-    BellRing,
-    FileClock,
-    ChartArea,
-    Radius,
-    Network,
-    LayoutDashboard, TicketPercent, Settings, MessageSquareText
+    LayoutDashboard, TicketPercent, Settings, MessageSquareText, HeartPulse, Utensils, CarTaxiFront, ListTodo, ChartBar
 } from 'lucide-react';
 const { Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
@@ -35,7 +28,8 @@ const itemRoute = {
     '6': '',
     '7': '',
     '8': '',
-
+    '9': '',
+    '10': '',
 
 };
 const PrivateLayoutAdmin = () => {
@@ -60,12 +54,13 @@ const PrivateLayoutAdmin = () => {
         getItem("Trang chủ", "1", <LayoutDashboard />),
         getItem("Chi nhanh", "2", <House />),
         getItem("Đánh giá", "3", <MessageSquareText />),
-        getItem("", "4", ),
-        getItem("", "5", ),
-        getItem("", "6", ),
-        getItem("", "7", ),
-        getItem("", "8", ),
-        getItem("Cài đặt", "9", <Settings />),
+        getItem("Đặt phòng", "4",<ListTodo /> ),
+        getItem("Doanh thu", "5", <ChartBar />),
+        getItem("Spa", "6",<HeartPulse /> ),
+        getItem("Nhà hàng", "7", <Utensils /> ),
+        getItem("Đặt xe", "8",<CarTaxiFront /> ),
+        getItem("Khuyến mãi - Giảm Giá", "9", <TicketPercent /> ),
+        getItem("Cài đặt", "10", <Settings />),
 
     ];
 
@@ -89,7 +84,7 @@ const PrivateLayoutAdmin = () => {
                 <Sider
                     breakpoint='lg'
                     collapsedWidth={isTablet ? "0" : "80"}
-                    width={220}
+                    width={230}
                     collapsed={isTablet ? collapsed : desktopCollapsed}
                     onCollapse={() => setCollapsed(!collapsed)}
                     trigger={null}

@@ -66,15 +66,12 @@ const privateRoutes = {
     path: '/admin/branches',
     component : IndexBranch
   },
-  // IndexUser: {
-  //   path: '/admin/users',
-  //   component : IndexUser
-  // }
 
   IndexReview: {
     path: '/admin/reviews',
     component : IndexReview
   },
+
 };
 
 export default privateRoutes;

@@ -1,100 +1,176 @@
-import React, { useState } from "react";
-import { TableCell, TableRow, IconButton, Button } from "@mui/material";
-import { MoreHoriz, Edit, Delete } from "@mui/icons-material";
-import GenericTable from "../../../component/GenericTable.jsx";
-import ModalBranch from "./ModalBranch.jsx";
-
+import React, { useEffect, useState } from "react";
+import { Table, Button, Input, Modal, Space, message } from "antd";
+import { EditOutlined, DeleteOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import upstashService from "../../../services/upstashService.js";
+import ModalBranch from "./ModalBranch";
 
 export default function IndexBranch() {
+    const [listBranch, setListBranch] = useState([]);
     const [modalType, setModalType] = useState(null);
-    const [currentProject, setCurrentProject] = useState(null);
+    const [currentBranch, setCurrentBranch] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [searchId, setSearchId] = useState("");
 
-    const headers = ["Project Name", "Status", "Created At", "Actions"];
-    const [listProject, setListProject] = useState({
-        contents: [
-            { projectName: "Project A", status: "Active", createdAt: "2024-11-25T12:00:00Z" },
-            { projectName: "Project B", status: "Inactive", createdAt: "2024-10-15T09:30:00Z" },
-            { projectName: "Project C", status: "Active", createdAt: "2024-12-01T14:45:00Z" },
-        ],
-    });
+    const fetchBranches = async () => {
+        try {
+            const branches = await upstashService.getallbranches();
+            const normalizedData = branches.map(branch => ({
+                ...branch,
+                photos: Array.isArray(branch.photos)
+                    ? branch.photos
+                    : (typeof branch.photos === 'string' ? branch.photos.split(", ") : []),
+            }));
+            setListBranch(normalizedData);
+        } catch (error) {
+            console.error("Failed to fetch branches:", error);
+        }
+    };
 
-    const openModal = (type, project = null) => {
-        setModalType(type);
-        setCurrentProject(project);
+    const handleSearch = async () => {
+        if (!searchId) {
+            message.error("Please enter an ID to search!");
+            return;
+        }
+
+        try {
+            const branch = await upstashService.getBranchesid(searchId);
+            setListBranch([branch]);
+        } catch (error) {
+            message.error("Branch not found!");
+        }
+    };
+
+    const handleAdd = () => {
+        setModalType("add");
+        setCurrentBranch(null);
         setIsModalVisible(true);
     };
 
-    const closeModal = () => {
-        setIsModalVisible(false);
-        setCurrentProject(null);
+    const handleEdit = (branch) => {
+        setModalType("edit");
+        setCurrentBranch(branch);
+        setIsModalVisible(true);
     };
 
-    const handleSave = (updatedProject) => {
-        if (modalType === "add") {
-            setListProject((prev) => ({
-                ...prev,
-                contents: [...prev.contents, { ...updatedProject, createdAt: new Date().toISOString() }],
-            }));
-        } else if (modalType === "edit") {
-            setListProject((prev) => ({
-                ...prev,
-                contents: prev.contents.map((project) =>
-                    project.projectName === currentProject.projectName ? updatedProject : project
-                ),
-            }));
+    const handleDelete = async (id) => {
+        Modal.confirm({
+            title: "Are you sure to delete this branch?",
+            onOk: async () => {
+                try {
+                    await upstashService.deleteBranch(id);
+                    message.success("Branch deleted successfully!");
+                    fetchBranches();
+                } catch (error) {
+                    message.error("Failed to delete branch!");
+                }
+            },
+        });
+    };
+
+    const handleSave = async (data) => {
+        try {
+            if (modalType === "add") {
+                await upstashService.addBranch(data);
+                message.success("Branch added successfully!");
+            } else if (modalType === "edit") {
+                await upstashService.updateBranch(data.id, data);
+                message.success("Branch updated successfully!");
+            }
+            fetchBranches();
+            setIsModalVisible(false);
+        } catch (error) {
+            message.error("Failed to save branch!");
         }
-        closeModal();
     };
 
-    const handleDelete = (projectName) => {
-        setListProject((prev) => ({
-            ...prev,
-            contents: prev.contents.filter((project) => project.projectName !== projectName),
-        }));
-        closeModal();
-    };
 
-    const renderRow = (row) => (
-        <TableRow key={row.projectName}>
-            <TableCell>{row.projectName}</TableCell>
-            <TableCell>{row.status}</TableCell>
-            <TableCell>{new Date(row.createdAt).toLocaleDateString()}</TableCell>
-            <TableCell>
-                <div style={{ display: "flex", justifyContent: "space-around" }}>
-                    <IconButton onClick={() => openModal("view", row)} style={{ color: "white" }}>
-                        <MoreHoriz />
-                    </IconButton>
-                    <IconButton onClick={() => openModal("edit", row)} style={{ color: "white" }}>
-                        <Edit />
-                    </IconButton>
-                    <IconButton onClick={() => openModal("delete", row)} style={{ color: "white" }}>
-                        <Delete />
-                    </IconButton>
-                </div>
-            </TableCell>
-        </TableRow>
-    );
+
+    useEffect(() => {
+        fetchBranches();
+    }, []);
+
+    const columns = [
+        {
+            title: "ID",
+            dataIndex: "id",
+            key: "id",
+        },
+        {
+            title: "Branch Name",
+            dataIndex: "branchName",
+            key: "branchName",
+        },
+        {
+            title: "Location",
+            dataIndex: "location",
+            key: "location",
+        },
+        {
+            title: "photos",
+            dataIndex: "photos",
+            key: "photos",
+            render: (photos) =>
+                photos.map((url, index) => (
+                    <img key={index} src={url} alt="Branch" style={{ width: 50, height: 50, margin: "0 5px" }} />
+                )),
+        },
+        {
+            title: "Description",
+            dataIndex: "description",
+            key: "description",
+        },
+        {
+            title: "Address",
+            dataIndex: "address",
+            key: "address",
+        },
+        {
+            title: "Created At",
+            dataIndex: "createdAt",
+            key: "createdAt",
+            render: (date) => new Date(date).toLocaleDateString(),
+        },
+        {
+            title: "Actions",
+            key: "actions",
+            render: (_, branch) => (
+                <Space>
+                    <Button
+                        icon={<EditOutlined />}
+                        onClick={() => handleEdit(branch)}
+                        type="primary"
+                    />
+                    <Button
+                        icon={<DeleteOutlined />}
+                        onClick={() => handleDelete(branch.id)}
+                        danger
+                    />
+                </Space>
+            ),
+        },
+    ];
 
     return (
         <div>
-            <div className="flex justify-end">
-                <Button onClick={() => openModal("add")} type="primary">
-                    Add
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+                <Input
+                    placeholder="Search by ID"
+                    value={searchId}
+                    onChange={(e) => setSearchId(e.target.value)}
+                    style={{ width: "30%" }}
+                    suffix={<SearchOutlined onClick={handleSearch} />}
+                />
+                <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+                    Add Branch
                 </Button>
             </div>
-            <GenericTable
-                headers={headers}
-                renderRow={renderRow}
-                data={listProject?.contents || []}
-            />
+            <Table columns={columns} dataSource={listBranch} rowKey="id" />
             <ModalBranch
                 type={modalType}
-                data={currentProject}
+                data={currentBranch}
                 isModalVisible={isModalVisible}
-                onClose={closeModal}
+                onClose={() => setIsModalVisible(false)}
                 onSave={handleSave}
-                onDelete={handleDelete}
             />
         </div>
     );
