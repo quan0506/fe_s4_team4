@@ -4,20 +4,19 @@ import { MoreHoriz, Edit, Delete } from "@mui/icons-material";
 import GenericTable from "../../../component/GenericTable.jsx";
 import ModalReview from "./ModalReview.jsx";
 
-
 export default function IndexReview() {
-    const [modalType, setModalType] = useState(null); // "add", "edit", "view", "delete"
+    const [modalType, setModalType] = useState(null);
     const [currentProject, setCurrentProject] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const headers = ["Project Name", "Status", "Created At", "Actions"];
-    const [listProject, setListProject] = useState({
+    const listProject = {
         contents: [
             { projectName: "Project A", status: "Active", createdAt: "2024-11-25T12:00:00Z" },
             { projectName: "Project B", status: "Inactive", createdAt: "2024-10-15T09:30:00Z" },
             { projectName: "Project C", status: "Active", createdAt: "2024-12-01T14:45:00Z" },
         ],
-    });
+    };
 
     const openModal = (type, project = null) => {
         setModalType(type);
@@ -31,22 +30,15 @@ export default function IndexReview() {
     };
 
     const handleSave = (updatedProject) => {
-        if (modalType === "add") {
-            // Logic thêm mới
-            setListProject((prev) => ({
-                ...prev,
-                contents: [...prev.contents, { ...updatedProject, createdAt: new Date().toISOString() }],
-            }));
-        } else if (modalType === "edit") {
-            // Logic sửa
-            setListProject((prev) => ({
-                ...prev,
-                contents: prev.contents.map((project) =>
-                    project.projectName === currentProject.projectName ? updatedProject : project
-                ),
-            }));
-        }
+        console.log("Updated Project:", updatedProject);
         closeModal();
+        // Logic to update the project
+    };
+
+    const handleDelete = () => {
+        console.log("Deleted:", currentProject);
+        closeModal();
+        // Logic to delete the project
     };
 
     const renderRow = (row) => (
@@ -73,7 +65,7 @@ export default function IndexReview() {
     return (
         <div>
             <div className="flex justify-end">
-                <Button onClick={() => openModal("add")} type="primary">
+                <Button onClick={() => openModal("edit")} type="primary">
                     Add
                 </Button>
             </div>
@@ -88,6 +80,7 @@ export default function IndexReview() {
                 isModalVisible={isModalVisible}
                 onClose={closeModal}
                 onSave={handleSave}
+                onDelete={handleDelete}
             />
         </div>
     );

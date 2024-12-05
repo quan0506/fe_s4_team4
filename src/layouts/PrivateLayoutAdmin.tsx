@@ -5,9 +5,19 @@ import '../Page/Admin/index.css';
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
+
 import {
     House,
-    LayoutDashboard, TicketPercent, Settings, MessageSquareText, HeartPulse, Utensils, CarTaxiFront, ListTodo, ChartBar
+    LayoutDashboard,
+    TicketPercent,
+    Settings,
+    MessageSquareText,
+    HeartPulse,
+    Utensils,
+    CarTaxiFront,
+    ListTodo,
+    ChartBar,
+    Lectern
 } from 'lucide-react';
 const { Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
@@ -22,9 +32,9 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 const itemRoute = {
     '1': '/admin/IndexDashboard',
     '2': '/admin/branches',
-    '3': '/admin/reviews',
-    '4': '',
-    '5': '',
+    '3': '/admin/rooms',
+    '4': '/admin/reviews',
+    // '5': '',
     '6': '',
     '7': '',
     '8': '',
@@ -53,9 +63,9 @@ const PrivateLayoutAdmin = () => {
     const items: MenuItem[] = [
         getItem("Trang chủ", "1", <LayoutDashboard />),
         getItem("Chi nhanh", "2", <House />),
-        getItem("Đánh giá", "3", <MessageSquareText />),
-        getItem("Đặt phòng", "4",<ListTodo /> ),
-        getItem("Doanh thu", "5", <ChartBar />),
+        getItem("Loại phòng", "3",<Lectern /> ),
+        getItem("Đánh giá", "4", <MessageSquareText />),
+        // getItem("Doanh thu", "5", <ChartBar />),
         getItem("Spa", "6",<HeartPulse /> ),
         getItem("Nhà hàng", "7", <Utensils /> ),
         getItem("Đặt xe", "8",<CarTaxiFront /> ),

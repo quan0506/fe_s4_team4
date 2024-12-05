@@ -9,10 +9,10 @@ const ModalReview = ({
                         onSave
                     }) => {
     const [form, setForm] = useState(data || {});
-    const [selectedImages, setSelectedImages] = useState([]); // State lưu danh sách ảnh
+    const [selectedImages, setSelectedImages] = useState([]);
 
     const handleFileChange = (e) => {
-        const files = Array.from(e.target.files); // Lấy danh sách ảnh từ input
+        const files = Array.from(e.target.files);
         setSelectedImages(files);
     };
 
