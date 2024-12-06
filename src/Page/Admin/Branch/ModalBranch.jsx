@@ -33,7 +33,7 @@ const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
     const handleSave = () => {
         const photos = fileList;
         const updatedData = { ...form, photos };
-        console.log("Data before sending:", updatedData);
+        console.log("Data before send:", updatedData);
         onSave(updatedData);
     };
 

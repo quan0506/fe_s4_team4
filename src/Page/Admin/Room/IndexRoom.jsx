@@ -86,7 +86,6 @@ export default function IndexRoom() {
                 await upstashService.addRoom(data);
                 message.success("room added successfully!");
             } else if (modalType === "edit") {
-                // Ensure the `id` field is sent for updating
                 await upstashService.updateRoom(currentRoom.id, data);
                 message.success("room updated successfully!");
             }
@@ -140,12 +139,12 @@ export default function IndexRoom() {
             key: "description",
         },
         {
-            title: "Brand Id",
-            dataIndex: "roomId",
-            key: "brandId",
+            title: "Branch Id",
+            dataIndex: "branchId",
+            key: "branchId",
         },
         {
-            title: "Booking",
+            title: "Bookings",
             dataIndex: "bookings",
             key: "bookings",
         },

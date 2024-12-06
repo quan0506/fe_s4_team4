@@ -86,7 +86,6 @@ export default function IndexBranch() {
                 await upstashService.addBranch(data);
                 message.success("Branch added successfully!");
             } else if (modalType === "edit") {
-                // Ensure the `id` field is sent for updating
                 await upstashService.updateBranch(currentBranch.id, data);
                 message.success("Branch updated successfully!");
             }
