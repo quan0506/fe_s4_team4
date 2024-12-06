@@ -1,9 +1,6 @@
-'use client'
-
 import { useState, useRef } from 'react'
 import {Button, Carousel} from 'antd'
 import {ArrowRightOutlined, CalendarOutlined, LeftOutlined, RightOutlined} from '@ant-design/icons'
-import ButtomBookNow from "../CardWithMotion.jsx"
 import Amenities from "./Amenities.jsx"
 import Features from "./Features.jsx"
 import { ArrowDownToDot, ArrowUpFromDot } from "lucide-react"
@@ -33,7 +30,7 @@ export default function Component({id}) {
   const { isExpanded, isOverflow, toggleText, textRef } = useExpandableText()
   const [activeIndex, setActiveIndex] = useState(0)
   const carouselRef = useRef(null)
-  const photoArray = litsroomid?.photo.split(',').map(photo => photo.trim());
+  // const photoArray = litsroomid?.photo.split(',').map(photo => photo.trim());
   const handleThumbnailClick = (index) => {
     setActiveIndex(index)
     carouselRef.current.goTo(index)

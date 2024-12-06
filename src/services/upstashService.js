@@ -1,6 +1,11 @@
 import axiosClient from "./axiosClient";
 
 const upstashService = {
+    // me
+    getme :async () => {
+        const url = `/users/me`;
+        return await   axiosClient.get(url);
+    },
     loginUser: async (param) => {
         const url ='auth/login' ;
         return await axiosClient.post( url , param)
@@ -48,6 +53,15 @@ const upstashService = {
     getShuttlesid : async (id) => {
         const url =`/shuttles/all?branchId=${id}`;
         return await axiosClient.get(url)
+    },
+    postbookshuttle : async (branchId , shuttleId , userId , param) => {
+        const url =`/shuttle-bookings/book-shuttle/${branchId}/${shuttleId}/${userId}`;
+        return await axiosClient.post(url,param);
+    },
+//     book
+    postbookingsRoom : async (param) => {
+        const url ='/bookings/create';
+        return await axiosClient.post(url , param)
     }
 }
 export default upstashService

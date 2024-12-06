@@ -58,9 +58,10 @@ export default function Restaurant({api , handleRowClick}) {
                       </Col>
                     </Row>
                     <Button
-                      onClick={handleRowClick}
-                      size='large'
-                      className="mt-4">
+                      onClick={() => handleRowClick(slide)}
+                      size="large"
+                      className="mt-4"
+                    >
                       ĐẶT DỊCH VỤ
                     </Button>
                   </div>

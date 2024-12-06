@@ -1,21 +1,18 @@
 import { useState } from "react";
 
-export const useModalHandlers = (initialValue) => {
+export const useModalHandlers = (initialState) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedNotification, setSelectedNotification] = useState(initialValue);
-    const handleRowClick = (row) => {
-        setSelectedNotification(row);
-        setIsModalVisible(true);
+    const [selectedNotification, setSelectedNotification] = useState(initialState);
+
+    const handleRowClick = (data) => {
+        setSelectedNotification(data); // Lưu thông tin xe
+        setIsModalVisible(true); // Hiển thị modal
     };
+
     const handleModalClose = () => {
-        setIsModalVisible(false);
-        setSelectedNotification(null);
+        setIsModalVisible(false); // Đóng modal
+        setSelectedNotification(null); // Xóa thông tin
     };
-    return {
-        setIsModalVisible,
-        isModalVisible,
-        selectedNotification,
-        handleRowClick,
-        handleModalClose,
-    };
+
+    return { isModalVisible, handleRowClick, handleModalClose, selectedNotification };
 };

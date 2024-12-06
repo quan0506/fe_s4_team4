@@ -9,18 +9,24 @@ import upstashService from "../../../services/upstashService.js";
 import {useParams} from "react-router-dom";
 const { Title, Text } = Typography;
 export default function BookingInformation() {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [startDate, setStartDate] = useState([]);
-  const [discountcode , setDiscountcode] = useState('');
-  console.log(discountcode)
-  const { id } = useParams();
   const { data: litsroomid } = useQuery(
     'av.litsroomid',
     () => upstashService.getRoomId(id)
   );
+  const [currentStep, setCurrentStep] = useState(0);
+  const [startDate, setStartDate] = useState([]);
+  const date1 = new Date(startDate[0]?.split("-").reverse().join("-"));
+  const date2 = new Date(startDate[1]?.split("-").reverse().join("-"));
+  const timeDiff = Math.abs(date2 - date1);
+  const dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
   const giamgia= 40
-  const TotalAmount = litsroomid?.roomPrice * (1 - giamgia / 100)
-  const discountAmount = litsroomid?.roomPrice * (giamgia / 100);
+  const giaphong= litsroomid?.roomPrice * dayDiff
+  const discountAmount = giaphong * (giamgia / 100);
+  const TotalAmount = giaphong * (1 - giamgia / 100)
+  const [adults , setAdults] = useState(0);
+  const [children , setChildren] = useState(0);
+  const [discountcode , setDiscountcode] = useState('');
+  const { id } = useParams();
   return (
     <div
       style={{
@@ -44,9 +50,17 @@ export default function BookingInformation() {
           <Col xs={24} sm={16} md={currentStep === 2 ? 24 : 16}>
             {currentStep === 0 && (
               <Fillininformation
+                discountcode={discountcode}
+                TotalAmount={TotalAmount}
+                adults={adults}
+                litsroomid={litsroomid}
                 setDiscountcode={setDiscountcode}
                 setStartDate={setStartDate}
                 setCurrentStep={setCurrentStep}
+                setAdults={setAdults}
+                setChildren={setChildren}
+                children={children}
+                startDate={startDate}
               />
             )}
             {currentStep === 1 && (
@@ -68,7 +82,7 @@ export default function BookingInformation() {
               <Card>
                 <Title level={4}>Thông tin đặt phòng</Title>
                 <Title level={5}>Khách sạn Riva Vũng Tàu</Title>
-                <Text type="secondary">Phòng Superior</Text>
+                <Text type="secondary">Phòng {litsroomid?.roomType}</Text>
                 <Divider/>
                 <Space direction="vertical" size="middle" style={{width: '100%'}}>
                   <Space className='flexs'>
@@ -83,21 +97,30 @@ export default function BookingInformation() {
                       <Text strong>{startDate[0]}</Text>
                     </div>
                   </Space>
-                  <div>
-                    <Text type="secondary">Số khách phòng</Text>
-                    <br/>
-                    <Text strong>2 khách, 1 phòng</Text>
-                  </div>
+                  <Space className='flexs'>
+                    <div>
+                      <Text type="secondary">Số khách phòng</Text>
+                      <br/>
+                      <Text strong>{children} Người lớn, {adults} Trẻ em</Text><br/>
+                      <Text strong>1 phòng</Text>
+
+                    </div>
+                    <div>
+                      <Text type="secondary">Giá phòng</Text>
+                      <br/>
+                      <Text strong>{litsroomid?.roomPrice.toLocaleString()}/VND</Text>
+                    </div>
+                  </Space>
                 </Space>
                 <Divider/>
                 <Space direction="vertical" size="small" style={{width: '100%'}}>
                   <Row justify="space-between">
-                    <Col>1 phòng x 1 đêm</Col>
-                    <Col>{litsroomid?.roomPrice.toLocaleString()} VND</Col>
+                  <Col>1 phòng x {dayDiff} đêm</Col>
+                    <Col>{giaphong.toLocaleString()} VND</Col>
                   </Row>
                   <Row justify="space-between">
                     <Col><Text type="success">Promo giảm {giamgia}%</Text></Col>
-                    <Col><Text type="success">- {discountAmount} VND</Text></Col>
+                    <Col><Text type="success">- {discountAmount.toLocaleString()}/VND</Text></Col>
                   </Row>
                   <Row justify="space-between">
                     <Col><Text type="success">Phí dịch vụ</Text></Col>

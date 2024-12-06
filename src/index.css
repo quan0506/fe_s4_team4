@@ -193,7 +193,7 @@ margin: 0 !important;
 .ant-input-number .ant-input-number-input{
     color: white;
 }
-input::placeholder{
+input::placeholder , .ant-picker .ant-picker-input >input{
     color: rgb(213, 208, 204) !important;
 }
 
@@ -201,6 +201,12 @@ input::placeholder{
 .fillininformation .ant-picker-outlined , .ant-input-outlined{
     background: rgb(108 106 126) !important;
 }
+.fillininformation .ant-input-number-outlined:hover , .ant-input-number-outlined:focus-within{
+    background: rgb(108 106 126) !important;
+}
 .Article .slick-next{
     display: none !important;
+}
+.ant-modal .ant-modal-content{
+    background-color: rgb(49 54 66);
 }
