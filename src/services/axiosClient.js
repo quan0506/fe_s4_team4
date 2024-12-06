@@ -10,7 +10,6 @@ const axiosClient = axios.create({
   paramsSerializer: params => queryString.stringify(params),
 });
 
-
 axiosClient.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem(access_Token);
   if (accessToken) {

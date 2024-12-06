@@ -13,7 +13,7 @@ import IndexDashboard from "../Page/Admin/Dashboard/IndexDashboard";
 import Shuttles from "../Page/FasterDetails/Service/Shuttles.jsx"
 import IndexBranch from "../Page/Admin/Branch/IndexBranch";
 import IndexReview from "../Page/Admin/Review/IndexReview";
-
+import IndexRoom from "../Page/Admin/Room/IndexRoom";
 
 const privateRoutes = {
   home: {
@@ -70,6 +70,11 @@ const privateRoutes = {
   IndexReview: {
     path: '/admin/reviews',
     component : IndexReview
+  },
+
+  IndexRoom: {
+    path: '/admin/rooms',
+    component : IndexRoom
   },
 
 };

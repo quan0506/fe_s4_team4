@@ -17,7 +17,9 @@ export default function IndexBranch() {
             const normalizedData = branches.map(branch => ({
                 ...branch,
                 photos: Array.isArray(branch.photos)
-                    ? branch.photos
+                    ? branch.photos.map(photo =>
+                        typeof photo === "string" ? photo : photo.url
+                    )
                     : (typeof branch.photos === 'string' ? branch.photos.split(", ") : []),
             }));
             setListBranch(normalizedData);
@@ -46,12 +48,6 @@ export default function IndexBranch() {
         setIsModalVisible(true);
     };
 
-    const handleEdit = (branch) => {
-        setModalType("edit");
-        setCurrentBranch(branch);
-        setIsModalVisible(true);
-    };
-
     const handleDelete = async (id) => {
         Modal.confirm({
             title: "Are you sure to delete this branch?",
@@ -67,13 +63,31 @@ export default function IndexBranch() {
         });
     };
 
+    const handleEdit = (branch) => {
+        setModalType("edit");
+        const branchWithPhotos = {
+            ...branch,
+            photos: Array.isArray(branch.photos)
+                ? branch.photos.map((url, index) => ({
+                    uid: index.toString(),
+                    name: `Photo ${index + 1}`,
+                    status: "done",
+                    url,
+                }))
+                : [],
+        };
+        setCurrentBranch(branchWithPhotos);
+        setIsModalVisible(true);
+    };
+
     const handleSave = async (data) => {
         try {
             if (modalType === "add") {
                 await upstashService.addBranch(data);
                 message.success("Branch added successfully!");
             } else if (modalType === "edit") {
-                await upstashService.updateBranch(data.id, data);
+                // Ensure the `id` field is sent for updating
+                await upstashService.updateBranch(currentBranch.id, data);
                 message.success("Branch updated successfully!");
             }
             fetchBranches();
@@ -82,7 +96,6 @@ export default function IndexBranch() {
             message.error("Failed to save branch!");
         }
     };
-
 
 
     useEffect(() => {
@@ -106,13 +119,21 @@ export default function IndexBranch() {
             key: "location",
         },
         {
-            title: "photos",
+            title: "Photos",
             dataIndex: "photos",
             key: "photos",
-            render: (photos) =>
-                photos.map((url, index) => (
-                    <img key={index} src={url} alt="Branch" style={{ width: 50, height: 50, margin: "0 5px" }} />
-                )),
+            render: (photos) => (
+                <div style={{ gap: "8px", margin: "8px" }}>
+                    {photos.map((url, index) => (
+                        <img
+                            key={index}
+                            src={url}
+                            alt={`Branch Photo ${index + 1}`}
+                            style={{ width: 50, height: 50, objectFit: "cover", borderRadius: "4px" }}
+                        />
+                    ))}
+                </div>
+            ),
         },
         {
             title: "Description",
