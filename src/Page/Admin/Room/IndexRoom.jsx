@@ -2,73 +2,73 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Input, Modal, Space, message } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import upstashService from "../../../services/upstashService.js";
-import ModalBranch from "./ModalBranch";
+import ModalRoom from "./ModalRoom";
 
-export default function IndexBranch() {
-    const [listBranch, setListBranch] = useState([]);
+export default function IndexRoom() {
+    const [listRoom, setListRoom] = useState([]);
     const [modalType, setModalType] = useState(null);
-    const [currentBranch, setCurrentBranch] = useState(null);
+    const [currentRoom, setCurrentRoom] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [searchId, setSearchId] = useState("");
 
-    const fetchBranches = async () => {
+    const fetchRooms = async () => {
         try {
-            const branches = await upstashService.getallbranches();
-            const normalizedData = branches.map(branch => ({
-                ...branch,
-                photos: Array.isArray(branch.photos)
-                    ? branch.photos.map(photo =>
+            const rooms = await upstashService.getAllRoom();
+            const normalizedData = rooms.map(room => ({
+                ...room,
+                photos: Array.isArray(room.photos)
+                    ? room.photos.map(photo =>
                         typeof photo === "string" ? photo : photo.url
                     )
-                    : (typeof branch.photos === 'string' ? branch.photos.split(", ") : []),
+                    : (typeof room.photos === 'string' ? room.photos.split(", ") : []),
             }));
-            setListBranch(normalizedData);
+            setListRoom(normalizedData);
         } catch (error) {
-            console.error("Failed to fetch branches:", error);
+            console.error("Failed to fetch roomes:", error);
         }
     };
 
     const handleSearch = async () => {
-        if (!searchId) {
-            message.error("Please enter an ID to search!");
-            return;
-        }
-
-        try {
-            const branch = await upstashService.getBranchesid(searchId);
-            setListBranch([branch]);
-        } catch (error) {
-            message.error("Branch not found!");
-        }
+        // if (!searchId) {
+        //     message.error("Please enter an ID to search!");
+        //     return;
+        // }
+        //
+        // try {
+        //     const room = await upstashService.getroomesid(searchId);
+        //     setListroom([room]);
+        // } catch (error) {
+        //     message.error("room not found!");
+        // }
     };
 
     const handleAdd = () => {
         setModalType("add");
-        setCurrentBranch(null);
+        setCurrentRoom(null);
         setIsModalVisible(true);
     };
 
     const handleDelete = async (id) => {
         Modal.confirm({
-            title: "Are you sure to delete this branch?",
+            title: "Are you delete this room?",
             onOk: async () => {
                 try {
-                    await upstashService.deleteBranch(id);
-                    message.success("Branch deleted successfully!");
-                    fetchBranches();
+                    await upstashService.deleteRoom(id);
+                    message.success("Room delete success");
+                    fetchRooms();
                 } catch (error) {
-                    message.error("Failed to delete branch!");
+                    message.error("Failed to delete room!");
                 }
             },
         });
     };
 
-    const handleEdit = (branch) => {
+    const handleEdit = (room) => {
         setModalType("edit");
-        const branchWithPhotos = {
-            ...branch,
-            photos: Array.isArray(branch.photos)
-                ? branch.photos.map((url, index) => ({
+        const roomWithPhotos = {
+            ...room,
+            photos: Array.isArray(room.photos)
+                ? room.photos.map((url, index) => ({
                     uid: index.toString(),
                     name: `Photo ${index + 1}`,
                     status: "done",
@@ -76,32 +76,31 @@ export default function IndexBranch() {
                 }))
                 : [],
         };
-        setCurrentBranch(branchWithPhotos);
+        setCurrentRoom(roomWithPhotos);
         setIsModalVisible(true);
     };
 
     const handleSave = async (data) => {
         try {
             if (modalType === "add") {
-                await upstashService.addBranch(data);
-                message.success("Branch added successfully!");
+                await upstashService.addRoom(data);
+                message.success("room added successfully!");
             } else if (modalType === "edit") {
                 // Ensure the `id` field is sent for updating
-                await upstashService.updateBranch(currentBranch.id, data);
-                message.success("Branch updated successfully!");
+                await upstashService.updateRoom(currentRoom.id, data);
+                message.success("room updated successfully!");
             }
-            fetchBranches();
+            fetchRooms();
             setIsModalVisible(false);
         } catch (error) {
-            message.error("Failed to save branch!");
+            message.error("Failed to save room!");
         }
     };
 
-
     useEffect(() => {
-        fetchBranches();
+        fetchRooms();
     }, []);
-
+    //
     const columns = [
         {
             title: "ID",
@@ -109,32 +108,27 @@ export default function IndexBranch() {
             key: "id",
         },
         {
-            title: "Branch Name",
-            dataIndex: "branchName",
-            key: "branchName",
+            title: "Room Type",
+            dataIndex: "roomType",
+            key: "roomType",
         },
         {
-            title: "Location",
-            dataIndex: "location",
-            key: "location",
+            title: "Room Price",
+            dataIndex: "roomPrice",
+            key: "roomPrice",
         },
         {
             title: "Photos",
             dataIndex: "photos",
             key: "photos",
             render: (photos) => (
-                <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
+                <div style={{ gap: "8px" }}>
                     {photos.map((url, index) => (
                         <img
                             key={index}
                             src={url}
-                            alt={`Branch Photo ${index + 1}`}
-                            style={{
-                                width: 50,
-                                height: 50,
-                                objectFit: "cover",
-                                borderRadius: "4px",
-                            }}
+                            alt={`Room Photo ${index + 1}`}
+                            style={{ width: 50, height: 50, objectFit: "cover", borderRadius: "4px" }}
                         />
                     ))}
                 </div>
@@ -146,29 +140,33 @@ export default function IndexBranch() {
             key: "description",
         },
         {
-            title: "Address",
-            dataIndex: "address",
-            key: "address",
+            title: "Brand Id",
+            dataIndex: "roomId",
+            key: "brandId",
         },
         {
-            title: "Created At",
-            dataIndex: "createdAt",
-            key: "createdAt",
-            render: (date) => new Date(date).toLocaleDateString(),
+            title: "Booking",
+            dataIndex: "bookings",
+            key: "bookings",
+        },
+        {
+            title: "Booked",
+            dataIndex: "booked",
+            key: "booked",
         },
         {
             title: "Actions",
             key: "actions",
-            render: (_, branch) => (
+            render: (_, room) => (
                 <Space>
                     <Button
                         icon={<EditOutlined />}
-                        onClick={() => handleEdit(branch)}
+                        onClick={() => handleEdit(room)}
                         type="primary"
                     />
                     <Button
                         icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(branch.id)}
+                        onClick={() => handleDelete(room.id)}
                         danger
                     />
                 </Space>
@@ -187,13 +185,13 @@ export default function IndexBranch() {
                     suffix={<SearchOutlined onClick={handleSearch} />}
                 />
                 <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-                    Add Branch
+                    Add room
                 </Button>
             </div>
-            <Table columns={columns} dataSource={listBranch} rowKey="id" />
-            <ModalBranch
+            <Table columns={columns} dataSource={listRoom} rowKey="id" />
+            <ModalRoom
                 type={modalType}
-                data={currentBranch}
+                data={currentRoom}
                 isModalVisible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
                 onSave={handleSave}
