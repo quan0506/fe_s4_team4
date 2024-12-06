@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Modal, Input, Upload, Button, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
-const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
+const ModalRoom = ({ type, data, isModalVisible, onClose, onSave }) => {
     const [form, setForm] = useState(data || {});
     const [selectedImages, setSelectedImages] = useState([]);
 
     const [fileList, setFileList] = useState([]);
-
 
     useEffect(() => {
         setForm(data || {});
@@ -20,15 +19,6 @@ const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
             })) || []
         );
     }, [data]);
-
-    // const handleFileChange = ({ fileList }) => {
-    //     const newSelectedImages = fileList.map((file) =>
-    //         file.originFileObj ||
-    //         (file.url ? { uid: file.uid, name: file.name, url: file.url } : file)
-    //     );
-    //     console.log("Selected Images:", newSelectedImages);
-    //     setSelectedImages(newSelectedImages);
-    // };
 
     const handleSave = () => {
         const photos = fileList;
@@ -71,7 +61,7 @@ const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
 
     return (
         <Modal
-            title={type === "add" ? "Add Branch" : type === "edit" ? "Edit Branch" : "View Branch"}
+            title={type === "add" ? "Add room" : type === "edit" ? "Edit room" : "View room"}
             open={isModalVisible}
             onCancel={onClose}
             footer={
@@ -88,64 +78,79 @@ const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
             }
         >
             <label>
-                <strong>Branch Name:</strong>
+                <strong>Room Type</strong>
                 <Input
-                    value={form.branchName || ""}
-                    onChange={(e) => setForm({ ...form, branchName: e.target.value })}
-                    placeholder="Enter branch name"
-                    style={{ marginBottom: 16 }}
+                    value={form.roomType || ""}
+                    onChange={(e) => setForm({...form, roomType: e.target.value})}
+                    placeholder="Enter Room Type"
+                    style={{marginBottom: 16}}
                 />
             </label>
             <label>
-                <strong>Location:</strong>
+                <strong>Room Price</strong>
                 <Input
-                    value={form.location || ""}
-                    onChange={(e) => setForm({ ...form, location: e.target.value })}
-                    placeholder="Enter location"
-                    style={{ marginBottom: 16 }}
-                />
-            </label>
-            <label>
-                <strong>Address:</strong>
-                <Input
-                    value={form.address || ""}
-                    onChange={(e) => setForm({ ...form, address: e.target.value })}
-                    placeholder="Enter address"
-                    style={{ marginBottom: 16 }}
+                    value={form.roomPrice || ""}
+                    onChange={(e) => setForm({...form, roomPrice: e.target.value})}
+                    placeholder="Enter Room Price"
+                    style={{marginBottom: 16}}
                 />
             </label>
             <label>
                 <strong>Description:</strong>
                 <Input
                     value={form.description || ""}
-                    onChange={(e) => setForm({ ...form, description: e.target.value })}
+                    onChange={(e) => setForm({...form, description: e.target.value})}
                     placeholder="Enter description"
-                    style={{ marginBottom: 16 }}
+                    style={{marginBottom: 16}}
                 />
             </label>
+
+            <label>
+                <strong>Brand Id</strong>
+                <Input
+                    value={form.branchId || ""}
+                    onChange={(e) => setForm({...form, branchId: e.target.value})}
+                    placeholder="Enter Brand Id "
+                    style={{marginBottom: 16}}
+                />
+            </label>
+
+            {/*<label>*/}
+            {/*    <strong>Bookings</strong>*/}
+            {/*    <Input*/}
+            {/*        value={form.bookings || ""}*/}
+            {/*        onChange={(e) => setForm({...form, bookings: e.target.value})}*/}
+            {/*        placeholder="Enter Brand Id "*/}
+            {/*        style={{marginBottom: 16}}*/}
+            {/*    />*/}
+            {/*</label>*/}
+
+            {/*<label>*/}
+            {/*    <strong>Booked</strong>*/}
+            {/*    <Input*/}
+            {/*        value={form.booked || ""}*/}
+            {/*        onChange={(e) => setForm({...form, booked: e.target.value})}*/}
+            {/*        placeholder="Enter Booked"*/}
+            {/*        style={{marginBottom: 16}}*/}
+            {/*    />*/}
+            {/*</label>*/}
+
             <label>
                 <strong>Upload Photos:</strong>
                 <Upload
                     listType="picture"
-                    // onRemove={(file) => {
-                    //     const index = fileList.indexOf(file);
-                    //     const newFileList = fileList.slice();
-                    //     newFileList.splice(index, 1);
-                    //     setFileList(newFileList);
-                    // }}
                     beforeUpload={(file) => {
-                        // setFileList([...fileList, file]);
                         return false;
                     }}
                     onChange={handleChange}
                     fileList={fileList}
                     onPreview={handlePreview}
                 >
-                    <Button icon={<UploadOutlined />}>Upload</Button>
+                    <Button icon={<UploadOutlined/>}>Upload</Button>
                 </Upload>
             </label>
         </Modal>
     );
 };
 
-export default ModalBranch;
+export default ModalRoom;
