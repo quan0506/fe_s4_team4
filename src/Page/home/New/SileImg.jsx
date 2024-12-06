@@ -30,7 +30,7 @@ export default function ImageSlider() {
               index === currentIndex ? 'opacity-100 scale-105' : 'opacity-0 scale-100'
             }`}
             style={{
-              backgroundImage: `url(${hotel?.photo})`,
+              backgroundImage: `url(${hotel?.photos[0]})`,
               filter: 'brightness(1.2)',
               zIndex: index === currentIndex ? 1 : 0,
             }}
@@ -62,7 +62,7 @@ export default function ImageSlider() {
                 )}
                 <div className={`relative overflow-hidden ${offset !== 0 ? 'h-[400px]' : 'h-[250px]'}`}>
                   <img
-                    src={hotel?.photo}
+                    src={hotel?.photos[0]}
                     className={`w-full h-full object-cover transition-transform duration-700 ease-in-out scale-105`}
                   />
                   <div/>

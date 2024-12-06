@@ -11,6 +11,7 @@ const IndexFasterDetails = () => {
     'av.listhotel',
     () => upstashService.getallbranches()
   );
+  console.log(listhotel)
   const navigate = useNavigate();
   // console.log('listhotel' , listhotel)
   return (
@@ -47,7 +48,7 @@ const IndexFasterDetails = () => {
             >
               <div className="relative h-72">
                 <img
-                  src={branch?.photo}
+                  src={branch?.photos[0]}
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                 />
                 {/* Lớp bóng đen */}

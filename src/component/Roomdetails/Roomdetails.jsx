@@ -9,24 +9,11 @@ import {useQuery} from "react-query";
 import upstashService from "../../services/upstashService.js";
 
 export default function Component({id}) {
-  const images = [
-    {
-      url: "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
-      alt: "Junior Suite Living Room"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1518005020951-eccb494ad742",
-      alt: "Junior Suite Exterior"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-      alt: "Junior Suite Bedroom"
-    }
-  ]
   const { data: litsroomid } = useQuery(
-    'av.litsroomid',
+    ['av.litsroomid', id],
     () => upstashService.getRoomId(id)
   );
+  console.log(id)
   const { isExpanded, isOverflow, toggleText, textRef } = useExpandableText()
   const [activeIndex, setActiveIndex] = useState(0)
   const carouselRef = useRef(null)
@@ -50,11 +37,11 @@ export default function Component({id}) {
             className="h-[500px]"
             beforeChange={(from, to) => setActiveIndex(to)}
           >
-            {images.map((image, index) => (
+            {litsroomid?.photos.map((image, index) => (
               <div key={index}>
                 <div className="relative h-[500px]">
                   <img
-                    src={image.url}
+                    src={image}
                     alt={image.alt}
                     className="w-full h-full object-cover"
                   />
@@ -69,7 +56,7 @@ export default function Component({id}) {
         </div>
         {/* Thumbnail Gallery */}
         <div className="flex justify-center gap-2 mb-8">
-          {images.map((image, index) => (
+          {litsroomid?.photos.map((image, index) => (
             <div
               key={index}
               className={`cursor-pointer transition-all duration-300 ${
@@ -78,7 +65,7 @@ export default function Component({id}) {
               onClick={() => handleThumbnailClick(index)}
             >
               <img
-                src={image.url}
+                src={image}
                 alt={image.alt}
                 className="w-20 h-20 object-cover rounded-md"
               />

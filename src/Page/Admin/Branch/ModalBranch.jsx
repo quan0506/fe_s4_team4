@@ -96,7 +96,7 @@ const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
                     style={{ marginBottom: 16 }}
                 />
             </label>
-            <label>
+            <label >
                 <strong>Location:</strong>
                 <Input
                     value={form.location || ""}

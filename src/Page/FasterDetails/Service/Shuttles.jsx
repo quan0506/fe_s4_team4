@@ -22,15 +22,16 @@ const Shuttles = () => {
   const { isModalVisible, handleRowClick, handleModalClose, selectedNotification } = useModalHandlers(null);
   const handleOk = async () => {
     try {
-        await upstashService.postbookshuttle(selectedNotification?.branchId , selectedNotification?.id , user?.id ,{
+       const res =await upstashService.postbookshuttle(selectedNotification?.branchId , selectedNotification?.id , user?.id ,{
           shuttleCheckInDate:dateRange[0].toString(),
           shuttleCheckOutDate:dateRange[1].toString(),
         })
+      console.log(res)
       toast.success('Đặt xe thành công')
-      navigate('/')
+      // navigate('/')
     }catch (e){
       console.log(e)
-      toast.error(e)
+      toast.error(e?.response?.data?.message)
     }
   }
   const handleDateChange = (_, dateStrings) => {
@@ -75,7 +76,7 @@ const Shuttles = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
-              <div >
+              <div>
                 <label className="text-gray-400 text-sm font-medium block mb-2">
                   Loại xe
                 </label>
@@ -84,11 +85,12 @@ const Shuttles = () => {
                 </p>
               </div>
 
-              <div >
+              <div>
                 <label className="text-gray-400 text-sm font-medium block mb-2">
                   Giá xe
                 </label>
-                <p className="text-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-amber-400">
+                <p
+                  className="text-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-amber-400">
                   {selectedNotification?.carPrice?.toLocaleString()}/VNĐ
                 </p>
               </div>
@@ -102,19 +104,20 @@ const Shuttles = () => {
                 </p>
               </div>
             </div>
-
             <div className="space-y-4">
               <label className="text-gray-400 text-sm font-medium block mb-2">
                 Hình ảnh xe
               </label>
-              <div className="rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-[1.02] duration-300">
+              <div
+                className="rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-[1.02] duration-300">
                 <Image
                   src={selectedNotification?.carPhotoUrl}
                   alt="Car Image"
-                  className="w-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
+
           </div>
         </div>
       </Modal>

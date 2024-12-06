@@ -19,12 +19,12 @@ const DetailBranches = () => {
     "https://cdn.silverlandhotels.com/wp-content/uploads/2023/12/28-3.png",
     "https://png.pngtree.com/background/20230527/original/pngtree-living-room-in-city-with-large-windows-picture-image_2757919.jpg",
   ];
-
+  console.log(detailBranches)
   return (
     <div>
       <div className="mb-6">
         <Slide easing="ease" autoplay duration={3000} indicators>
-          {slideImages.map((image, index) => (
+          {detailBranches?.photos?.map((image, index) => (
             <div key={index} className="each-slide">
               <img
                 src={image}

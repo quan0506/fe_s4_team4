@@ -13,12 +13,12 @@ const Room = ({title,location,description,images,originalPrice,discountedPrice,r
   })
   const sliderSettings = {
     dots: false,
-    infinite: true,
+    infinite: images.length > 1, // Tắt chế độ "infinite" nếu chỉ có 1 ảnh
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     beforeChange: (current, next) => setCurrentSlide(next),
-  }
+  };
 
   const handleThumbnailClick = (index) => {
     if (sliderRef) {
@@ -31,7 +31,7 @@ const Room = ({title,location,description,images,originalPrice,discountedPrice,r
         key={key}
         hoverable
         className="w-full  mx-auto overflow-hidden transition-all duration-300
-        hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] bg-[rgb(51,61,77)]"
+        hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] bg-[rgb(51,61,77)] mb-3"
       >
         <div className="flex flex-col md:flex-row gap-6 IndexFasterDetails">
           <div className="md:w-1/3 relative">
@@ -48,22 +48,27 @@ const Room = ({title,location,description,images,originalPrice,discountedPrice,r
             <Tag color="red" className="absolute top-3 left-3 z-10">
               Only 1 left
             </Tag>
-            <div className="flex justify-center mt-2">
+            <div className="flex justify-center items-center space-x-2 mt-2 px-2">
               {images.slice(0, 4).map((image, index) => (
                 <div
                   key={index}
-                  className={`w-16 h-11 mx-1 cursor-pointer rounded ${
-                    currentSlide === index ? 'border-2 border-[#D4AF37]' : ''
-                  }`}
+                  className={`
+                  relative w-16 h-16 cursor-pointer rounded-md overflow-hidden
+                  transition-all duration-300 ease-in-out
+             ${currentSlide === index
+                    ? 'ring-2 ring-primary ring-offset-1'
+                    : 'hover:scale-105'
+                  }
+          `}
                   onClick={(e) => {
                     e.stopPropagation()
                     handleThumbnailClick(index)
                   }}
                 >
-                  <Image
+                  <img
                     src={image}
-                    className="w-full h-full object-cover rounded"
-                    preview={false}
+                    alt={`Thumbnail ${index + 1}`}
+                      className="rounded-md"
                   />
                 </div>
               ))}
@@ -80,7 +85,7 @@ const Room = ({title,location,description,images,originalPrice,discountedPrice,r
               </div>
               <div className="flex">
                 {[...Array(rating)].map((_, i) => (
-                  <StarFilled key={i} className="text-[#D4AF37]" />
+                  <StarFilled key={i} className="text-[#D4AF37]"/>
                 ))}
               </div>
             </div>

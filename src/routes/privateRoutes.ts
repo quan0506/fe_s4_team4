@@ -67,10 +67,10 @@ const privateRoutes = {
     component : IndexBranch
   },
 
-  IndexReview: {
-    path: '/admin/reviews',
-    component : IndexReview
-  },
+  // IndexReview: {
+  //   path: '/admin/reviews',
+  //   component : IndexReview
+  // },
 
   IndexRoom: {
     path: '/admin/rooms',

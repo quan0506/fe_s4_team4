@@ -14,7 +14,7 @@ export default function HotelCard() {
     "av.listAllroom",
     () => upstashService.getAllRoom()
   );
-
+  console.log(listAllroom)
   if (isLoading) {
     return <Spin size="large" />;
   }
@@ -43,14 +43,9 @@ export default function HotelCard() {
           key={index}
           setOpen={setOpen}
           title={item?.roomType}
-          location="Ha Noi Hanoi"
-          description="Tracing a captivating path through the heart of the 'Pearl of the Far East', Silverland's eight hotels reflect the unique history and culture of this majestic metropolis with distinct designs, old-world flair and a commitment to making each and every guest arrival feel like a celebrated homecoming. Eight properties. Eight distinctive locations. Eight great ways to experience the soul of Saigon."
-          images={[
-            "https://images.travelanium.net/crs-file-manager/images/hotel?propertyid=1039&group=2&width=600&height=400&imageid=7043&type=jpg",
-            "https://images.travelanium.net/crs-file-manager/images/hotel?propertyid=1039&group=2&width=600&height=400&imageid=7044&type=jpg",
-            "https://images.travelanium.net/crs-file-manager/images/hotel?propertyid=1039&group=2&width=600&height=400&imageid=7043&type=jpg",
-            "https://images.travelanium.net/crs-file-manager/images/hotel?propertyid=1039&group=2&width=600&height=400&imageid=7043&type=jpg",
-          ]}
+          location={item?.address}
+          description={item?.description}
+          images={item?.photos}
           originalPrice={5114630}
           discountedPrice={2864198}
           rating={5}
