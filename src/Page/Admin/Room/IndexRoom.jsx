@@ -197,19 +197,19 @@ export default function IndexRoom() {
                     onChange={(e) => setSearchId(e.target.value)}
                     style={{ width: "30%" }}
                 />
+                <Dropdown
+                    menu={{
+                        items: branchMenuItems,
+                        onClick: ({ key }) => setSelectedBranch(key === "all" ? null : key),
+                    }}
+                >
+                    <Button>{selectedBranch || "Filter by Branch"}</Button>
+                </Dropdown>
+
                 <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
                     Add Room
                 </Button>
             </div>
-
-            <Dropdown
-                menu={{
-                    items: branchMenuItems,
-                    onClick: ({ key }) => setSelectedBranch(key === "all" ? null : key),
-                }}
-            >
-                <Button>{selectedBranch || "Filter by Branch"}</Button>
-            </Dropdown>
 
             <Table columns={columns} dataSource={filteredRooms} rowKey="id" />
 

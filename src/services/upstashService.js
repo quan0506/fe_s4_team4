@@ -98,7 +98,6 @@ const upstashService = {
         return await axiosClient.delete(url);
     },
 
-
     // shuttles
     getShuttlesid : async (id) => {
         const url =`/shuttles/all?branchId=${id}`;

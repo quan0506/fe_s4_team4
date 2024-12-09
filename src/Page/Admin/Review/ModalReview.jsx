@@ -2,83 +2,42 @@ import React, { useEffect, useState } from "react";
 import { Modal, Input, Upload, Button, message, Select, Rate } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
-const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, rooms}) => {
+const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, rooms }) => {
     const [form, setForm] = useState(data || {});
-    const [selectedImages, setSelectedImages] = useState([]);
     const [fileList, setFileList] = useState([]);
+    const [filteredRooms, setFilteredRooms] = useState([]);
 
     useEffect(() => {
         setForm(data || {});
-        setSelectedImages(
-            (Array.isArray(data?.reviewImageURL) ? data.reviewImageURL : [data?.reviewImageURL])
-                .filter(Boolean)
-                .map((reviewImageURL, index) => ({
-                    uid: index.toString(),
-                    name: `Photo ${index + 1}`,
-                    status: "done",
-                    url: reviewImageURL.url || reviewImageURL,
-                }))
-        );
-    }, [data]);
+        if (data?.branchId) {
+            setFilteredRooms(rooms.filter(room => room.branchId === data.branchId));
+        } else {
+            setFilteredRooms([]);
+        }
+    }, [data, rooms]);
 
     const handleBranchChange = (value) => {
-        setForm({...form, branchId: value});
+        setForm({ ...form, branchId: value, roomId: undefined });
+        const filtered = rooms.filter(room => room.branchId === value);
+        setFilteredRooms(filtered);
     };
 
     const handleRoomChange = (value) => {
-        setForm({...form, roomId: value});
+        setForm({ ...form, roomId: value });
     };
 
     const handleSave = () => {
-        const reviewImageURL = fileList.map((file) =>
-            file.originFileObj ? file.originFileObj : file.url
-        );
-        const updatedData = { ...form, reviewImageURL };
-
+        const updatedData = { ...form, reviewImageURL: fileList.map(file => file.originFileObj || file.url) };
         if (!updatedData.branchId) {
             message.error("Please select a branch.");
             return;
         }
-
-        console.log("Data before send:", updatedData);
         onSave(updatedData);
-    };
-
-    const getBase64 = (file, callback) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => callback(reader.result);
-        reader.onerror = (error) => console.error('Error reading file:', error);
-    };
-
-    const handlePreview = (file) => {
-        if (!file.url && !file.preview) {
-            getBase64(file.originFileObj, (base64) => {
-                file.preview = base64;
-                const image = new Image();
-                image.src = base64;
-                const imgWindow = window.open(base64);
-                imgWindow?.document.write(image.outerHTML);
-            });
-        }
-    };
-
-    const handleChange = ({ fileList: newFileList }) => {
-        setFileList(
-            newFileList.map((file) => {
-                if (file.originFileObj && !file.url && !file.preview) {
-                    getBase64(file.originFileObj, (base64) => {
-                        file.preview = base64;
-                    });
-                }
-                return file;
-            })
-        );
     };
 
     return (
         <Modal
-            title={type === "add" ? "Add room" : "View room"}
+            title={type === "add" ? "Add Review" : "View Review"}
             open={isModalVisible}
             onCancel={onClose}
             footer={
@@ -86,9 +45,7 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
                     <Button onClick={onClose}>Close</Button>
                 ) : (
                     <>
-                        <Button type="primary" onClick={handleSave}>
-                            Save
-                        </Button>
+                        <Button type="primary" onClick={handleSave}>Save</Button>
                         <Button onClick={onClose}>Cancel</Button>
                     </>
                 )
@@ -98,9 +55,9 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
                 <strong>Review Text</strong>
                 <Input
                     value={form.reviewText || ""}
-                    onChange={(e) => setForm({...form, reviewText: e.target.value})}
+                    onChange={(e) => setForm({ ...form, reviewText: e.target.value })}
                     placeholder="Enter Review Text"
-                    style={{marginBottom: 16}}
+                    style={{ marginBottom: 16 }}
                 />
             </label>
 
@@ -108,8 +65,8 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
                 <strong>Rating</strong>
                 <Rate
                     value={form.rating}
-                    onChange={(value) => setForm({...form, rating: value})}
-                    style={{marginBottom: 16}}
+                    onChange={(value) => setForm({ ...form, rating: value })}
+                    style={{ marginBottom: 16 }}
                 />
             </label>
 
@@ -117,12 +74,11 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
                 <strong>Branch Name</strong>
                 <Select
                     value={form.branchId || ""}
-
                     onChange={handleBranchChange}
                     placeholder="Select Branch"
-                    style={{width: '100%', marginBottom: 16}}
+                    style={{ width: '100%', marginBottom: 16 }}
                 >
-                    {branches.map((branch) => (
+                    {branches.map(branch => (
                         <Select.Option key={branch.id} value={branch.id}>
                             {branch.branchName}
                         </Select.Option>
@@ -134,12 +90,12 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
                 <strong>Room Type</strong>
                 <Select
                     value={form.roomId || ""}
-
                     onChange={handleRoomChange}
                     placeholder="Select Room"
-                    style={{width: '100%', marginBottom: 16}}
+                    style={{ width: '100%', marginBottom: 16 }}
+                    disabled={!filteredRooms.length}
                 >
-                    {rooms.map((room) => (
+                    {filteredRooms.map(room => (
                         <Select.Option key={room.id} value={room.id}>
                             {room.roomType}
                         </Select.Option>
@@ -147,19 +103,15 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
                 </Select>
             </label>
 
-
             <label>
                 <strong>Upload Photos:</strong>
                 <Upload
                     listType="picture"
-                    beforeUpload={(file) => {
-                        return false;
-                    }}
-                    onChange={handleChange}
+                    beforeUpload={() => false}
+                    onChange={({ fileList: newFileList }) => setFileList(newFileList)}
                     fileList={fileList}
-                    onPreview={handlePreview}
                 >
-                    <Button icon={<UploadOutlined/>}>Upload</Button>
+                    <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
             </label>
         </Modal>
@@ -167,4 +119,3 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
 };
 
 export default ModalReview;
-

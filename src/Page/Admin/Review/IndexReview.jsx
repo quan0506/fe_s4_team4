@@ -14,11 +14,10 @@ export default function IndexReview() {
     const [searchId, setSearchId] = useState("");
     const [branches, setBranches] = useState([]);
     const [rooms, setRooms] = useState([]);
-    // const { data: list } = useQuery(
-    //     'av.list',
-    //     () => upstashService.getAllRoom()
-    // );
-    // console.log('list' , list)
+
+    const [selectedBranch, setSelectedBranch] = useState(null);
+    const [selectedRoomType, setSelectedRoomType] = useState(null);
+
     const fetchReviews = async () => {
         try {
             const reviewsResponse = await upstashService.getAllReview();
@@ -90,6 +89,13 @@ export default function IndexReview() {
             message.error("Failed to save room!");
         }
     };
+
+    const filteredReviews = listReview.filter((review) => {
+        const matchesBranch = selectedBranch === null || review.branchName === selectedBranch;
+        const matchesRoomType = selectedRoomType === null || review.roomType === selectedRoomType;
+        const matchesSearch = searchId ? review.id.includes(searchId) : true;
+        return matchesBranch && matchesRoomType && matchesSearch;
+    });
 
     const columns = [
         {
@@ -168,17 +174,45 @@ export default function IndexReview() {
         },
     ];
 
+    const branchMenuItems = [
+        { key: "all", label: "All Branches" },
+        ...branches.map((branch) => ({ key: branch.branchName, label: branch.branchName })),
+    ];
+
+    const roomTypeMenuItems = [
+        { key: "all", label: "All Room Types" },
+        ...rooms.map((room) => ({ key: room.roomType, label: room.roomType })),
+    ];
 
     return (
         <div>
-            <div
-                style={{display: "flex", justifyContent: "space-between", marginBottom: 16,}}>
-                <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+            <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
+                <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>
                     Add Review
                 </Button>
+                <div style={{display: "flex", gap: "8px"}}>
+                    <Dropdown
+                        menu={{
+                            items: branchMenuItems,
+                            onClick: ({key}) =>
+                                setSelectedBranch(key === "all" ? null : key),
+                        }}
+                    >
+                        <Button>{selectedBranch || "Filter by Branch"}</Button>
+                    </Dropdown>
+                    <Dropdown
+                        menu={{
+                            items: roomTypeMenuItems,
+                            onClick: ({key}) =>
+                                setSelectedRoomType(key === "all" ? null : key),
+                        }}
+                    >
+                        <Button>{selectedRoomType || "Filter by Room Type"}</Button>
+                    </Dropdown>
+                </div>
             </div>
 
-            <Table columns={columns} dataSource={listReview} rowKey="id"/>
+            <Table columns={columns} dataSource={filteredReviews} rowKey="id" />
 
             <ModalReview
                 type={modalType}
@@ -192,3 +226,4 @@ export default function IndexReview() {
         </div>
     );
 }
+
