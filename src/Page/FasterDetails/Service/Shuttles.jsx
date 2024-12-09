@@ -22,13 +22,12 @@ const Shuttles = () => {
   const { isModalVisible, handleRowClick, handleModalClose, selectedNotification } = useModalHandlers(null);
   const handleOk = async () => {
     try {
-       const res =await upstashService.postbookshuttle(selectedNotification?.branchId , selectedNotification?.id , user?.id ,{
+       await upstashService.postbookshuttle(selectedNotification?.branchId , selectedNotification?.id , user?.id ,{
           shuttleCheckInDate:dateRange[0].toString(),
           shuttleCheckOutDate:dateRange[1].toString(),
         })
-      console.log(res)
       toast.success('Đặt xe thành công')
-      // navigate('/')
+      navigate('/bookinghistory/shuttle')
     }catch (e){
       console.log(e)
       toast.error(e?.response?.data?.message)

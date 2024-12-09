@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import {Button, Carousel} from 'antd'
-import {ArrowRightOutlined, CalendarOutlined, LeftOutlined, RightOutlined} from '@ant-design/icons'
+import { CalendarOutlined, LeftOutlined, RightOutlined} from '@ant-design/icons'
 import Amenities from "./Amenities.jsx"
 import Features from "./Features.jsx"
 import { ArrowDownToDot, ArrowUpFromDot } from "lucide-react"
@@ -13,7 +13,6 @@ export default function Component({id}) {
     ['av.litsroomid', id],
     () => upstashService.getRoomId(id)
   );
-  console.log(id)
   const { isExpanded, isOverflow, toggleText, textRef } = useExpandableText()
   const [activeIndex, setActiveIndex] = useState(0)
   const carouselRef = useRef(null)
@@ -72,12 +71,11 @@ export default function Component({id}) {
             </div>
           ))}
         </div>
-
         {/* Main Content */}
         <div>
           <div className='flexs'>
             <div>
-              <h1 className="text-4xl md:text-5xl text-white">Sunshine Garden</h1>
+              <h1 className="text-4xl md:text-5xl text-white">{litsroomid?.roomType}</h1>
               <p className="text-2xl font-serif text-[#D4AF37]">
                 Từ {litsroomid?.roomPrice.toLocaleString()} vnđ/đêm
               </p>

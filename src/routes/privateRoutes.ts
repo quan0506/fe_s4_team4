@@ -14,6 +14,7 @@ import Shuttles from "../Page/FasterDetails/Service/Shuttles.jsx"
 import IndexBranch from "../Page/Admin/Branch/IndexBranch";
 import IndexReview from "../Page/Admin/Review/IndexReview";
 import IndexRoom from "../Page/Admin/Room/IndexRoom";
+import BookingHistory from "../component/History";
 
 const privateRoutes = {
   home: {
@@ -56,7 +57,11 @@ const privateRoutes = {
     path: '/allbranchoffice/:id',
     component: IndexBranchoffice,
   },
-
+  // BookingHistory
+  BookingHistory: {
+    path: '/bookinghistory/shuttle',
+    component: BookingHistory,
+  },
   // Admin
   indexAdmin : {
     path: '/admin/IndexDashboard',

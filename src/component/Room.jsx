@@ -4,7 +4,9 @@ import {ArrowRightOutlined, EnvironmentOutlined, StarFilled, WifiOutlined} from 
 import {Car, SpadeIcon as Spa, Utensils} from "lucide-react";
 import {useState} from "react";
 const { Title, Text, Paragraph } = Typography
-const Room = ({title,location,description,images,originalPrice,discountedPrice,rating , setOpen,key}) => {
+const Room = ({title,location,description,images,originalPrice,
+                discountedPrice,rating , setOpen,key , id,
+                setRoomID}) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [sliderRef, setSliderRef] = useState(null)
   const formatter = new Intl.NumberFormat('vi-VN', {
@@ -13,7 +15,7 @@ const Room = ({title,location,description,images,originalPrice,discountedPrice,r
   })
   const sliderSettings = {
     dots: false,
-    infinite: images.length > 1, // Tắt chế độ "infinite" nếu chỉ có 1 ảnh
+    infinite: images.length > 1,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -25,6 +27,10 @@ const Room = ({title,location,description,images,originalPrice,discountedPrice,r
       sliderRef.slickGoTo(index)
     }
   }
+  const handleOpenRoomDetails = (roomId) => {
+    setRoomID(roomId)
+    setOpen(true);
+  };
   return (
     <>
       <Card
@@ -126,10 +132,10 @@ const Room = ({title,location,description,images,originalPrice,discountedPrice,r
               </div>
               <Button
                 size="large"
-                className="flex items-center gap-2  hover:bg-[#B4941F] border-none"
+                className="flex items-center gap-2 hover:bg-[#B4941F] border-none"
                 onClick={(e) => {
-                  e.stopPropagation()
-                  setOpen(true)
+                  e.stopPropagation();
+                  handleOpenRoomDetails(id); // Truyền id qua callback
                 }}
               >
                 View Details

@@ -1,10 +1,20 @@
-import { ShoppingCart, UserRound, Home, Hotel , BookOpen, Network, Menu, X ,Heart  ,LogIn} from "lucide-react";
+import {
+  ShoppingCart,
+  Home,
+  Hotel,
+  BookOpen,
+  Menu,
+  X,
+  Heart,
+  User,
+  ArrowRightFromLine
+} from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import {Button} from "antd";
+import {Link, useNavigate} from "react-router-dom";
+import {Avatar, Button, Dropdown} from "antd";
+import {UserOutlined} from "@ant-design/icons";
 export const Header = () => {
   const [showCart, setShowCart] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuItems = [
     { icon: Home, label: "Trang chủ", path: "/" },
@@ -12,7 +22,26 @@ export const Header = () => {
     { icon: BookOpen, label: "Chi nhánh", path: "/fasterdetails" },
     { icon: ShoppingCart, label: "Dịch vụ", path: "/services" },
   ];
-  const token = window.localStorage.getItem("token");
+  const navigate = useNavigate();
+  const token = localStorage.getItem("accessToken");
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/login");
+  };
+  const items = [
+    {
+      key: '1',
+      label: 'Tên khách hàng ',
+      icon: <User />,
+    },
+    ...(token ? [
+      {
+        key: '2',
+        label: <div onClick={handleLogout}>Đăng xuất</div>,
+        icon: <ArrowRightFromLine size={20} />,
+      },
+    ] : []),
+  ];
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md shadow-lg z-50">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
@@ -24,7 +53,6 @@ export const Header = () => {
             </div>
           </Link>
         </div>
-
         {/* Center Section: Menu */}
         <div className="hidden md:flex items-center gap-8 flex-1 justify-center">
           {menuItems.map((item) => (
@@ -55,13 +83,14 @@ export const Header = () => {
             <span className="hidden md:inline font-medium text-gray-700">Cart</span>
           </button>
           {token ? (
-            <button
-              onClick={() => setShowProfile(!showProfile)}
-              className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-secondary/80 transition-colors"
+            <Dropdown
+              trigger={['click']}
+              menu={{
+                items,
+              }}
             >
-              <UserRound className="w-6 h-6 text-gray-700"/>
-              <span className="hidden md:inline font-medium text-gray-700">Profile</span>
-            </button>
+              <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />}/>
+            </Dropdown>
           ) : (
             <Button>
               <span className="hidden md:inline font-medium text-gray-700">Login</span>

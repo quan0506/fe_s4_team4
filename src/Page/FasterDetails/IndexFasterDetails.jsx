@@ -11,7 +11,6 @@ const IndexFasterDetails = () => {
     'av.listhotel',
     () => upstashService.getallbranches()
   );
-  console.log(listhotel)
   const navigate = useNavigate();
   // console.log('listhotel' , listhotel)
   return (

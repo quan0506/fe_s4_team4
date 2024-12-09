@@ -10,11 +10,11 @@ import upstashService from "../../services/upstashService.js";
 
 export default function HotelCard() {
   const [open, setOpen] = useState(false);
+  const [roomID , setRoomID] = useState(null);
   const { data: listAllroom, isLoading, error } = useQuery(
     "av.listAllroom",
     () => upstashService.getAllRoom()
   );
-  console.log(listAllroom)
   if (isLoading) {
     return <Spin size="large" />;
   }
@@ -40,6 +40,8 @@ export default function HotelCard() {
     >
       {listAllroom.map((item, index) => (
         <Room
+          setRoomID={setRoomID}
+          id={item.id}
           key={index}
           setOpen={setOpen}
           title={item?.roomType}
@@ -74,7 +76,9 @@ export default function HotelCard() {
           />
         }
       >
-        <Roomdetails />
+        <Roomdetails
+          id={roomID}
+        />
       </Drawer>
     </ConfigProvider>
   );

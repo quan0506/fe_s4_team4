@@ -93,6 +93,11 @@ const upstashService = {
     postbookingsRoom : async (param) => {
         const url ='/bookings/create';
         return await axiosClient.post(url , param)
+    },
+//BookingHistory
+    gethistoryshuttle : async (id) => {
+        const url = `/shuttle-bookings/user/${id}`;
+        return await axiosClient.get(url)
     }
 }
 export default upstashService
