@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Modal, Space, message, Dropdown, Input } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import upstashService from "../../../services/upstashService.js";
-import ModalShuttle from "./ModalShuttle";
+import ModalRestaurant from "./ModalRestaurant.jsx";
 
-export default function IndexShuttle() {
-    const [listShuttle, setListShuttle] = useState([]);
+export default function IndexRestaurant() {
+    const [listRestaurant, setListRestaurant] = useState([]);
     const [modalType, setModalType] = useState(null);
-    const [currentShuttle, setCurrentShuttle] = useState(null);
+    const [currentRestaurant, setCurrentRestaurant] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [searchId, setSearchId] = useState("");
     const [branches, setBranches] = useState([]);
     const [selectedBranch, setSelectedBranch] = useState(null);
 
-    const fetchShuttles = async () => {
+    const fetchRestaurants = async () => {
         try {
-            const response = await upstashService.getAllShuttles();
-            const shuttles = response.data;
+            const response = await upstashService.getAllRestaurant();
+            const restaurants = response.data;
 
             const branches = await upstashService.getallbranches();
             setBranches(branches);
@@ -26,18 +26,18 @@ export default function IndexShuttle() {
                 return map;
             }, {});
 
-            const normalizedData = shuttles.map((shuttle) => ({
-                ...shuttle,
-                branchName: branchMap[shuttle.branchId] || "Unknown",
-                photos: Array.isArray(shuttle.photos)
-                    ? shuttle.photos.map((photo) =>
+            const normalizedData = restaurants.map((restaurant) => ({
+                ...restaurant,
+                branchName: branchMap[restaurant.branchId] || "Unknown",
+                photos: Array.isArray(restaurant.photos)
+                    ? restaurant.photos.map((photo) =>
                         typeof photo === "string" ? photo : photo.url
                     )
-                    : typeof shuttle.photos === "string"
-                        ? shuttle.photos.split(", ")
+                    : typeof restaurant.photos === "string"
+                        ? restaurant.photos.split(", ")
                         : [],
             }));
-            setListShuttle(normalizedData);
+            setListRestaurant(normalizedData);
         } catch (error) {
             console.error("Failed to fetch Shuttle:", error);
         }
@@ -46,31 +46,31 @@ export default function IndexShuttle() {
 
     const handleAdd = () => {
         setModalType("add");
-        setCurrentShuttle(null);
+        setCurrentRestaurant(null);
         setIsModalVisible(true);
     };
 
     const handleDelete = async (id, branchId) => {
         Modal.confirm({
-            title: "Are you sure you want to delete this shuttle?",
+            title: "Are you sure you want to delete this restaurant?",
             onOk: async () => {
                 try {
-                    await upstashService.deleteShuttle(id, branchId);
-                    message.success("Shuttle deleted successfully!");
-                    fetchShuttles();
+                    await upstashService.deleteRestaurant(id, branchId);
+                    message.success("Restaurant deleted success!");
+                    fetchRestaurants();
                 } catch (error) {
-                    message.error("Failed to delete shuttle!");
+                    message.error("Failed to delete restaurant!");
                 }
             },
         });
     };
 
-    const handleEdit = (shuttle) => {
+    const handleEdit = (restaurant) => {
         setModalType("edit");
-        const shuttleWithPhotos = {
-            ...shuttle,
-            photos: Array.isArray(shuttle.photos)
-                ? shuttle.photos.map((url, index) => ({
+        const restaurantWithPhotos = {
+            ...restaurant,
+            photos: Array.isArray(restaurant.photos)
+                ? restaurant.photos.map((url, index) => ({
                     uid: index.toString(),
                     name: `Photo ${index + 1}`,
                     status: "done",
@@ -78,7 +78,7 @@ export default function IndexShuttle() {
                 }))
                 : [],
         };
-        setCurrentShuttle(shuttleWithPhotos);
+        setCurrentRestaurant(restaurantWithPhotos);
         setIsModalVisible(true);
     };
 
@@ -90,13 +90,13 @@ export default function IndexShuttle() {
             }
 
             if (modalType === "add") {
-                await upstashService.addShuttle(data);
+                await upstashService.addRestaurant(data);
                 message.success("Shuttle added success!");
             } else if (modalType === "edit") {
-                await upstashService.updateShuttle(currentShuttle.id, data);
+                await upstashService.updateRestaurant(currentRestaurant.id, data);
                 message.success("Shuttle updated success!");
             }
-            fetchShuttles();
+            fetchRestaurants();
             setIsModalVisible(false);
         } catch (error) {
             message.error("Failed to save room!");
@@ -104,12 +104,12 @@ export default function IndexShuttle() {
     };
 
     useEffect(() => {
-        fetchShuttles();
+        fetchRestaurants();
     }, []);
 
-    const filteredShuttles = listShuttle.filter((shuttle) => {
-        const matchesBranch = selectedBranch === null || shuttle.branchName === selectedBranch;
-        const matchesSearch = searchId ? shuttle.id.includes(searchId) : true;
+    const filteredRestaurants = listRestaurant.filter((restaurant) => {
+        const matchesBranch = selectedBranch === null || restaurant.branchName === selectedBranch;
+        const matchesSearch = searchId ? restaurant.id.includes(searchId) : true;
         return matchesBranch && matchesSearch;
     });
 
@@ -125,21 +125,31 @@ export default function IndexShuttle() {
             key: "branchName",
         },
         {
-            title: "Car Type",
-            dataIndex: "carType",
-            key: "carType",
+            title: "Restaurant Type",
+            dataIndex: "restaurantType",
+            key: "restaurantType",
         },
         {
-            title: "Car Price",
-            dataIndex: "carPrice",
-            key: "carPrice",
+            title: "Time",
+            dataIndex: "time",
+            key: "time",
+        },
+        {
+            title: "Adult Price",
+            dataIndex: "restaurantAdultPrice",
+            key: "restaurantAdultPrice",
+        },
+        {
+            title: "Children Price",
+            dataIndex: "restaurantChildrenPrice",
+            key: "restaurantChildrenPrice",
         },
         {
             title: "Photos",
             dataIndex: "photos",
             key: "photos",
             render: (photos) => (
-                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
                     {photos.map((url, index) => (
                         <img
                             key={index}
@@ -153,8 +163,8 @@ export default function IndexShuttle() {
         },
         {
             title: "Description",
-            dataIndex: "carDescription",
-            key: "carDescription",
+            dataIndex: "restaurantDescription",
+            key: "restaurantDescription",
         },
         {
             title: "Actions",
@@ -205,11 +215,11 @@ export default function IndexShuttle() {
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={filteredShuttles} rowKey="id" />
+            <Table columns={columns} dataSource={filteredRestaurants} rowKey="id" />
 
-            <ModalShuttle
+            <ModalRestaurant
                 type={modalType}
-                data={currentShuttle}
+                data={currentRestaurant}
                 isModalVisible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
                 onSave={handleSave}

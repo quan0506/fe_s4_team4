@@ -99,6 +99,28 @@ const upstashService = {
     },
 
     // shuttles
+    getAllShuttles : async () => {
+        const url =`/shuttles/get-all-shuttles`;
+        return await axiosClient.get(url)
+    },
+    addShuttle : async (data) => {
+        const url = `/shuttles/add`;
+        // return await axiosClient.post(url, data);
+        return await axiosClient.post(url, convertJsonToFormData(data), {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+    updateShuttle: async (id, data) => {
+        const url = `/shuttles/update/${id}`;
+        return await axiosClient.put(url, convertJsonToFormData(data), {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+    deleteShuttle: async (id, branchId) => {
+        const url = `/shuttles/delete/${id}?branchId=${branchId}`;
+        return await axiosClient.delete(url);
+    },
+
     getShuttlesid : async (id) => {
         const url =`/shuttles/all?branchId=${id}`;
         return await axiosClient.get(url)
@@ -107,6 +129,58 @@ const upstashService = {
         const url =`/shuttle-bookings/book-shuttle/${branchId}/${shuttleId}/${userId}`;
         return await axiosClient.post(url,param);
     },
+
+    // spa
+    addSpa : async (data) => {
+        const url = `/spas/add`;
+        return await axiosClient.post(url, convertJsonToFormData(data), {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+
+    getAllSpas : async () => {
+        const url =`/spas/get-all-spas`;
+        return await axiosClient.get(url)
+    },
+
+    updateSpa : async (id, data) => {
+        const url = `/spas/update/${id}`;
+        return await axiosClient.put(url, convertJsonToFormData(data), {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+
+    deleteSpa: async (id) => {
+        const url = `/spas/delete/${id}`;
+        return await axiosClient.delete(url);
+    },
+
+    // restaurant
+
+    addRestaurant : async (data) => {
+        const url = `/restaurants/add`;
+        return await axiosClient.post(url, convertJsonToFormData(data), {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+
+    getAllRestaurant : async () => {
+        const url =`/restaurants/get-all-restaurants`;
+        return await axiosClient.get(url)
+    },
+
+    updateRestaurant : async (id, data) => {
+        const url = `/restaurants/update/${id}`;
+        return await axiosClient.put(url, convertJsonToFormData(data), {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+
+    deleteRestaurant: async (id) => {
+        const url = `/restaurants/delete/${id}`;
+        return await axiosClient.delete(url);
+    },
+
 
     //  book
     postbookingsRoom : async (param) => {

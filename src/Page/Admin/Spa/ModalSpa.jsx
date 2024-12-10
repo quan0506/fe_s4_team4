@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Input, Upload, Button, message, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
-const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
+const ModalSpa = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
     const [form, setForm] = useState(data || {});
     const [selectedImages, setSelectedImages] = useState([]);
     const [fileList, setFileList] = useState([]);
@@ -29,7 +29,7 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
         const updatedData = { ...form, photos };
 
         if (!updatedData.branchId) {
-            message.error("Please select a branch.");
+            message.error("Please select a spa.");
             return;
         }
 
@@ -71,7 +71,7 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
 
     return (
         <Modal
-            title={type === "add" ? "Add shuttle" : type === "edit" ? "Edit shuttle" : "View shuttle"}
+            title={type === "add" ? "Add spa" : type === "edit" ? "Edit spa" : "View spa"}
             open={isModalVisible}
             onCancel={onClose}
             footer={
@@ -87,33 +87,6 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
                 )
             }
         >
-            <label>
-                <strong>Car Type</strong>
-                <Input
-                    value={form.carType || ""}
-                    onChange={(e) => setForm({...form, carType: e.target.value})}
-                    placeholder="Enter Car Type"
-                    style={{marginBottom: 16}}
-                />
-            </label>
-            <label>
-                <strong>Car Price</strong>
-                <Input
-                    value={form.carPrice || ""}
-                    onChange={(e) => setForm({...form, carPrice: e.target.value})}
-                    placeholder="Enter Car Price"
-                    style={{marginBottom: 16}}
-                />
-            </label>
-            <label>
-                <strong>Description:</strong>
-                <Input
-                    value={form.carDescription || ""}
-                    onChange={(e) => setForm({...form, carDescription: e.target.value})}
-                    placeholder="Enter Car Description"
-                    style={{marginBottom: 16}}
-                />
-            </label>
 
             <label>
                 <strong>Branch Name</strong>
@@ -130,6 +103,34 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
                         </Select.Option>
                     ))}
                 </Select>
+            </label>
+
+            <label>
+                <strong>Spa Name</strong>
+                <Input
+                    value={form.spaServiceName || ""}
+                    onChange={(e) => setForm({...form, spaServiceName: e.target.value})}
+                    placeholder="Enter Spa Name"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+            <label>
+                <strong>Service Price</strong>
+                <Input
+                    value={form.spaServicePrice || ""}
+                    onChange={(e) => setForm({...form, spaServicePrice: e.target.value})}
+                    placeholder="Enter Service Price"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+            <label>
+                <strong>Description:</strong>
+                <Input
+                    value={form.spaDescription || ""}
+                    onChange={(e) => setForm({...form, spaDescription: e.target.value})}
+                    placeholder="Enter Spa Description"
+                    style={{marginBottom: 16}}
+                />
             </label>
 
             <label>
@@ -150,5 +151,5 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
     );
 };
 
-export default ModalShuttle;
+export default ModalSpa;
 

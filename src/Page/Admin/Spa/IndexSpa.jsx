@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Modal, Space, message, Dropdown, Input } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import upstashService from "../../../services/upstashService.js";
-import ModalShuttle from "./ModalShuttle";
+import ModalSpa from "./ModalSpa";
 
-export default function IndexShuttle() {
-    const [listShuttle, setListShuttle] = useState([]);
+export default function IndexSpa() {
+    const [listSpa, setListSpa] = useState([]);
     const [modalType, setModalType] = useState(null);
-    const [currentShuttle, setCurrentShuttle] = useState(null);
+    const [currentSpa, setCurrentSpa] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [searchId, setSearchId] = useState("");
     const [branches, setBranches] = useState([]);
     const [selectedBranch, setSelectedBranch] = useState(null);
 
-    const fetchShuttles = async () => {
+    const fetchSpas = async () => {
         try {
-            const response = await upstashService.getAllShuttles();
-            const shuttles = response.data;
+            const response = await upstashService.getAllSpas();
+            const spas = response.data;
 
             const branches = await upstashService.getallbranches();
             setBranches(branches);
@@ -26,18 +26,18 @@ export default function IndexShuttle() {
                 return map;
             }, {});
 
-            const normalizedData = shuttles.map((shuttle) => ({
-                ...shuttle,
-                branchName: branchMap[shuttle.branchId] || "Unknown",
-                photos: Array.isArray(shuttle.photos)
-                    ? shuttle.photos.map((photo) =>
+            const normalizedData = spas.map((spa) => ({
+                ...spa,
+                branchName: branchMap[spa.branchId] || "Unknown",
+                photos: Array.isArray(spa.photos)
+                    ? spa.photos.map((photo) =>
                         typeof photo === "string" ? photo : photo.url
                     )
-                    : typeof shuttle.photos === "string"
-                        ? shuttle.photos.split(", ")
+                    : typeof spa.photos === "string"
+                        ? spa.photos.split(", ")
                         : [],
             }));
-            setListShuttle(normalizedData);
+            setListSpa(normalizedData);
         } catch (error) {
             console.error("Failed to fetch Shuttle:", error);
         }
@@ -46,31 +46,31 @@ export default function IndexShuttle() {
 
     const handleAdd = () => {
         setModalType("add");
-        setCurrentShuttle(null);
+        setCurrentSpa(null);
         setIsModalVisible(true);
     };
 
-    const handleDelete = async (id, branchId) => {
+    const handleDelete = async (id) => {
         Modal.confirm({
-            title: "Are you sure you want to delete this shuttle?",
+            title: "Are you sure you want to delete spa?",
             onOk: async () => {
                 try {
-                    await upstashService.deleteShuttle(id, branchId);
-                    message.success("Shuttle deleted successfully!");
-                    fetchShuttles();
+                    await upstashService.deleteSpa(id);
+                    message.success("Spa deleted successfully!");
+                    fetchSpas();
                 } catch (error) {
-                    message.error("Failed to delete shuttle!");
+                    message.error("Failed to delete spa!");
                 }
             },
         });
     };
 
-    const handleEdit = (shuttle) => {
+    const handleEdit = (spa) => {
         setModalType("edit");
-        const shuttleWithPhotos = {
-            ...shuttle,
-            photos: Array.isArray(shuttle.photos)
-                ? shuttle.photos.map((url, index) => ({
+        const spaWithPhotos = {
+            ...spa,
+            photos: Array.isArray(spa.photos)
+                ? spa.photos.map((url, index) => ({
                     uid: index.toString(),
                     name: `Photo ${index + 1}`,
                     status: "done",
@@ -78,7 +78,7 @@ export default function IndexShuttle() {
                 }))
                 : [],
         };
-        setCurrentShuttle(shuttleWithPhotos);
+        setCurrentSpa(spaWithPhotos);
         setIsModalVisible(true);
     };
 
@@ -90,13 +90,13 @@ export default function IndexShuttle() {
             }
 
             if (modalType === "add") {
-                await upstashService.addShuttle(data);
+                await upstashService.addSpa(data);
                 message.success("Shuttle added success!");
             } else if (modalType === "edit") {
-                await upstashService.updateShuttle(currentShuttle.id, data);
+                await upstashService.updateSpa(currentSpa.id, data);
                 message.success("Shuttle updated success!");
             }
-            fetchShuttles();
+            fetchSpas();
             setIsModalVisible(false);
         } catch (error) {
             message.error("Failed to save room!");
@@ -104,12 +104,12 @@ export default function IndexShuttle() {
     };
 
     useEffect(() => {
-        fetchShuttles();
+        fetchSpas();
     }, []);
 
-    const filteredShuttles = listShuttle.filter((shuttle) => {
-        const matchesBranch = selectedBranch === null || shuttle.branchName === selectedBranch;
-        const matchesSearch = searchId ? shuttle.id.includes(searchId) : true;
+    const filteredSpas = listSpa.filter((spa) => {
+        const matchesBranch = selectedBranch === null || spa.branchName === selectedBranch;
+        const matchesSearch = searchId ? spa.id.includes(searchId) : true;
         return matchesBranch && matchesSearch;
     });
 
@@ -125,14 +125,14 @@ export default function IndexShuttle() {
             key: "branchName",
         },
         {
-            title: "Car Type",
-            dataIndex: "carType",
-            key: "carType",
+            title: "Spa Name",
+            dataIndex: "spaServiceName",
+            key: "spaServiceName",
         },
         {
-            title: "Car Price",
-            dataIndex: "carPrice",
-            key: "carPrice",
+            title: "Service Price",
+            dataIndex: "spaServicePrice",
+            key: "spaServicePrice",
         },
         {
             title: "Photos",
@@ -153,8 +153,8 @@ export default function IndexShuttle() {
         },
         {
             title: "Description",
-            dataIndex: "carDescription",
-            key: "carDescription",
+            dataIndex: "spaDescription",
+            key: "spaDescription",
         },
         {
             title: "Actions",
@@ -205,11 +205,11 @@ export default function IndexShuttle() {
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={filteredShuttles} rowKey="id" />
+            <Table columns={columns} dataSource={filteredSpas} rowKey="id" />
 
-            <ModalShuttle
+            <ModalSpa
                 type={modalType}
-                data={currentShuttle}
+                data={currentSpa}
                 isModalVisible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
                 onSave={handleSave}

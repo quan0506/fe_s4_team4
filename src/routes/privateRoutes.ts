@@ -14,7 +14,9 @@ import Shuttles from "../Page/FasterDetails/Service/Shuttles.jsx"
 import IndexBranch from "../Page/Admin/Branch/IndexBranch";
 import IndexReview from "../Page/Admin/Review/IndexReview";
 import IndexRoom from "../Page/Admin/Room/IndexRoom";
-import IndexShuttle from "../Page/Admin/Shuttle/IndexShuttle"
+import IndexShuttle from "../Page/Admin/Shuttle/IndexShuttle";
+import IndexSpa from "../Page/Admin/Spa/IndexSpa";
+import IndexRestaurant from  "../Page/Admin/Restaurant/IndexRestaurant"
 
 const privateRoutes = {
   home: {
@@ -81,6 +83,16 @@ const privateRoutes = {
   IndexRoom: {
     path: '/admin/rooms',
     component : IndexRoom
+  },
+
+  IndexSpa: {
+    path: '/admin/spas',
+    component : IndexSpa
+  },
+
+  IndexRestaurant: {
+    path: '/admin/restaurants',
+    component : IndexRestaurant
   },
 
 };

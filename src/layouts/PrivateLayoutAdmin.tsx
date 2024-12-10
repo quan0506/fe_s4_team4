@@ -17,7 +17,7 @@ import {
     CarTaxiFront,
     ListTodo,
     ChartBar,
-    Lectern
+    Lectern, Heater, CalendarClock
 } from 'lucide-react';
 const { Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
@@ -35,9 +35,10 @@ const itemRoute = {
     '3': '/admin/rooms',
     '4': '/admin/reviews',
     '5': '',
-    '6': '',
-    '7': '',
+    '6': '/admin/spas',
+    '7': '/admin/restaurants',
     '8': '/admin/shuttles',
+    // '8.1': '/admin/shuttles/schedule',
     '9': '',
     '10': '',
 
@@ -65,10 +66,13 @@ const PrivateLayoutAdmin = () => {
         getItem("Chi nhanh", "2", <House />),
         getItem("Loại phòng", "3",<Lectern /> ),
         getItem("Đánh giá", "4", <MessageSquareText />),
-        getItem("Doanh thu", "5", <ChartBar />),
+        getItem("Tiện nghi", "5", <Heater />),
         getItem("Spa", "6",<HeartPulse /> ),
         getItem("Nhà hàng", "7", <Utensils /> ),
         getItem("Đặt xe", "8",<CarTaxiFront /> ),
+        // getItem("Đặt xe", "8", <CarTaxiFront />, [
+        //     getItem("Lịch đặt xe", "8.1", <CalendarClock />),
+        // ]),
         getItem("Khuyến mãi - Giảm Giá", "9", <TicketPercent /> ),
         getItem("Cài đặt", "10", <Settings />),
 

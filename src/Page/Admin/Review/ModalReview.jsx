@@ -4,22 +4,34 @@ import { UploadOutlined } from "@ant-design/icons";
 
 const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, rooms }) => {
     const [form, setForm] = useState(data || {});
+    const [selectedImages, setSelectedImages] = useState([]);
     const [fileList, setFileList] = useState([]);
     const [filteredRooms, setFilteredRooms] = useState([]);
 
     useEffect(() => {
         setForm(data || {});
+        setSelectedImages(
+            data?.photos?.map((photo, index) => ({
+                uid: index.toString(),
+                name: photo.name || `Photo ${index + 1}`,
+                status: "done",
+                url: photo.url || photo,
+            })) || []
+        );
+
+        // Update filtered rooms when editing existing data
         if (data?.branchId) {
-            setFilteredRooms(rooms.filter(room => room.branchId === data.branchId));
+            const branchRooms = rooms.filter(room => room.branchId === data.branchId);
+            setFilteredRooms(branchRooms);
         } else {
             setFilteredRooms([]);
         }
     }, [data, rooms]);
 
     const handleBranchChange = (value) => {
-        setForm({ ...form, branchId: value, roomId: undefined });
-        const filtered = rooms.filter(room => room.branchId === value);
-        setFilteredRooms(filtered);
+        setForm({ ...form, branchId: value, roomId: null }); // Reset roomId when branch changes
+        const branchRooms = rooms.filter(room => room.branchId === value);
+        setFilteredRooms(branchRooms);
     };
 
     const handleRoomChange = (value) => {
@@ -27,12 +39,52 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
     };
 
     const handleSave = () => {
-        const updatedData = { ...form, reviewImageURL: fileList.map(file => file.originFileObj || file.url) };
+        const photos = fileList;
+        const updatedData = { ...form, photos };
+
         if (!updatedData.branchId) {
-            message.error("Please select a branch.");
+            message.error("Please select a spa.");
             return;
         }
+        if (!updatedData.roomId) {
+            message.error("Please select a room.");
+            return;
+        }
+
+        console.log("Data before send:", updatedData);
         onSave(updatedData);
+    };
+
+    const getBase64 = (file, callback) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => callback(reader.result);
+        reader.onerror = (error) => console.error("Error reading file:", error);
+    };
+
+    const handlePreview = (file) => {
+        if (!file.url && !file.preview) {
+            getBase64(file.originFileObj, (base64) => {
+                file.preview = base64;
+                const image = new Image();
+                image.src = base64;
+                const imgWindow = window.open(base64);
+                imgWindow?.document.write(image.outerHTML);
+            });
+        }
+    };
+
+    const handleChange = ({ fileList: newFileList }) => {
+        setFileList(
+            newFileList.map((file) => {
+                if (file.originFileObj && !file.url && !file.preview) {
+                    getBase64(file.originFileObj, (base64) => {
+                        file.preview = base64;
+                    });
+                }
+                return file;
+            })
+        );
     };
 
     return (
@@ -51,6 +103,39 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
                 )
             }
         >
+            <label>
+                <strong>Branch Name</strong>
+                <Select
+                    value={form.branchId || ""}
+                    onChange={handleBranchChange}
+                    placeholder="Select Branch"
+                    style={{ width: "100%", marginBottom: 16 }}
+                >
+                    {branches.map((branch) => (
+                        <Select.Option key={branch.id} value={branch.id}>
+                            {branch.branchName}
+                        </Select.Option>
+                    ))}
+                </Select>
+            </label>
+
+            <label>
+                <strong>Room Type</strong>
+                <Select
+                    value={form.roomId || ""}
+                    onChange={handleRoomChange}
+                    placeholder="Select Room"
+                    style={{ width: "100%", marginBottom: 16 }}
+                    disabled={!filteredRooms.length}
+                >
+                    {filteredRooms.map((room) => (
+                        <Select.Option key={room.id} value={room.id}>
+                            {room.roomType}
+                        </Select.Option>
+                    ))}
+                </Select>
+            </label>
+
             <label>
                 <strong>Review Text</strong>
                 <Input
@@ -71,45 +156,13 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
             </label>
 
             <label>
-                <strong>Branch Name</strong>
-                <Select
-                    value={form.branchId || ""}
-                    onChange={handleBranchChange}
-                    placeholder="Select Branch"
-                    style={{ width: '100%', marginBottom: 16 }}
-                >
-                    {branches.map(branch => (
-                        <Select.Option key={branch.id} value={branch.id}>
-                            {branch.branchName}
-                        </Select.Option>
-                    ))}
-                </Select>
-            </label>
-
-            <label>
-                <strong>Room Type</strong>
-                <Select
-                    value={form.roomId || ""}
-                    onChange={handleRoomChange}
-                    placeholder="Select Room"
-                    style={{ width: '100%', marginBottom: 16 }}
-                    disabled={!filteredRooms.length}
-                >
-                    {filteredRooms.map(room => (
-                        <Select.Option key={room.id} value={room.id}>
-                            {room.roomType}
-                        </Select.Option>
-                    ))}
-                </Select>
-            </label>
-
-            <label>
                 <strong>Upload Photos:</strong>
                 <Upload
                     listType="picture"
                     beforeUpload={() => false}
-                    onChange={({ fileList: newFileList }) => setFileList(newFileList)}
+                    onChange={handleChange}
                     fileList={fileList}
+                    onPreview={handlePreview}
                 >
                     <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>

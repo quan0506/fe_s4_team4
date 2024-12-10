@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Input, Upload, Button, message, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
-const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
+const ModalRestaurant = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
     const [form, setForm] = useState(data || {});
     const [selectedImages, setSelectedImages] = useState([]);
     const [fileList, setFileList] = useState([]);
@@ -71,7 +71,7 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
 
     return (
         <Modal
-            title={type === "add" ? "Add shuttle" : type === "edit" ? "Edit shuttle" : "View shuttle"}
+            title={type === "add" ? "Add restaurant" : type === "edit" ? "Edit restaurant" : "View restaurant"}
             open={isModalVisible}
             onCancel={onClose}
             footer={
@@ -88,34 +88,6 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
             }
         >
             <label>
-                <strong>Car Type</strong>
-                <Input
-                    value={form.carType || ""}
-                    onChange={(e) => setForm({...form, carType: e.target.value})}
-                    placeholder="Enter Car Type"
-                    style={{marginBottom: 16}}
-                />
-            </label>
-            <label>
-                <strong>Car Price</strong>
-                <Input
-                    value={form.carPrice || ""}
-                    onChange={(e) => setForm({...form, carPrice: e.target.value})}
-                    placeholder="Enter Car Price"
-                    style={{marginBottom: 16}}
-                />
-            </label>
-            <label>
-                <strong>Description:</strong>
-                <Input
-                    value={form.carDescription || ""}
-                    onChange={(e) => setForm({...form, carDescription: e.target.value})}
-                    placeholder="Enter Car Description"
-                    style={{marginBottom: 16}}
-                />
-            </label>
-
-            <label>
                 <strong>Branch Name</strong>
                 <Select
                     value={form.branchId || ""}
@@ -130,6 +102,52 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
                         </Select.Option>
                     ))}
                 </Select>
+            </label>
+
+            <label>
+                <strong>Restaurant Type</strong>
+                <Input
+                    value={form.restaurantType || ""}
+                    onChange={(e) => setForm({...form, restaurantType: e.target.value})}
+                    placeholder="Enter Restaurant Type"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+            <label>
+                <strong>Time</strong>
+                <Input
+                    value={form.time || ""}
+                    onChange={(e) => setForm({...form, time: e.target.value})}
+                    placeholder="Enter Time"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+            <label>
+                <strong>Adult Price</strong>
+                <Input
+                    value={form.restaurantAdultPrice || ""}
+                    onChange={(e) => setForm({...form, restaurantAdultPrice: e.target.value})}
+                    placeholder="Enter Adult Price"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+            <label>
+                <strong>Children Price</strong>
+                <Input
+                    value={form.restaurantChildrenPrice || ""}
+                    onChange={(e) => setForm({...form, restaurantChildrenPrice: e.target.value})}
+                    placeholder="Enter Children Price"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+            <label>
+                <strong>Description:</strong>
+                <Input
+                    value={form.restaurantDescription || ""}
+                    onChange={(e) => setForm({...form, restaurantDescription: e.target.value})}
+                    placeholder="Enter Restaurant Description"
+                    style={{marginBottom: 16}}
+                />
             </label>
 
             <label>
@@ -150,5 +168,5 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
     );
 };
 
-export default ModalShuttle;
+export default ModalRestaurant;
 

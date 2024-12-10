@@ -33,9 +33,13 @@ export default function IndexReview() {
 
             const normalizedData = reviews.map((review) => ({
                 ...review,
-                reviewImageURL: Array.isArray(review.reviewImageURL)
-                    ? review.reviewImageURL
-                    : (typeof review.reviewImageURL === "string" ? [review.reviewImageURL] : []),
+                photos: Array.isArray(review.photos)
+                    ? review.photos.map((photo) =>
+                        typeof photo === "string" ? photo : photo.url
+                    )
+                    : typeof review.photos === "string"
+                        ? review.photos.split(", ")
+                        : [],
             }));
 
             setListReview(normalizedData);
@@ -114,12 +118,12 @@ export default function IndexReview() {
             key: "reviewText",
         },
         {
-            title: "reviewImageURL",
-            dataIndex: "reviewImageURL",
-            key: "reviewImageURL",
-            render: (reviewImageURL) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    {reviewImageURL.map((url, index) => (
+            title: "Review Image",
+            dataIndex: "photos",
+            key: "photos",
+            render: (photos) => (
+                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                    {photos.map((url, index) => (
                         <img
                             key={index}
                             src={url}

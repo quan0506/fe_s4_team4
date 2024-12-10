@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Input, Modal, Space, message } from "antd";
+import { Table, Button, Input, Modal, Space, message, Carousel } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import upstashService from "../../../services/upstashService.js";
 import ModalBranch from "./ModalBranch";
@@ -117,25 +117,50 @@ export default function IndexBranch() {
             dataIndex: "location",
             key: "location",
         },
+        // {
+        //     title: "Photos",
+        //     dataIndex: "photos",
+        //     key: "photos",
+        //     render: (photos) => (
+        //         <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
+        //             {photos.map((url, index) => (
+        //                 <img
+        //                     key={index}
+        //                     src={url}
+        //                     alt={`Branch Photo ${index + 1}`}
+        //                     style={{
+        //                         width: 50,
+        //                         height: 50,
+        //                         objectFit: "cover",
+        //                         borderRadius: "4px",
+        //                     }}
+        //                 />
+        //             ))}
+        //         </div>
+        //     ),
+        // },
         {
             title: "Photos",
             dataIndex: "photos",
             key: "photos",
             render: (photos) => (
-                <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
-                    {photos.map((url, index) => (
-                        <img
-                            key={index}
-                            src={url}
-                            alt={`Branch Photo ${index + 1}`}
-                            style={{
-                                width: 50,
-                                height: 50,
-                                objectFit: "cover",
-                                borderRadius: "4px",
-                            }}
-                        />
-                    ))}
+                <div style={{ width: 100 }}>
+                    <Carousel autoplay>
+                        {photos.map((url, index) => (
+                            <div key={index}>
+                                <img
+                                    src={url}
+                                    alt={`Branch Photo ${index + 1}`}
+                                    style={{
+                                        width: "100%",
+                                        height: 50,
+                                        objectFit: "cover",
+                                        borderRadius: "4px",
+                                    }}
+                                />
+                            </div>
+                        ))}
+                    </Carousel>
                 </div>
             ),
         },
