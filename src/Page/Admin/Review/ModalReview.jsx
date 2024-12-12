@@ -19,7 +19,6 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
             })) || []
         );
 
-        // Update filtered rooms when editing existing data
         if (data?.branchId) {
             const branchRooms = rooms.filter(room => room.branchId === data.branchId);
             setFilteredRooms(branchRooms);
@@ -29,7 +28,7 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
     }, [data, rooms]);
 
     const handleBranchChange = (value) => {
-        setForm({ ...form, branchId: value, roomId: null }); // Reset roomId when branch changes
+        setForm({ ...form, branchId: value, roomId: null });
         const branchRooms = rooms.filter(room => room.branchId === value);
         setFilteredRooms(branchRooms);
     };

@@ -108,6 +108,16 @@ export default function IndexReview() {
             key: "reviewId",
         },
         {
+            title: "Branch Name",
+            dataIndex: "branchName",
+            key: "branchName",
+        },
+        {
+            title: "Room Type",
+            dataIndex: "roomType",
+            key: "roomType",
+        },
+        {
             title: "Rating",
             dataIndex: "rating",
             key: "rating",
@@ -138,16 +148,6 @@ export default function IndexReview() {
                     ))}
                 </div>
             ),
-        },
-        {
-            title: "Branch Name",
-            dataIndex: "branchName",
-            key: "branchName",
-        },
-        {
-            title: "Room Type",
-            dataIndex: "roomType",
-            key: "roomType",
         },
         {
             title: "Created At",

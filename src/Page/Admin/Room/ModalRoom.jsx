@@ -89,6 +89,24 @@ const ModalRoom = ({ type, data, isModalVisible, onClose, onSave, branches}) => 
                 )
             }
         >
+
+            <label>
+                <strong>Branch Name</strong>
+                <Select
+                    value={form.branchId || ""}
+                    onChange={(value) => setForm({...form, branchId: value})}
+                    placeholder="Select Branch"
+                    style={{width: '100%', marginBottom: 16}}
+                >
+                    {branches.map((branch) => (
+                        <Select.Option key={branch.id} value={branch.id}>
+                            {branch.branchName}
+                        </Select.Option>
+                    ))}
+                </Select>
+            </label>
+
+
             <label>
                 <strong>Room Type</strong>
                 <Input

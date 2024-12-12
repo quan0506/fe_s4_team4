@@ -16,7 +16,10 @@ import IndexReview from "../Page/Admin/Review/IndexReview";
 import IndexRoom from "../Page/Admin/Room/IndexRoom";
 import IndexShuttle from "../Page/Admin/Shuttle/IndexShuttle";
 import IndexSpa from "../Page/Admin/Spa/IndexSpa";
-import IndexRestaurant from  "../Page/Admin/Restaurant/IndexRestaurant"
+import IndexRestaurant from  "../Page/Admin/Restaurant/IndexRestaurant";
+import IndexBookingShuttle from "../Page/Admin/BookingShuttle/IndexBookingShuttle";
+import IndexBookingSpa from "../Page/Admin/BookingSpa/IndexBookingSpa";
+import IndexBookingRestaurant from "../Page/Admin/BookingRestaurant/IndexBookingRestaurant";
 
 const privateRoutes = {
   home: {
@@ -93,6 +96,21 @@ const privateRoutes = {
   IndexRestaurant: {
     path: '/admin/restaurants',
     component : IndexRestaurant
+  },
+
+  IndexShuttleBooking: {
+    path: '/admin/shuttle-bookings',
+    component : IndexBookingShuttle
+  },
+
+  IndexShuttleRestaurant: {
+    path: '/admin/restaurant-bookings',
+    component : IndexBookingRestaurant
+  },
+
+  IndexShuttleSpa: {
+    path: '/admin/spa-bookings',
+    component : IndexBookingSpa
   },
 
 };

@@ -120,14 +120,39 @@ const upstashService = {
         const url = `/shuttles/delete/${id}?branchId=${branchId}`;
         return await axiosClient.delete(url);
     },
-
     getShuttlesid : async (id) => {
         const url =`/shuttles/all?branchId=${id}`;
         return await axiosClient.get(url)
     },
-    postbookshuttle : async (branchId , shuttleId , userId , param) => {
-        const url =`/shuttle-bookings/book-shuttle/${branchId}/${shuttleId}/${userId}`;
-        return await axiosClient.post(url,param);
+
+    // booking shuttle
+    postBookingShuttle: async (branchId, shuttleId, userId, param) => {
+        const url = `/shuttle-bookings/book-shuttle/${branchId}/${shuttleId}/${userId}`;
+        try {
+            return await axiosClient.post(url, param);
+        } catch (error) {
+            console.error("Error in postBookingShuttle:", error.response || error.message);
+            throw error;
+        }
+    },
+
+    getAllBookingShuttle : async () => {
+        const url =`/shuttle-bookings/all-bookings`;
+        return await axiosClient.get(url)
+    },
+
+    deleteBookingShuttle: async (id, branchId) => {
+        const url = `/shuttle-bookings/cancel/${branchId}/${id}`;
+        return await axiosClient.delete(url);
+    },
+    getBookingShuttleBranchId : async (id) => {
+        const url =`/shuttles/all?branchId=${id}`;
+        return await axiosClient.get(url)
+    },
+
+    getBookingShuttleByCode : async (branchId,confirmationCode) => {
+        const url =`shuttle-bookings/get-by-confirmation-code/${branchId}/${confirmationCode}`;
+        return await axiosClient.get(url)
     },
 
     // spa
@@ -155,8 +180,9 @@ const upstashService = {
         return await axiosClient.delete(url);
     },
 
-    // restaurant
+    // booking-spa
 
+    // restaurant
     addRestaurant : async (data) => {
         const url = `/restaurants/add`;
         return await axiosClient.post(url, convertJsonToFormData(data), {
