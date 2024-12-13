@@ -15,6 +15,7 @@ import IndexBranch from "../Page/Admin/Branch/IndexBranch";
 import IndexReview from "../Page/Admin/Review/IndexReview";
 import IndexRoom from "../Page/Admin/Room/IndexRoom";
 import BookingHistory from "../component/History";
+import IndexShuttle from "../Page/Admin/Shuttle/IndexShuttle"
 
 const privateRoutes = {
   home: {
@@ -72,10 +73,15 @@ const privateRoutes = {
     component : IndexBranch
   },
 
-  // IndexReview: {
-  //   path: '/admin/reviews',
-  //   component : IndexReview
-  // },
+  IndexReview: {
+    path: '/admin/reviews',
+    component : IndexReview
+  },
+
+  IndexShuttle: {
+    path: '/admin/shuttles',
+    component : IndexShuttle
+  },
 
   IndexRoom: {
     path: '/admin/rooms',

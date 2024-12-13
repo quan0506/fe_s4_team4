@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Modal, Input, Upload, Button, message, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
-const ModalRoom = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
+const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
     const [form, setForm] = useState(data || {});
     const [selectedImages, setSelectedImages] = useState([]);
     const [fileList, setFileList] = useState([]);
-    console.log(branches)
 
     useEffect(() => {
         setForm(data || {});
@@ -117,11 +116,22 @@ const ModalRoom = ({ type, data, isModalVisible, onClose, onSave, branches}) => 
                 />
             </label>
 
+            {/*<label>*/}
+            {/*    <strong>Brand Id</strong>*/}
+            {/*    <Input*/}
+            {/*        value={form.branchId || ""}*/}
+            {/*        onChange={(e) => setForm({...form, branchId: e.target.value})}*/}
+            {/*        placeholder="Enter Brand Id "*/}
+            {/*        style={{marginBottom: 16}}*/}
+            {/*    />*/}
+            {/*</label>*/}
+
             <label>
                 <strong>Branch Name</strong>
                 <Select
                     value={form.branchId || ""}
-                    onChange={(value) => setForm({...form, branchId: value})}
+
+                    onChange={handleBranchChange}
                     placeholder="Select Branch"
                     style={{width: '100%', marginBottom: 16}}
                 >
@@ -151,5 +161,5 @@ const ModalRoom = ({ type, data, isModalVisible, onClose, onSave, branches}) => 
     );
 };
 
-export default ModalRoom;
+export default ModalShuttle;
 

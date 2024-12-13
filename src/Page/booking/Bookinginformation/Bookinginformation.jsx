@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { Card, Steps, Row, Col, Typography, Divider, Space } from 'antd';
 import { PhoneOutlined } from '@ant-design/icons';
 import Fillininformation from "./Fillininformation/Fillininformation.jsx";
@@ -6,13 +6,14 @@ import VNPay from "./Fillininformation/VNPay.jsx";
 import Index from "./Thank/Index.jsx";
 import {useQuery} from "react-query";
 import upstashService from "../../../services/upstashService.js";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 const { Title, Text } = Typography;
 export default function BookingInformation() {
   const { data: litsroomid } = useQuery(
     'av.litsroomid',
     () => upstashService.getRoomId(id)
   );
+  // console.log('litsroomid' ,litsroomid)
   const [currentStep, setCurrentStep] = useState(0);
   const [startDate, setStartDate] = useState([]);
   const date1 = new Date(startDate[0]?.split("-").reverse().join("-"));
@@ -26,6 +27,7 @@ export default function BookingInformation() {
   const [adults , setAdults] = useState(0);
   const [children , setChildren] = useState(0);
   const [discountcode , setDiscountcode] = useState('');
+  const [idbook , setIdbook] = useState(null);
   const { id } = useParams();
   return (
     <div
@@ -50,6 +52,7 @@ export default function BookingInformation() {
           <Col xs={24} sm={16} md={currentStep === 2 ? 24 : 16}>
             {currentStep === 0 && (
               <Fillininformation
+                setIdbook={setIdbook}
                 discountcode={discountcode}
                 TotalAmount={TotalAmount}
                 adults={adults}
@@ -73,7 +76,9 @@ export default function BookingInformation() {
             )}
             {currentStep === 2 && (
               <div>
-                <Index/>
+                <Index
+                  idbook={idbook}
+                />
               </div>
             )}
           </Col>

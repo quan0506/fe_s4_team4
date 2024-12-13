@@ -1,16 +1,15 @@
-import React from "react";
-import { Star } from "lucide-react";
 import SuccessAnimation from "./SuccessAnimation.jsx";
 import BookingDetails from "./BookingDetails.jsx";
 import ShareButtons from "./ShareButtons.jsx";
 import Suggestions from "./Suggestions.jsx";
-import toast from "react-hot-toast";
 import './Thank.css'
-const Index = () => {
-  React.useEffect(() => {
-    toast("Thanh toán thành công!");
-  }, []);
-
+import {useQuery} from "react-query";
+import upstashService from "../../../../services/upstashService.js";
+const Index = ({idbook}) => {
+  const { data: listIDbook } = useQuery(
+    "av.listIDbook",
+    () => upstashService.getIDbook(idbook)
+  );
   return (
     <div className="min-h-screen py-12 px-4 relative overflow-hidden bg-amber-50 rounded-2xl	">
       <div className="max-w-4xl mx-auto text-center mb-12 relative">
@@ -25,7 +24,9 @@ const Index = () => {
 
       <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent" />
-        <BookingDetails />
+        <BookingDetails
+          listIDbook={listIDbook}
+        />
       </div>
 
       <ShareButtons />

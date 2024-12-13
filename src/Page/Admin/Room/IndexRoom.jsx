@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Input, Modal, Space, message } from "antd";
-import { EditOutlined, DeleteOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { Table, Button, Modal, Space, message, Dropdown, Input } from "antd";
+import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import upstashService from "../../../services/upstashService.js";
 import ModalRoom from "./ModalRoom";
 
@@ -10,36 +10,35 @@ export default function IndexRoom() {
     const [currentRoom, setCurrentRoom] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [searchId, setSearchId] = useState("");
+    const [branches, setBranches] = useState([]);
+    const [selectedBranch, setSelectedBranch] = useState(null);
 
     const fetchRooms = async () => {
         try {
             const rooms = await upstashService.getAllRoom();
-            const normalizedData = rooms.map(room => ({
+            const branches = await upstashService.getallbranches();
+            setBranches(branches);
+
+            const branchMap = branches.reduce((map, branch) => {
+                map[branch.id] = branch.branchName;
+                return map;
+            }, {});
+
+            const normalizedData = rooms.map((room) => ({
                 ...room,
+                branchName: branchMap[room.branchId] || "Unknown",
                 photos: Array.isArray(room.photos)
-                    ? room.photos.map(photo =>
+                    ? room.photos.map((photo) =>
                         typeof photo === "string" ? photo : photo.url
                     )
-                    : (typeof room.photos === 'string' ? room.photos.split(", ") : []),
+                    : typeof room.photos === "string"
+                        ? room.photos.split(", ")
+                        : [],
             }));
             setListRoom(normalizedData);
         } catch (error) {
-            console.error("Failed to fetch roomes:", error);
+            console.error("Failed to fetch rooms:", error);
         }
-    };
-
-    const handleSearch = async () => {
-        // if (!searchId) {
-        //     message.error("Please enter an ID to search!");
-        //     return;
-        // }
-        //
-        // try {
-        //     const room = await upstashService.getroomesid(searchId);
-        //     setListroom([room]);
-        // } catch (error) {
-        //     message.error("room not found!");
-        // }
     };
 
     const handleAdd = () => {
@@ -50,11 +49,11 @@ export default function IndexRoom() {
 
     const handleDelete = async (id) => {
         Modal.confirm({
-            title: "Are you delete this room?",
+            title: "Are you sure you want to delete this room?",
             onOk: async () => {
                 try {
                     await upstashService.deleteRoom(id);
-                    message.success("Room delete success");
+                    message.success("Room deleted successfully!");
                     fetchRooms();
                 } catch (error) {
                     message.error("Failed to delete room!");
@@ -82,12 +81,17 @@ export default function IndexRoom() {
 
     const handleSave = async (data) => {
         try {
+            if (!data.branchId) {
+                message.error("Branch ID is required.");
+                return;
+            }
+
             if (modalType === "add") {
                 await upstashService.addRoom(data);
-                message.success("room added successfully!");
+                message.success("Room added successfully!");
             } else if (modalType === "edit") {
                 await upstashService.updateRoom(currentRoom.id, data);
-                message.success("room updated successfully!");
+                message.success("Room updated successfully!");
             }
             fetchRooms();
             setIsModalVisible(false);
@@ -99,7 +103,13 @@ export default function IndexRoom() {
     useEffect(() => {
         fetchRooms();
     }, []);
-    //
+
+    const filteredRooms = listRoom.filter((room) => {
+        const matchesBranch = selectedBranch === null || room.branchName === selectedBranch;
+        const matchesSearch = searchId ? room.id.includes(searchId) : true;
+        return matchesBranch && matchesSearch;
+    });
+
     const columns = [
         {
             title: "ID",
@@ -139,9 +149,9 @@ export default function IndexRoom() {
             key: "description",
         },
         {
-            title: "Branch Id",
-            dataIndex: "branchId",
-            key: "branchId",
+            title: "Branch Name",
+            dataIndex: "branchName",
+            key: "branchName",
         },
         {
             title: "Bookings",
@@ -173,6 +183,11 @@ export default function IndexRoom() {
         },
     ];
 
+    const branchMenuItems = [
+        { key: "all", label: "All Branches" },
+        ...branches.map((branch) => ({ key: branch.branchName, label: branch.branchName })),
+    ];
+
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
@@ -181,19 +196,30 @@ export default function IndexRoom() {
                     value={searchId}
                     onChange={(e) => setSearchId(e.target.value)}
                     style={{ width: "30%" }}
-                    suffix={<SearchOutlined onClick={handleSearch} />}
                 />
+                <Dropdown
+                    menu={{
+                        items: branchMenuItems,
+                        onClick: ({ key }) => setSelectedBranch(key === "all" ? null : key),
+                    }}
+                >
+                    <Button>{selectedBranch || "Filter by Branch"}</Button>
+                </Dropdown>
+
                 <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-                    Add room
+                    Add Room
                 </Button>
             </div>
-            <Table columns={columns} dataSource={listRoom} rowKey="id" />
+
+            <Table columns={columns} dataSource={filteredRooms} rowKey="id" />
+
             <ModalRoom
                 type={modalType}
                 data={currentRoom}
                 isModalVisible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
                 onSave={handleSave}
+                branches={branches}
             />
         </div>
     );

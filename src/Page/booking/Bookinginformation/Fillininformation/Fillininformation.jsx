@@ -20,28 +20,39 @@ const { Title } = Typography;
 
 const Fillininformation = ({ setCurrentStep, setStartDate, setDiscountcode,
                              setAdults, setChildren, children, startDate,
-                             litsroomid, adults, TotalAmount, discountcode }) => {
+                             litsroomid, adults, TotalAmount, discountcode , setIdbook }) => {
   const { RangePicker } = DatePicker;
   const { user } = UserStore()
   const [paymentMethod, setPaymentMethod] = useState('zalopay');
+  const formatToISODate = (dateString) => {
+    const [day, month, year] = dateString.split("-");
+    return `${year}-${month}-${day}`;
+  };
   const onFinish = async () => {
     if (!paymentMethod) {
       toast.error('Vui lòng chọn phương thức thanh toán');
       return;
     }
-    upstashService.postbookingsRoom({
-      user: user?.id,
-      room: litsroomid?.id,
-      checkInDate: startDate[0],
-      checkOutDate: startDate[1],
-      adults: adults,
-      children: children,
-      totalPrice: TotalAmount,
-      paymentMethod: paymentMethod,
-      confirmBookingCode: discountcode,
-      status: 'oke'
-    })
-    setCurrentStep(2);
+   try {
+     const checkInDateISO = formatToISODate(startDate[0]); // "2024-12-10"
+     const checkOutDateISO = formatToISODate(startDate[1]); // "2024-12-12"
+      const res =await  upstashService.postbookingsRoom({
+         user: { id: user?.id }, // ID của người dùng
+         room: { id: litsroomid?.id }, // ID của phòng
+         checkInDate: checkInDateISO, // Ngày check-in theo định dạng yyyy-MM-dd
+         checkOutDate: checkOutDateISO,
+         adults: adults, // Số người lớn
+         children: children, // Số trẻ em
+         paymentMethod: paymentMethod, // Phương thức thanh toán
+         confirmBookingCode: discountcode, // Mã giảm giá (nếu có)
+         status: ""
+     });
+     setIdbook(res?.bookingId)
+    toast.success('Đặt phòng thành công')
+     setCurrentStep(2);
+   }catch (e) {
+     console.log(e)
+   }
   };
 
   return (

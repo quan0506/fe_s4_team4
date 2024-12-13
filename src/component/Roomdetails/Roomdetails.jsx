@@ -81,7 +81,7 @@ export default function Component({id}) {
               </p>
             </div>
             <div>
-              <a href='/bookinginformation/1' target='_blank'>
+              <a href={`/bookinginformation/${litsroomid?.id}`} target='_blank'>
                 <Button
                   size="large"
                   className="flex items-center gap-2  hover:bg-[#B4941F] border-none"

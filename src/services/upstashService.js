@@ -80,6 +80,24 @@ const upstashService = {
         return await axiosClient.get(url);
     },
 
+    // reviews
+    addReview : async (data) => {
+        const url = `/reviews/create`;
+        return await axiosClient.post(url, convertJsonToFormData(data), {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+
+    getAllReview : async () => {
+        const url =`/reviews/all`;
+        return await axiosClient.get(url)
+    },
+
+    deleteReview: async (reviewId) => {
+        const url = `/reviews/delete/${reviewId}`;
+        return await axiosClient.delete(url);
+    },
+
     // shuttles
     getShuttlesid : async (id) => {
         const url =`/shuttles/all?branchId=${id}`;
@@ -89,7 +107,8 @@ const upstashService = {
         const url =`/shuttle-bookings/book-shuttle/${branchId}/${shuttleId}/${userId}`;
         return await axiosClient.post(url,param);
     },
-//     book
+
+    //  book
     postbookingsRoom : async (param) => {
         const url ='/bookings/create';
         return await axiosClient.post(url , param)
@@ -98,6 +117,10 @@ const upstashService = {
     gethistoryshuttle : async (id) => {
         const url = `/shuttle-bookings/user/${id}`;
         return await axiosClient.get(url)
+    },
+    getIDbook : async (id) => {
+        const url =`/bookings/${id}`;
+        return await axiosClient.get(url);
     }
 }
 export default upstashService
