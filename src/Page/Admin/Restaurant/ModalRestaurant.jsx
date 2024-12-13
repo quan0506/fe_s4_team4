@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Input, Upload, Button, message, Select, Rate } from "antd";
+import { Modal, Input, Upload, Button, message, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
-const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, rooms }) => {
+const ModalRestaurant = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
     const [form, setForm] = useState(data || {});
     const [selectedImages, setSelectedImages] = useState([]);
     const [fileList, setFileList] = useState([]);
-    const [filteredRooms, setFilteredRooms] = useState([]);
 
     useEffect(() => {
         setForm(data || {});
@@ -18,35 +17,19 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
                 url: photo.url || photo,
             })) || []
         );
-
-        if (data?.branchId) {
-            const branchRooms = rooms.filter(room => room.branchId === data.branchId);
-            setFilteredRooms(branchRooms);
-        } else {
-            setFilteredRooms([]);
-        }
-    }, [data, rooms]);
+    }, [data]);
 
     const handleBranchChange = (value) => {
-        setForm({ ...form, branchId: value, roomId: null });
-        const branchRooms = rooms.filter(room => room.branchId === value);
-        setFilteredRooms(branchRooms);
+        setForm({...form, branchId: value});
     };
 
-    const handleRoomChange = (value) => {
-        setForm({ ...form, roomId: value });
-    };
 
     const handleSave = () => {
         const photos = fileList;
         const updatedData = { ...form, photos };
 
         if (!updatedData.branchId) {
-            message.error("Please select a spa.");
-            return;
-        }
-        if (!updatedData.roomId) {
-            message.error("Please select a room.");
+            message.error("Please select a branch.");
             return;
         }
 
@@ -58,7 +41,7 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => callback(reader.result);
-        reader.onerror = (error) => console.error("Error reading file:", error);
+        reader.onerror = (error) => console.error('Error reading file:', error);
     };
 
     const handlePreview = (file) => {
@@ -88,7 +71,7 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
 
     return (
         <Modal
-            title={type === "add" ? "Add Review" : "View Review"}
+            title={type === "add" ? "Add restaurant" : type === "edit" ? "Edit restaurant" : "View restaurant"}
             open={isModalVisible}
             onCancel={onClose}
             footer={
@@ -96,7 +79,9 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
                     <Button onClick={onClose}>Close</Button>
                 ) : (
                     <>
-                        <Button type="primary" onClick={handleSave}>Save</Button>
+                        <Button type="primary" onClick={handleSave}>
+                            Save
+                        </Button>
                         <Button onClick={onClose}>Cancel</Button>
                     </>
                 )
@@ -106,9 +91,10 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
                 <strong>Branch Name</strong>
                 <Select
                     value={form.branchId || ""}
+
                     onChange={handleBranchChange}
                     placeholder="Select Branch"
-                    style={{ width: "100%", marginBottom: 16 }}
+                    style={{width: '100%', marginBottom: 16}}
                 >
                     {branches.map((branch) => (
                         <Select.Option key={branch.id} value={branch.id}>
@@ -119,38 +105,48 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
             </label>
 
             <label>
-                <strong>Room Type</strong>
-                <Select
-                    value={form.roomId || ""}
-                    onChange={handleRoomChange}
-                    placeholder="Select Room"
-                    style={{ width: "100%", marginBottom: 16 }}
-                    disabled={!filteredRooms.length}
-                >
-                    {filteredRooms.map((room) => (
-                        <Select.Option key={room.id} value={room.id}>
-                            {room.roomType}
-                        </Select.Option>
-                    ))}
-                </Select>
-            </label>
-
-            <label>
-                <strong>Review Text</strong>
+                <strong>Restaurant Type</strong>
                 <Input
-                    value={form.reviewText || ""}
-                    onChange={(e) => setForm({ ...form, reviewText: e.target.value })}
-                    placeholder="Enter Review Text"
-                    style={{ marginBottom: 16 }}
+                    value={form.restaurantType || ""}
+                    onChange={(e) => setForm({...form, restaurantType: e.target.value})}
+                    placeholder="Enter Restaurant Type"
+                    style={{marginBottom: 16}}
                 />
             </label>
-
             <label>
-                <strong>Rating</strong>
-                <Rate
-                    value={form.rating}
-                    onChange={(value) => setForm({ ...form, rating: value })}
-                    style={{ marginBottom: 16 }}
+                <strong>Time</strong>
+                <Input
+                    value={form.time || ""}
+                    onChange={(e) => setForm({...form, time: e.target.value})}
+                    placeholder="Enter Time"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+            <label>
+                <strong>Adult Price</strong>
+                <Input
+                    value={form.restaurantAdultPrice || ""}
+                    onChange={(e) => setForm({...form, restaurantAdultPrice: e.target.value})}
+                    placeholder="Enter Adult Price"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+            <label>
+                <strong>Children Price</strong>
+                <Input
+                    value={form.restaurantChildrenPrice || ""}
+                    onChange={(e) => setForm({...form, restaurantChildrenPrice: e.target.value})}
+                    placeholder="Enter Children Price"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+            <label>
+                <strong>Description:</strong>
+                <Input
+                    value={form.restaurantDescription || ""}
+                    onChange={(e) => setForm({...form, restaurantDescription: e.target.value})}
+                    placeholder="Enter Restaurant Description"
+                    style={{marginBottom: 16}}
                 />
             </label>
 
@@ -158,16 +154,19 @@ const ModalReview = ({ type, data, isModalVisible, onClose, onSave, branches, ro
                 <strong>Upload Photos:</strong>
                 <Upload
                     listType="picture"
-                    beforeUpload={() => false}
+                    beforeUpload={(file) => {
+                        return false;
+                    }}
                     onChange={handleChange}
                     fileList={fileList}
                     onPreview={handlePreview}
                 >
-                    <Button icon={<UploadOutlined />}>Upload</Button>
+                    <Button icon={<UploadOutlined/>}>Upload</Button>
                 </Upload>
             </label>
         </Modal>
     );
 };
 
-export default ModalReview;
+export default ModalRestaurant;
+

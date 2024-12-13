@@ -117,6 +117,11 @@ export default function IndexRoom() {
             key: "id",
         },
         {
+            title: "Branch Name",
+            dataIndex: "branchName",
+            key: "branchName",
+        },
+        {
             title: "Room Type",
             dataIndex: "roomType",
             key: "roomType",
@@ -147,11 +152,6 @@ export default function IndexRoom() {
             title: "Description",
             dataIndex: "description",
             key: "description",
-        },
-        {
-            title: "Branch Name",
-            dataIndex: "branchName",
-            key: "branchName",
         },
         {
             title: "Bookings",

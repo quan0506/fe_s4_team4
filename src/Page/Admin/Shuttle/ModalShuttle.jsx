@@ -37,7 +37,6 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
         onSave(updatedData);
     };
 
-
     const getBase64 = (file, callback) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -72,7 +71,7 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
 
     return (
         <Modal
-            title={type === "add" ? "Add room" : type === "edit" ? "Edit room" : "View room"}
+            title={type === "add" ? "Add shuttle" : type === "edit" ? "Edit shuttle" : "View shuttle"}
             open={isModalVisible}
             onCancel={onClose}
             footer={
@@ -89,42 +88,32 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
             }
         >
             <label>
-                <strong>Room Type</strong>
+                <strong>Car Type</strong>
                 <Input
-                    value={form.roomType || ""}
-                    onChange={(e) => setForm({...form, roomType: e.target.value})}
-                    placeholder="Enter Room Type"
+                    value={form.carType || ""}
+                    onChange={(e) => setForm({...form, carType: e.target.value})}
+                    placeholder="Enter Car Type"
                     style={{marginBottom: 16}}
                 />
             </label>
             <label>
-                <strong>Room Price</strong>
+                <strong>Car Price</strong>
                 <Input
-                    value={form.roomPrice || ""}
-                    onChange={(e) => setForm({...form, roomPrice: e.target.value})}
-                    placeholder="Enter Room Price"
+                    value={form.carPrice || ""}
+                    onChange={(e) => setForm({...form, carPrice: e.target.value})}
+                    placeholder="Enter Car Price"
                     style={{marginBottom: 16}}
                 />
             </label>
             <label>
                 <strong>Description:</strong>
                 <Input
-                    value={form.description || ""}
-                    onChange={(e) => setForm({...form, description: e.target.value})}
-                    placeholder="Enter description"
+                    value={form.carDescription || ""}
+                    onChange={(e) => setForm({...form, carDescription: e.target.value})}
+                    placeholder="Enter Car Description"
                     style={{marginBottom: 16}}
                 />
             </label>
-
-            {/*<label>*/}
-            {/*    <strong>Brand Id</strong>*/}
-            {/*    <Input*/}
-            {/*        value={form.branchId || ""}*/}
-            {/*        onChange={(e) => setForm({...form, branchId: e.target.value})}*/}
-            {/*        placeholder="Enter Brand Id "*/}
-            {/*        style={{marginBottom: 16}}*/}
-            {/*    />*/}
-            {/*</label>*/}
 
             <label>
                 <strong>Branch Name</strong>
