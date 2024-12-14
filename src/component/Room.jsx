@@ -29,7 +29,6 @@ const Room = ({title,location,description,images,originalPrice,
   }
   const handleOpenRoomDetails = (roomId) => {
     setRoomID(roomId)
-    setOpen(true);
   };
   return (
     <>
@@ -135,7 +134,8 @@ const Room = ({title,location,description,images,originalPrice,
                 className="flex items-center gap-2 hover:bg-[#B4941F] border-none"
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleOpenRoomDetails(id); // Truyền id qua callback
+                  setOpen(true);
+                  handleOpenRoomDetails(id);
                 }}
               >
                 View Details

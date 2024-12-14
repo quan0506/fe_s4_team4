@@ -5,6 +5,7 @@ import { SlideButton } from "../SlideButton.jsx"
 import {Button, Col, Empty, Row} from "antd"
 import HeaderPega from "../HeaderPega.jsx";
 export default function Restaurant({api , handleRowClick}) {
+  console.log('api' , api)
   const slideRef = useRef(null)
   return (
     <>
@@ -23,7 +24,7 @@ export default function Restaurant({api , handleRowClick}) {
               <div key={index} className="h-auto md:h-[700px] w-full mt-8">
                 <div className="relative">
                   <img
-                    src={slide.carPhotoUrl}
+                    src={slide.photos[0]}
                     className="w-full h-[400px] object-cover sm:h-[500px] md:h-[600px]"
                   />
                   <div

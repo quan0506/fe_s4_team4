@@ -20,9 +20,10 @@ const Shuttles = () => {
   );
   const {user} = UserStore();
   const { isModalVisible, handleRowClick, handleModalClose, selectedNotification } = useModalHandlers(null);
+  console.log('selectedNotification' , selectedNotification)
   const handleOk = async () => {
     try {
-       await upstashService.postbookshuttle(selectedNotification?.branchId , selectedNotification?.id , user?.id ,{
+       await upstashService.postBookingShuttle(selectedNotification?.branchId , selectedNotification?.id , user?.id ,{
           shuttleCheckInDate:dateRange[0].toString(),
           shuttleCheckOutDate:dateRange[1].toString(),
         })
@@ -107,13 +108,15 @@ const Shuttles = () => {
               <label className="text-gray-400 text-sm font-medium block mb-2">
                 Hình ảnh xe
               </label>
-              <div
-                className="rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-[1.02] duration-300">
-                <Image
-                  src={selectedNotification?.carPhotoUrl}
-                  alt="Car Image"
-                  className="w-full h-full object-contain"
-                />
+              <div className="rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-[1.02] duration-300">
+                <Image.PreviewGroup
+                  items={selectedNotification?.photos}
+                >
+                  <Image
+                     width='w-full'
+                    src={selectedNotification?.photos[0]}
+                  />
+                </Image.PreviewGroup>
               </div>
             </div>
 

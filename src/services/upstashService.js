@@ -128,12 +128,7 @@ const upstashService = {
     // booking shuttle
     postBookingShuttle: async (branchId, shuttleId, userId, param) => {
         const url = `/shuttle-bookings/book-shuttle/${branchId}/${shuttleId}/${userId}`;
-        try {
-            return await axiosClient.post(url, param);
-        } catch (error) {
-            console.error("Error in postBookingShuttle:", error.response || error.message);
-            throw error;
-        }
+        return await axiosClient.post(url , param)
     },
 
     getAllBookingShuttle : async () => {

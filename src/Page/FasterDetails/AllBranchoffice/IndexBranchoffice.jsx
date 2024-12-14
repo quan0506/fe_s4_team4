@@ -31,13 +31,14 @@ const IndexBranchoffice = () => {
           <Col md={7}>
             <SearchBooking />
           </Col>
+
           <Col md={17}>
             {detailBranches?.rooms?.map((item) => (
               <div key={item.id}>
                 <Room
                   setOpen={() => {
-                    setCurrentRoomId(item.id); // Set room ID
-                    setOpen(true); // Open drawer
+                    setCurrentRoomId(item.id);
+                    setOpen(true);
                   }}
                   title={item?.roomType}
                   location="Ha Noi Hanoi"
@@ -47,6 +48,7 @@ const IndexBranchoffice = () => {
                   discountedPrice={item?.roomPrice}
                   rating={5}
                 />
+
                 <Drawer
                   title={<span className="text-[#D4AF37]">Room Details</span>}
                   open={open}
@@ -76,7 +78,9 @@ const IndexBranchoffice = () => {
                     />
                   }
                 >
-                  <Roomdetails id={currentRoomId} />
+                  <Roomdetails
+                    id={currentRoomId}
+                  />
                 </Drawer>
               </div>
             ))}

@@ -28,9 +28,7 @@ const Index = ({idbook}) => {
           listIDbook={listIDbook}
         />
       </div>
-
       <ShareButtons />
-
       <div className="text-center mb-12 relative">
         <h2 className="font-playfair text-2xl text-navy mb-8 inline-block relative">
           Trải nghiệm thêm dịch vụ của chúng tôi

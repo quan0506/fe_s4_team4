@@ -14,17 +14,13 @@ import Shuttles from "../Page/FasterDetails/Service/Shuttles.jsx"
 import IndexBranch from "../Page/Admin/Branch/IndexBranch";
 import IndexReview from "../Page/Admin/Review/IndexReview";
 import IndexRoom from "../Page/Admin/Room/IndexRoom";
-<<<<<<< HEAD
 import BookingHistory from "../component/History";
-import IndexShuttle from "../Page/Admin/Shuttle/IndexShuttle"
-=======
 import IndexShuttle from "../Page/Admin/Shuttle/IndexShuttle";
 import IndexSpa from "../Page/Admin/Spa/IndexSpa";
 import IndexRestaurant from  "../Page/Admin/Restaurant/IndexRestaurant";
-import IndexBookingShuttle from "../Page/Admin/BookingShuttle/IndexBookingShuttle";
-import IndexBookingSpa from "../Page/Admin/BookingSpa/IndexBookingSpa";
-import IndexBookingRestaurant from "../Page/Admin/BookingRestaurant/IndexBookingRestaurant";
->>>>>>> 0fabf96a91a64d72dda286de05f96199665b5f9c
+// import IndexBookingShuttle from "../Page/Admin/BookingShuttle/IndexBookingShuttle";
+// import IndexBookingSpa from "../Page/Admin/BookingSpa/IndexBookingSpa";
+// import IndexBookingRestaurant from "../Page/Admin/BookingRestaurant/IndexBookingRestaurant";
 
 const privateRoutes = {
   home: {
@@ -107,21 +103,19 @@ const privateRoutes = {
     component : IndexRestaurant
   },
 
-  IndexShuttleBooking: {
-    path: '/admin/shuttle-bookings',
-    component : IndexBookingShuttle
-  },
-
-  IndexShuttleRestaurant: {
-    path: '/admin/restaurant-bookings',
-    component : IndexBookingRestaurant
-  },
-
-  IndexShuttleSpa: {
-    path: '/admin/spa-bookings',
-    component : IndexBookingSpa
-  },
-
+  // IndexShuttleBooking: {
+  //   path: '/admin/shuttle-bookings',
+  //   component : IndexBookingShuttle
+  // },
+  //
+  // IndexShuttleRestaurant: {
+  //   path: '/admin/restaurant-bookings',
+  //   component : IndexBookingRestaurant
+  // },
+  // IndexShuttleSpa: {
+  //   path: '/admin/spa-bookings',
+  //   component : IndexBookingSpa
+  // },
 };
 
 export default privateRoutes;
