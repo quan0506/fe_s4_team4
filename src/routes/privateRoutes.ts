@@ -21,7 +21,7 @@ import IndexRestaurant from  "../Page/Admin/Restaurant/IndexRestaurant";
 import IndexBookingShuttle from "../Page/Admin/BookingShuttle/IndexBookingShuttle";
 import IndexBookingSpa from "../Page/Admin/BookingSpa/IndexBookingSpa";
 import IndexBookingRestaurant from "../Page/Admin/BookingRestaurant/IndexBookingRestaurant";
-
+import Restaurants from "../Page/FasterDetails/Service/Restaurants"
 const privateRoutes = {
   home: {
     path: '/',
@@ -30,6 +30,10 @@ const privateRoutes = {
   services : {
     path: '/fasterdetails/services/:id',
     component : Shuttles
+  },
+  Restaurants :{
+    path: '/fasterdetails/restaurants/:id',
+    component:Restaurants,
   },
   profile:{
     path: '/profile',

@@ -10,101 +10,7 @@ import { Eye } from 'lucide-react';
 import {useQuery} from "react-query";
 import upstashService from "../services/upstashService";
 import UserStore from "../constants/states/user.js"
-interface BookingHistoryProps {
-    bookings?: Array<{
-        id: string;
-        carInfo: {
-            name: string;
-            image: string;
-            licensePlate: string;
-        };
-        userInfo: {
-            name: string;
-            avatar: string;
-        };
-        locationInfo: {
-            name: string;
-            address: string;
-        };
-        timeInfo: {
-            startTime: string;
-            endTime: string;
-        };
-        status: 'completed' | 'cancelled' | 'ongoing';
-        description: string;
-    }>;
-}
-const defaultBookings = [
-    {
-        id: 'BK001',
-        carInfo: {
-            name: 'Toyota Camry',
-            image: '/placeholder.svg',
-            licensePlate: '29A-123.45',
-        },
-        userInfo: {
-            name: 'Nguyễn Văn A',
-            avatar: '/placeholder.svg',
-        },
-        locationInfo: {
-            name: 'Chi nhánh Hà Nội',
-            address: '123 Đường ABC, Hà Nội',
-        },
-        timeInfo: {
-            startTime: '2024-03-20T08:00:00Z',
-            endTime: '2024-03-27T08:00:00Z',
-        },
-        status: 'completed' as const,
-        description: 'Thuê xe 7 ngày',
-    },
-    {
-        id: 'BK002',
-        carInfo: {
-            name: 'Honda Civic',
-            image: '/placeholder.svg',
-            licensePlate: '30A-567.89',
-        },
-        userInfo: {
-            name: 'Trần Thị B',
-            avatar: '/placeholder.svg',
-        },
-        locationInfo: {
-            name: 'Chi nhánh HCM',
-            address: '456 Đường XYZ, HCM',
-        },
-        timeInfo: {
-            startTime: '2024-03-22T10:00:00Z',
-            endTime: '2024-03-25T10:00:00Z',
-        },
-        status: 'ongoing' as const,
-        description: 'Thuê xe 3 ngày',
-    },
-    {
-        id: 'BK003',
-        carInfo: {
-            name: 'Mazda 3',
-            image: '/placeholder.svg',
-            licensePlate: '31A-910.11',
-        },
-        userInfo: {
-            name: 'Lê Văn C',
-            avatar: '/placeholder.svg',
-        },
-        locationInfo: {
-            name: 'Chi nhánh Đà Nẵng',
-            address: '789 Đường DEF, Đà Nẵng',
-        },
-        timeInfo: {
-            startTime: '2024-03-21T09:00:00Z',
-            endTime: '2024-03-21T17:00:00Z',
-        },
-        status: 'cancelled' as const,
-        description: 'Đã hủy đơn',
-    },
-];
-export default function BookingHistory({
-                                           bookings = defaultBookings,
-                                       }: BookingHistoryProps) {
+export default function BookingHistory() {
     const [selectedBooking, setSelectedBooking] = useState<string | null>(null);
     const {user}=UserStore()
     const { data: listhistoryshuttle } = useQuery(
@@ -193,18 +99,14 @@ export default function BookingHistory({
                                     </div>
                                     <div className="flex items-center">
                                         <CalendarOutlined className="text-white text-xl"/>
-                                        <div className="ml-4 flex items-center space-x-2">
+                                        <div className="ml-4 flex items-center space-x-2 ">
                                             <div className="text-sm text-pink-200">
                                                 <span className="font-semibold">Bắt đầu: </span>
-                                                <span>{formatDateTime(booking?.timeInfo?.startTime).date}</span>
-                                                <span
-                                                    className="ml-2">{formatDateTime(booking?.timeInfo?.startTime)?.time}</span>
+                                                <span>{formatDateTime(booking?.shuttleCheckInDate).date}</span>
                                             </div>
                                             <div className="text-sm text-pink-200">
                                                 <span className="font-semibold">Kết thúc: </span>
-                                                <span>{formatDateTime(booking?.timeInfo?.endTime)?.date}</span>
-                                                <span
-                                                    className="ml-2">{formatDateTime(booking?.timeInfo?.endTime)?.time}</span>
+                                                <span>{formatDateTime(booking?.shuttleCheckOutDate).date}</span>
                                             </div>
                                         </div>
                                     </div>

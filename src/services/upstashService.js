@@ -174,7 +174,6 @@ const upstashService = {
         const url = `/spas/delete/${id}`;
         return await axiosClient.delete(url);
     },
-
     // booking-spa
 
     // restaurant
@@ -189,7 +188,6 @@ const upstashService = {
         const url =`/restaurants/get-all-restaurants`;
         return await axiosClient.get(url)
     },
-
     updateRestaurant : async (id, data) => {
         const url = `/restaurants/update/${id}`;
         return await axiosClient.put(url, convertJsonToFormData(data), {
@@ -202,7 +200,14 @@ const upstashService = {
         return await axiosClient.delete(url);
     },
 
-
+    getrestaurantbranchId : async (id) => {
+        const url =`/restaurants/all?branchId=${id}`;
+        return await axiosClient.get(url)
+    },
+    bookrestaurant : async (branchId , restaurantId , userId , param) => {
+        const url =`/restaurant-bookings/book-restaurant/${branchId}/${restaurantId}/${userId}`;
+        return await axiosClient.post(url , param)
+    },
     //  book
     postbookingsRoom : async (param) => {
         const url ='/bookings/create';

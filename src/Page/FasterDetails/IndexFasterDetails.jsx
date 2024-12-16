@@ -86,6 +86,9 @@ const IndexFasterDetails = () => {
                     text="Dịch vụ xe"
                   />
                   <CardWithMotion
+                    onClick={() => {
+                      navigate(`restaurants/${branch?.id}`);
+                    }}
                     icon={WandSparkles}
                     text="Spa"
                   />

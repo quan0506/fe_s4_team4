@@ -9,12 +9,16 @@ import ImageSlider from "./New/SileImg";
 import SileAutoImg from "./New/SileAutoImg.jsx";
 import Article from "./New/Article.jsx";
 import FooterComponent from "../../component/Footer.jsx";
+import {useQuery} from "react-query";
+import upstashService from "../../services/upstashService.js";
 const HomePage = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [currentSlide, setCurrentSlide] = useState(0);
   const [animateText, setAnimateText] = useState(false);
   const [isBlurring, setIsBlurring] = useState(false);
+
   const [roomSearchResults, setRoomSearchResults] = useState([]);
+
   const images = [
     "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
     "https://images.unsplash.com/photo-1582719508461-905c673771fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2025&q=80",
@@ -116,9 +120,9 @@ const HomePage = () => {
             ))}
           </div>
         </section>
-        <section className="absolute bottom-10 left-0 right-0 flex justify-center">
-          <RoomSearch handleSearchResult={handleSearchResult}/>
-        </section>
+        {/*<section className="absolute bottom-10 left-0 right-0 flex justify-center">*/}
+        {/*  <RoomSearch handleSearchResult={handleSearchResult}/>*/}
+        {/*</section>*/}
       </main>
       <div className="border-b">
         <Awards/>

@@ -1,58 +1,38 @@
 import Marquee from "react-fast-marquee";
-import { useState, useEffect } from "react";
+import { useState  } from "react";
+import { useQuery } from "react-query";
+import upstashService from "../../../services/upstashService.js";
 
 function SlideAutoImg() {
   const [isPaused, setIsPaused] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const images = [
-    { src: "./img1.webp", text: "Premium Design" },
-    { src: "./img1.webp", text: "Elegant Style" },
-    { src: "./img1.webp", text: "Modern Touch" },
-    { src: "./img1.webp", text: "Timeless Beauty" },
-    { src: "./img1.webp", text: "Perfect Detail" },
-    { src: "./img1.webp", text: "Pure Luxury" },
-    { src: "./img1.webp", text: "Classic Appeal" },
-    { src: "./img1.webp", text: "Refined Taste" },
-  ];
+  const { data: listAllroom } = useQuery(
+    "av.listAllroom",
+    () => upstashService.getAllRoom()
+  );
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 500);
 
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
-    <div
-      className="w-full overflow-hidden bg-white"
-    >
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="w-full overflow-hidden bg-white">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="marquee-container">
-          <Marquee
-            gradient={false}
-            speed={40}
-            pauseOnHover={true}
-            play={!isPaused}
-          >
-            {images.map((item, index) => (
-              <div
-                key={index}
-                className="image-card"
-              >
+          <Marquee gradient={false} speed={40} pauseOnHover={true} play={!isPaused}>
+            {listAllroom?.map((room, index) => (
+              <div key={index} className="image-card">
                 <div className="image-wrapper">
                   <img
-                    src={item.src}
-                    alt={`Image ${index + 1}`}
+                    src={room.photos[1] || "./img1.webp"}
+                    alt={`Room ${index + 1}`}
                     className={`image ${isLoaded ? "loaded" : ""}`}
                     loading="lazy"
                     onLoad={() => {
                       const img = new Image();
-                      img.src = item.src;
+                      img.src = room.photos[1] || "./img1.webp"; // Ensure the image is preloaded
                     }}
                   />
                   <div className="image-overlay">
-                    <span className="image-text">{item.text}</span>
+                    <span className="image-text">{room.roomType || "Default Text"}</span> {/* Use room.text or fallback */}
                   </div>
                 </div>
               </div>

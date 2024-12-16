@@ -15,7 +15,6 @@ export default function HotelCard() {
     "av.listAllroom",
     () => upstashService.getAllRoom()
   );
-  console.log('listAllroom' , listAllroom)
   if (isLoading) {
     return <Spin size="large" />;
   }

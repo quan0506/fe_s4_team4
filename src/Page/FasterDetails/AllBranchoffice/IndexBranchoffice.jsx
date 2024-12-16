@@ -15,7 +15,6 @@ const IndexBranchoffice = () => {
     "av.detailBranchesID",
     () => upstashService.getBranchesid(id)
   );
-  // State to manage Drawer open state and current room ID
   const [open, setOpen] = useState(false);
   const [currentRoomId, setCurrentRoomId] = useState(null);
   return (
@@ -26,12 +25,10 @@ const IndexBranchoffice = () => {
           backgroundImage="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
           description={`Trải nghiệm sự sang trọng cùng chi nhánh ${detailBranches?.address}`}
         />
-
         <Row className="p-4" gutter={16}>
           <Col md={7}>
             <SearchBooking />
           </Col>
-
           <Col md={17}>
             {detailBranches?.rooms?.map((item) => (
               <div key={item.id}>
