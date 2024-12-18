@@ -16,6 +16,7 @@ const Shuttles = () => {
     () => upstashService.getShuttlesid(id)
   );
   const {user} = UserStore();
+
   const { isModalVisible, handleRowClick, handleModalClose, selectedNotification } = useModalHandlers(null);
   const handleOk = async () => {
     try {

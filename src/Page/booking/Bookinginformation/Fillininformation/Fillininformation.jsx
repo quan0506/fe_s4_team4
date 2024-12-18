@@ -43,8 +43,8 @@ const Fillininformation = ({ setCurrentStep, setStartDate, setDiscountcode,
          checkOutDate: checkOutDateISO,
          adults: adults, // Số người lớn
          children: children, // Số trẻ em
-         paymentMethod: paymentMethod, // Phương thức thanh toán
-         confirmBookingCode: discountcode, // Mã giảm giá (nếu có)
+         // paymentMethod: paymentMethod, // Phương thức thanh toán
+         // confirmBookingCode: discountcode, // Mã giảm giá (nếu có)
          status: ""
      });
      setIdbook(res?.bookingId)

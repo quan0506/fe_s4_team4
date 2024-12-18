@@ -4,12 +4,16 @@ import { User, Menu, X, Gift ,ArrowRightFromLine } from 'lucide-react';
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import upstashService from "../../../services/upstashService.js";
 import {UserOutlined} from "@ant-design/icons";
-
+import { Bed } from 'lucide-react';
+import { CalendarClock } from 'lucide-react';
+import UserStore from "../../../constants/states/user.js";
 const HeaderHome = () => {
+  const {user}=UserStore()
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const token = localStorage.getItem("accessToken");
+  console.log(user)
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -49,8 +53,13 @@ const HeaderHome = () => {
   const items = [
     {
       key: '1',
-      label: 'Tên khách hàng ',
+      label: `${user.lastName}`,
       icon: <User />,
+    },
+    {
+      key: '3',
+      label:<Link to='/bookinghistory/room'>Lịch sử hoạt động</Link>,
+      icon: <CalendarClock  />,
     },
     ...(token ? [
       {
@@ -58,6 +67,7 @@ const HeaderHome = () => {
         label: <div onClick={handleLogout}>Đăng xuất</div>,
         icon: <ArrowRightFromLine size={20} />,
       },
+
     ] : []),
   ];
 

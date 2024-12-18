@@ -210,3 +210,21 @@ input::placeholder , .ant-picker .ant-picker-input >input{
 .ant-modal .ant-modal-content{
     background-color: rgb(49 54 66);
 }
+.ant-segmented {
+        .ant-segmented-item {
+        border-radius: 999px;
+        color: #faad14;
+    }
+
+    .ant-segmented-item:hover {
+        color: #faad14 !important;
+    }
+
+    .ant-segmented-item-selected {
+        color: #000 !important;
+        border-radius: 999px;
+        pointer-events: none;
+    }
+}
+
+

@@ -22,6 +22,8 @@ import IndexBookingShuttle from "../Page/Admin/BookingShuttle/IndexBookingShuttl
 import IndexBookingSpa from "../Page/Admin/BookingSpa/IndexBookingSpa";
 import IndexBookingRestaurant from "../Page/Admin/BookingRestaurant/IndexBookingRestaurant";
 import Restaurants from "../Page/FasterDetails/Service/Restaurants"
+import HistoryShuttle from "../Page/History/Shuttle"
+import HistoryRoomuser from '../Page/History/roomuser'
 const privateRoutes = {
   home: {
     path: '/',
@@ -70,7 +72,11 @@ const privateRoutes = {
   // BookingHistory
   BookingHistory: {
     path: '/bookinghistory/shuttle',
-    component: BookingHistory,
+    component: HistoryShuttle,
+  },
+  BookingHistoryroom: {
+    path: '/bookinghistory/room',
+    component: HistoryRoomuser,
   },
   // Admin
   indexAdmin : {

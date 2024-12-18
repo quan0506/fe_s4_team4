@@ -25,7 +25,7 @@ const Login = () => {
         navigate('/');
     } catch (error) {
       console.log(error?.response?.data?.message);
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data || error.message);
     }
   };
   return (
@@ -50,6 +50,7 @@ const Login = () => {
               className=" bg-transparent border-b border-white/30 focus:border-white text-white placeholder-white/70 w-full"
             />
           </Form.Item>
+
           <Form.Item
             name="password"
             rules={[{required: true, message: 'Please input your Password!'}]}
@@ -62,9 +63,8 @@ const Login = () => {
           </Form.Item>
 
           <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center space-x-2">
-              <Checkbox id="remember" className="border-white/30"/>
-              <label htmlFor="remember" className="text-white/70">Remember Me</label>
+            <div>
+              <Link to='/forgot-password' className="text-white hover:underline">Quên mật khẩu</Link>
             </div>
           </div>
           <Button htmlType="submit" className="w-full bg-white text-blue-900 hover:bg-blue-100">Submit</Button>

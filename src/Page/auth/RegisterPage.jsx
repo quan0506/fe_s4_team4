@@ -10,15 +10,14 @@ function RegisterPage() {
     const [form] = Form.useForm();
     const handleSubmit = async (values) => {
         try {
-            const response = await upstashService.registerUser({
+             await upstashService.registerUser({
                 ...values
             });
-            console.log(response)
                 toast.success('User registered successfully');
                 navigate('/login')
         } catch (error) {
             console.log(error)
-            toast.error(error.response?.data);
+            toast.error(error?.response?.data || error.message);
         }
     };
     useEffect(() => {

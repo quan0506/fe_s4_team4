@@ -53,7 +53,6 @@ const ModalBookingShuttle = ({ type, data, isModalVisible, onClose, onSave, bran
             shuttleCheckOutDate: moment(form.shuttleCheckOutDate).format("YYYY-MM-DD"),
         };
 
-        console.log("Data before send:", updatedData);
         onSave({
             data: updatedData,
             branchId: form.branchId,

@@ -1,5 +1,6 @@
 import axiosClient from "./axiosClient";
 import convertJsonToFormData from "../Page/Admin/convertData.js";
+import ForgotPassword from "../Page/auth/ForgotPassword.jsx";
 
 const upstashService = {
     // me
@@ -12,10 +13,17 @@ const upstashService = {
         return await axiosClient.post( url , param)
       },
     registerUser : async (param) => {
-        const url ='/auth/register-user?role=USER';
+        const url ='/auth/register-user?role=ROLE_USER';
         return await axiosClient.post( url , param)
     },
-
+    forgotPassword : async (email) => {
+        const url =`/auth/send-forgot-password-code?email=${email}` ;
+        return await axiosClient.post( url)
+    },
+    formresetpassword: async (param) => {
+        const url='/auth/reset-password-no-auth'
+        return await axiosClient.post( url, param)
+    },
     // Branch
     addBranch: async (data) => {
         const url = '/admin/branches/add';
@@ -175,6 +183,20 @@ const upstashService = {
         return await axiosClient.delete(url);
     },
     // booking-spa
+    postBookingSpa: async (branchId, spaId, userId, param) => {
+        const url = `/spa-bookings/book-spa/${branchId}/${spaId}/${userId}`;
+        return await axiosClient.post(url , param)
+    },
+
+    getAllBookingSpa : async () => {
+        const url =`/spa-bookings/all-bookings`;
+        return await axiosClient.get(url)
+    },
+
+    deleteBookingSpa: async ( branchId, id) => {
+        const url = `/spa-bookings/cancel/${branchId}/${id}`;
+        return await axiosClient.delete(url);
+    },
 
     // restaurant
     addRestaurant : async (data) => {
@@ -183,7 +205,6 @@ const upstashService = {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
     },
-
     getAllRestaurant : async () => {
         const url =`/restaurants/get-all-restaurants`;
         return await axiosClient.get(url)
@@ -194,7 +215,6 @@ const upstashService = {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
     },
-
     deleteRestaurant: async (id) => {
         const url = `/restaurants/delete/${id}`;
         return await axiosClient.delete(url);
@@ -208,6 +228,24 @@ const upstashService = {
         const url =`/restaurant-bookings/book-restaurant/${branchId}/${restaurantId}/${userId}`;
         return await axiosClient.post(url , param)
     },
+
+    // booking restaurant
+    postBookingRestaurant: async (branchId, restaurantId, userId, param) => {
+        const url = `/restaurant-bookings/book-restaurant/${branchId}/${restaurantId}/${userId}`;
+        return await axiosClient.post(url , param)
+    },
+
+    getAllBookingRestaurant : async () => {
+        const url =`/restaurant-bookings/all-bookings`;
+        return await axiosClient.get(url)
+    },
+
+    deleteBookingRestaurant: async (id, branchId) => {
+        const url = `/restaurant-bookings/cancel/${branchId}/${id}`;
+        return await axiosClient.delete(url);
+    },
+
+
     //  book
     postbookingsRoom : async (param) => {
         const url ='/bookings/create';
@@ -221,6 +259,10 @@ const upstashService = {
     getIDbook : async (id) => {
         const url =`/bookings/${id}`;
         return await axiosClient.get(url);
+    },
+    gethistorybookings : async (id) => {
+        const url =`/bookings/user/${id}`;
+        return await axiosClient.get(url)
     }
 }
 export default upstashService
