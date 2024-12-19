@@ -66,22 +66,27 @@ export default function IndexBookingSpa() {
         setCurrentBookingSpa(null);
         setIsModalVisible(true);
     };
-
     const handleDelete = async (id, branchId) => {
         console.log("Deleting booking spa:", id, branchId);
         Modal.confirm({
             title: "Are you sure you want to delete this booking spa?",
             onOk: async () => {
                 try {
-                    await upstashService.deleteBookingSpa(id, branchId);
+                    if (!branchId) {
+                        message.error("Branch ID is missing!");
+                        return;
+                    }
+                    await upstashService.deleteBookingSpa(branchId, id);
                     message.success("Booking spa deleted successfully!");
                     fetchBookingSpas();
                 } catch (error) {
-                    message.error("Failed to delete delete booking spa:!");
+                    console.error("Failed to delete booking spa:", error);
+                    message.error("Failed to delete booking spa!");
                 }
             },
         });
     };
+
 
     const handleSave = async ({ data, branchId, spaId }) => {
         try {
@@ -94,7 +99,6 @@ export default function IndexBookingSpa() {
             console.error("Error during saving:", error?.response?.data || error.message);
             message.error(error?.response?.data?.message || "Failed to save booking!");
         }
-
     };
 
     useEffect(() => {
@@ -124,10 +128,15 @@ export default function IndexBookingSpa() {
             dataIndex: "spaServiceName",
             key: "spaServiceName",
         },
+        // {
+        //     title: "spaServicePrice",
+        //     dataIndex: "spaServicePrice",
+        //     key: "spaServicePrice",
+        // },
         {
-            title: "spaServicePrice",
-            dataIndex: "spaServicePrice",
-            key: "spaServicePrice",
+            title: "description",
+            dataIndex: "description",
+            key: "description",
         },
         {
             title: "spaServiceTime",
@@ -158,6 +167,11 @@ export default function IndexBookingSpa() {
             dataIndex: "phone",
             key: "phone",
         },
+        // {
+        //     title: "userEmail",
+        //     dataIndex: "userEmail",
+        //     key: "userEmail",
+        // },
         {
             title: "Actions",
             key: "actions",
@@ -165,12 +179,13 @@ export default function IndexBookingSpa() {
                 <Space>
                     <Button
                         icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(bookingSpa.id, bookingSpa.branchId)}
+                        onClick={() => handleDelete(bookingSpa.id, bookingSpa.spa?.branchId)}
                         danger
                     />
                 </Space>
             ),
-        },
+        }
+
     ];
 
     const branchMenuItems = [

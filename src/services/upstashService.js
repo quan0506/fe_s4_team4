@@ -2,7 +2,6 @@ import axiosClient from "./axiosClient";
 import convertJsonToFormData from "../Page/Admin/convertData.js";
 
 const upstashService = {
-    // me
     getme :async () => {
         const url = `/users/me`;
         return await   axiosClient.get(url);
