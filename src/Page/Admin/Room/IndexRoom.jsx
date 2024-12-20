@@ -28,12 +28,12 @@ export default function IndexRoom() {
                 ...room,
                 branchName: branchMap[room.branchId] || "Unknown",
                 photos: Array.isArray(room.photos)
-                    ? room.photos.map((photo) =>
-                        typeof photo === "string" ? photo : photo.url
-                    )
-                    : typeof room.photos === "string"
-                        ? room.photos.split(", ")
-                        : [],
+                  ? room.photos.map((photo) =>
+                    typeof photo === "string" ? photo : photo.url
+                  )
+                  : typeof room.photos === "string"
+                    ? room.photos.split(", ")
+                    : [],
             }));
             setListRoom(normalizedData);
         } catch (error) {
@@ -67,13 +67,13 @@ export default function IndexRoom() {
         const roomWithPhotos = {
             ...room,
             photos: Array.isArray(room.photos)
-                ? room.photos.map((url, index) => ({
-                    uid: index.toString(),
-                    name: `Photo ${index + 1}`,
-                    status: "done",
-                    url,
-                }))
-                : [],
+              ? room.photos.map((url, index) => ({
+                  uid: index.toString(),
+                  name: `Photo ${index + 1}`,
+                  status: "done",
+                  url,
+              }))
+              : [],
         };
         setCurrentRoom(roomWithPhotos);
         setIsModalVisible(true);
@@ -136,16 +136,16 @@ export default function IndexRoom() {
             dataIndex: "photos",
             key: "photos",
             render: (photos) => (
-                <div style={{ gap: "8px" }}>
-                    {photos.map((url, index) => (
-                        <img
-                            key={index}
-                            src={url}
-                            alt={`Room Photo ${index + 1}`}
-                            style={{ width: 50, height: 50, objectFit: "cover", borderRadius: "4px" }}
-                        />
-                    ))}
-                </div>
+              <div style={{ gap: "8px" }}>
+                  {photos.map((url, index) => (
+                    <img
+                      key={index}
+                      src={url}
+                      alt={`Room Photo ${index + 1}`}
+                      style={{ width: 50, height: 50, objectFit: "cover", borderRadius: "4px" }}
+                    />
+                  ))}
+              </div>
             ),
         },
         {
@@ -167,18 +167,18 @@ export default function IndexRoom() {
             title: "Actions",
             key: "actions",
             render: (_, room) => (
-                <Space>
-                    <Button
-                        icon={<EditOutlined />}
-                        onClick={() => handleEdit(room)}
-                        type="primary"
-                    />
-                    <Button
-                        icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(room.id)}
-                        danger
-                    />
-                </Space>
+              <Space>
+                  <Button
+                    icon={<EditOutlined />}
+                    onClick={() => handleEdit(room)}
+                    type="primary"
+                  />
+                  <Button
+                    icon={<DeleteOutlined />}
+                    onClick={() => handleDelete(room.id)}
+                    danger
+                  />
+              </Space>
             ),
         },
     ];
@@ -189,38 +189,38 @@ export default function IndexRoom() {
     ];
 
     return (
-        <div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-                <Input
-                    placeholder="Search by ID"
-                    value={searchId}
-                    onChange={(e) => setSearchId(e.target.value)}
-                    style={{ width: "30%" }}
-                />
-                <Dropdown
-                    menu={{
-                        items: branchMenuItems,
-                        onClick: ({ key }) => setSelectedBranch(key === "all" ? null : key),
-                    }}
-                >
-                    <Button>{selectedBranch || "Filter by Branch"}</Button>
-                </Dropdown>
+      <div>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+              <Input
+                placeholder="Search by ID"
+                value={searchId}
+                onChange={(e) => setSearchId(e.target.value)}
+                style={{ width: "30%" }}
+              />
+              <Dropdown
+                menu={{
+                    items: branchMenuItems,
+                    onClick: ({ key }) => setSelectedBranch(key === "all" ? null : key),
+                }}
+              >
+                  <Button>{selectedBranch || "Filter by Branch"}</Button>
+              </Dropdown>
 
-                <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-                    Add Room
-                </Button>
-            </div>
+              <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+                  Add Room
+              </Button>
+          </div>
 
-            <Table columns={columns} dataSource={filteredRooms} rowKey="id" />
+          <Table columns={columns} dataSource={filteredRooms} rowKey="id" />
 
-            <ModalRoom
-                type={modalType}
-                data={currentRoom}
-                isModalVisible={isModalVisible}
-                onClose={() => setIsModalVisible(false)}
-                onSave={handleSave}
-                branches={branches}
-            />
-        </div>
+          <ModalRoom
+            type={modalType}
+            data={currentRoom}
+            isModalVisible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+            onSave={handleSave}
+            branches={branches}
+          />
+      </div>
     );
 }

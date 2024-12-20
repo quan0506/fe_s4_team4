@@ -6,3 +6,65 @@
         color: black !important;
         box-shadow: 0 1.6rem 3rem rgba(0, 0, 0, 0.1);
     }
+    .page-title {
+        margin-bottom: 24px !important;
+        color: #1890ff;
+    }
+
+    .search-add-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .branch-table {
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+
+    .ant-table-thead > tr > th {
+        background-color: #fafafa;
+        font-weight: 600;
+    }
+
+    .ant-table-tbody > tr > td {
+        padding: 16px 8px;
+    }
+
+    .ant-carousel .slick-slide {
+        text-align: center;
+        background: #364d79;
+        overflow: hidden;
+    }
+
+    .ant-btn-primary {
+        background-color: #1890ff;
+        border-color: #1890ff;
+    }
+
+    .ant-btn-primary:hover {
+        background-color: #40a9ff;
+        border-color: #40a9ff;
+    }
+
+    .ant-btn-dangerous {
+        background-color: #ff4d4f;
+        border-color: #ff4d4f;
+    }
+
+    .ant-btn-dangerous:hover {
+        background-color: #ff7875;
+        border-color: #ff7875;
+    }
+
+    .ant-typography {
+        margin-bottom: 0 !important;
+    }
+
+    .ant-tooltip {
+        max-width: 300px;
+    }
+

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Input, Modal, Space, message, Carousel } from "antd";
-import { EditOutlined, DeleteOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { Table, Button, Input, Modal, Space, message, Carousel, Typography, Card, Tooltip } from "antd";
+import { EditOutlined, DeleteOutlined, PlusOutlined, SearchOutlined, BranchesOutlined } from "@ant-design/icons";
 import upstashService from "../../../services/upstashService.js";
 import ModalBranch from "./ModalBranch";
+
+const { Title, Paragraph } = Typography;
 
 export default function IndexBranch() {
     const [listBranch, setListBranch] = useState([]);
@@ -17,10 +19,10 @@ export default function IndexBranch() {
             const normalizedData = branches.map(branch => ({
                 ...branch,
                 photos: Array.isArray(branch.photos)
-                    ? branch.photos.map(photo =>
-                        typeof photo === "string" ? photo : photo.url
-                    )
-                    : (typeof branch.photos === 'string' ? branch.photos.split(", ") : []),
+                  ? branch.photos.map(photo =>
+                    typeof photo === "string" ? photo : photo.url
+                  )
+                  : (typeof branch.photos === 'string' ? branch.photos.split(", ") : []),
             }));
             setListBranch(normalizedData);
         } catch (error) {
@@ -68,13 +70,13 @@ export default function IndexBranch() {
         const branchWithPhotos = {
             ...branch,
             photos: Array.isArray(branch.photos)
-                ? branch.photos.map((url, index) => ({
-                    uid: index.toString(),
-                    name: `Photo ${index + 1}`,
-                    status: "done",
-                    url,
-                }))
-                : [],
+              ? branch.photos.map((url, index) => ({
+                  uid: index.toString(),
+                  name: `Photo ${index + 1}`,
+                  status: "done",
+                  url,
+              }))
+              : [],
         };
         setCurrentBranch(branchWithPhotos);
         setIsModalVisible(true);
@@ -96,7 +98,6 @@ export default function IndexBranch() {
         }
     };
 
-
     useEffect(() => {
         fetchBranches();
     }, []);
@@ -106,122 +107,148 @@ export default function IndexBranch() {
             title: "ID",
             dataIndex: "id",
             key: "id",
+            width: 80,
         },
         {
             title: "Branch Name",
             dataIndex: "branchName",
             key: "branchName",
+            width: 150,
+            render: (text) => (
+              <Tooltip title={text}>
+                  <Paragraph ellipsis={{ rows: 2, expandable: false, symbol: '...' }}>
+                      {text}
+                  </Paragraph>
+              </Tooltip>
+            ),
         },
         {
             title: "Location",
             dataIndex: "location",
             key: "location",
+            width: 120,
+            render: (text) => (
+              <Tooltip title={text}>
+                  <Paragraph ellipsis={{ rows: 2, expandable: false, symbol: '...' }}>
+                      {text}
+                  </Paragraph>
+              </Tooltip>
+            ),
         },
-        // {
-        //     title: "Photos",
-        //     dataIndex: "photos",
-        //     key: "photos",
-        //     render: (photos) => (
-        //         <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
-        //             {photos.map((url, index) => (
-        //                 <img
-        //                     key={index}
-        //                     src={url}
-        //                     alt={`Branch Photo ${index + 1}`}
-        //                     style={{
-        //                         width: 50,
-        //                         height: 50,
-        //                         objectFit: "cover",
-        //                         borderRadius: "4px",
-        //                     }}
-        //                 />
-        //             ))}
-        //         </div>
-        //     ),
-        // },
         {
             title: "Photos",
             dataIndex: "photos",
             key: "photos",
+            width: 120,
             render: (photos) => (
-                <div style={{ width: 100 }}>
-                    <Carousel autoplay>
-                        {photos.map((url, index) => (
-                            <div key={index}>
-                                <img
-                                    src={url}
-                                    alt={`Branch Photo ${index + 1}`}
-                                    style={{
-                                        width: "100%",
-                                        height: 50,
-                                        objectFit: "cover",
-                                        borderRadius: "4px",
-                                    }}
-                                />
-                            </div>
-                        ))}
-                    </Carousel>
-                </div>
+              <div style={{ width: 120 }}>
+                  <Carousel autoplay>
+                      {photos.map((url, index) => (
+                        <div key={index}>
+                            <img
+                              src={url}
+                              alt={`Branch Photo ${index + 1}`}
+                              style={{
+                                  width: "100%",
+                                  height: 80,
+                                  objectFit: "cover",
+                                  borderRadius: "8px",
+                              }}
+                            />
+                        </div>
+                      ))}
+                  </Carousel>
+              </div>
             ),
         },
         {
             title: "Description",
             dataIndex: "description",
             key: "description",
+            width: 200,
+            render: (text) => (
+              <Tooltip title={text}>
+                  <Paragraph ellipsis={{ rows: 2, expandable: false, symbol: '...' }}>
+                      {text}
+                  </Paragraph>
+              </Tooltip>
+            ),
         },
         {
             title: "Address",
             dataIndex: "address",
             key: "address",
+            width: 200,
+            render: (text) => (
+              <Tooltip title={text}>
+                  <Paragraph ellipsis={{ rows: 2, expandable: false, symbol: '...' }}>
+                      {text}
+                  </Paragraph>
+              </Tooltip>
+            ),
         },
         {
             title: "Created At",
             dataIndex: "createdAt",
             key: "createdAt",
+            width: 120,
             render: (date) => new Date(date).toLocaleDateString(),
         },
         {
             title: "Actions",
             key: "actions",
+            width: 100,
             render: (_, branch) => (
-                <Space>
-                    <Button
-                        icon={<EditOutlined />}
-                        onClick={() => handleEdit(branch)}
-                        type="primary"
-                    />
-                    <Button
-                        icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(branch.id)}
-                        danger
-                    />
-                </Space>
+              <Space>
+                  <Button
+                    icon={<EditOutlined />}
+                    onClick={() => handleEdit(branch)}
+                    type="primary"
+                    shape="circle"
+                  />
+                  <Button
+                    icon={<DeleteOutlined />}
+                    onClick={() => handleDelete(branch.id)}
+                    danger
+                    shape="circle"
+                  />
+              </Space>
             ),
         },
     ];
 
     return (
-        <div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-                <Input
-                    placeholder="Search by ID"
-                    value={searchId}
-                    onChange={(e) => setSearchId(e.target.value)}
-                    style={{ width: "30%" }}
-                    suffix={<SearchOutlined onClick={handleSearch} />}
-                />
-                <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-                    Add Branch
-                </Button>
-            </div>
-            <Table columns={columns} dataSource={listBranch} rowKey="id" />
-            <ModalBranch
-                type={modalType}
-                data={currentBranch}
-                isModalVisible={isModalVisible}
-                onClose={() => setIsModalVisible(false)}
-                onSave={handleSave}
-            />
-        </div>
+      <div className="branch-management">
+          <Title level={2} className="page-title">
+              <BranchesOutlined /> Branch Management
+          </Title>
+          <div className='mb-3 flexs' >
+              <Input
+                placeholder="Search by ID"
+                value={searchId}
+                onChange={(e) => setSearchId(e.target.value)}
+                style={{ width: "300px" }}
+                suffix={<SearchOutlined onClick={handleSearch} />}
+              />
+              <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+                  Add Branch
+              </Button>
+          </div>
+          <Table
+            columns={columns}
+            dataSource={listBranch}
+            rowKey="id"
+            className="branch-table"
+            scroll={{ x: 1200 }}
+          />
+          <ModalBranch
+            type={modalType}
+            data={currentBranch}
+            isModalVisible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+            onSave={handleSave}
+          />
+      </div>
     );
 }
+
