@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, Space, message, Dropdown, Input } from "antd";
+import {Table, Button, Modal, Space, message, Dropdown, Input, Tooltip, Typography} from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import upstashService from "../../../services/upstashService.js";
 import ModalRoom from "./ModalRoom";
+import '../index.css'
+const { Title, Paragraph } = Typography;
 
 export default function IndexRoom() {
     const [listRoom, setListRoom] = useState([]);
@@ -152,6 +154,13 @@ export default function IndexRoom() {
             title: "Description",
             dataIndex: "description",
             key: "description",
+            render: (text) => (
+                <Tooltip title={text}>
+                    <Paragraph ellipsis={{rows: 2, expandable: false, symbol: '...'}}>
+                        {text}
+                    </Paragraph>
+                </Tooltip>
+            )
         },
         {
             title: "Bookings",
@@ -172,11 +181,15 @@ export default function IndexRoom() {
                     icon={<EditOutlined />}
                     onClick={() => handleEdit(room)}
                     type="primary"
+                    shape="circle"
+
                   />
                   <Button
                     icon={<DeleteOutlined />}
                     onClick={() => handleDelete(room.id)}
                     danger
+                    shape="circle"
+
                   />
               </Space>
             ),
@@ -189,38 +202,42 @@ export default function IndexRoom() {
     ];
 
     return (
-      <div>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-              <Input
-                placeholder="Search by ID"
-                value={searchId}
-                onChange={(e) => setSearchId(e.target.value)}
-                style={{ width: "30%" }}
-              />
-              <Dropdown
-                menu={{
-                    items: branchMenuItems,
-                    onClick: ({ key }) => setSelectedBranch(key === "all" ? null : key),
-                }}
-              >
-                  <Button>{selectedBranch || "Filter by Branch"}</Button>
-              </Dropdown>
+        <div className="branch-management">
 
-              <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-                  Add Room
-              </Button>
-          </div>
+            <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
+                <Input
+                    placeholder="Search by ID"
+                    value={searchId}
+                    onChange={(e) => setSearchId(e.target.value)}
+                    style={{width: "30%"}}
+                />
+                <Dropdown
+                    menu={{
+                        items: branchMenuItems,
+                        onClick: ({key}) => setSelectedBranch(key === "all" ? null : key),
+                    }}
+                >
+                    <Button>{selectedBranch || "Filter by Branch"}</Button>
+                </Dropdown>
 
-          <Table columns={columns} dataSource={filteredRooms} rowKey="id" />
+                <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>
+                    Add Room
+                </Button>
+            </div>
 
-          <ModalRoom
-            type={modalType}
-            data={currentRoom}
-            isModalVisible={isModalVisible}
-            onClose={() => setIsModalVisible(false)}
-            onSave={handleSave}
-            branches={branches}
-          />
-      </div>
+            <Table
+                className="branch-table"
+                scroll={{x: 1200}}
+                columns={columns} dataSource={filteredRooms} rowKey="id"/>
+
+            <ModalRoom
+                type={modalType}
+                data={currentRoom}
+                isModalVisible={isModalVisible}
+                onClose={() => setIsModalVisible(false)}
+                onSave={handleSave}
+                branches={branches}
+            />
+        </div>
     );
 }

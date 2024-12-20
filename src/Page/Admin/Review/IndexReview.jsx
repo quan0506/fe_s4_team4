@@ -216,8 +216,13 @@ export default function IndexReview() {
                 </div>
             </div>
 
-            <Table columns={columns} dataSource={filteredReviews} rowKey="id" />
-
+            <Table
+                columns={columns}
+                dataSource={filteredReviews}
+                rowKey="id"
+                className="branch-table"
+                scroll={{ x: 1200 }}
+            />
             <ModalReview
                 type={modalType}
                 data={currentReview}

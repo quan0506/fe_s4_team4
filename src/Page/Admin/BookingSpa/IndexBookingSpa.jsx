@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, Space, message, Dropdown, Input } from "antd";
+import {Table, Button, Modal, Space, message, Dropdown, Input, Tooltip, Typography} from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import upstashService from "../../../services/upstashService.js";
 import ModalBookingSpa from "./ModalBookingSpa";
+import '../index.css'
+const { Title, Paragraph } = Typography;
 
 export default function IndexBookingSpa() {
     const [listBookingSpa, setListBookingSpa] = useState([]);
@@ -137,6 +139,14 @@ export default function IndexBookingSpa() {
             title: "description",
             dataIndex: "description",
             key: "description",
+            width: 200,
+            render: (text) => (
+                <Tooltip title={text}>
+                    <Paragraph ellipsis={{ rows: 2, expandable: false, symbol: '...' }}>
+                        {text}
+                    </Paragraph>
+                </Tooltip>
+            )
         },
         {
             title: "spaServiceTime",
@@ -199,7 +209,7 @@ export default function IndexBookingSpa() {
     ];
 
     return (
-        <div>
+        <div className="branch-management">
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
                 <Dropdown
                     menu={{
@@ -225,7 +235,10 @@ export default function IndexBookingSpa() {
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={filteredBookingSpas} rowKey="id" />
+            <Table
+                className="branch-table"
+                scroll={{ x: 1200 }}
+                columns={columns} dataSource={filteredBookingSpas} rowKey="id" />
 
             <ModalBookingSpa
                 type={modalType}

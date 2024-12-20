@@ -207,9 +207,7 @@ input::placeholder , .ant-picker .ant-picker-input >input{
 .Article .slick-next{
     display: none !important;
 }
-/*.ant-modal .ant-modal-content{*/
-/*    background-color: rgb(49 54 66);*/
-/*}*/
+
 .ant-segmented {
         .ant-segmented-item {
         border-radius: 999px;

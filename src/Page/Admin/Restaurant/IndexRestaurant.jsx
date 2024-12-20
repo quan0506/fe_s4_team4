@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, Space, message, Dropdown, Input } from "antd";
+import {Table, Button, Modal, Space, message, Dropdown, Input, Tooltip, Typography, Carousel} from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import upstashService from "../../../services/upstashService.js";
 import ModalRestaurant from "./ModalRestaurant.jsx";
+import '../index.css'
+const { Title, Paragraph } = Typography;
 
 export default function IndexRestaurant() {
     const [listRestaurant, setListRestaurant] = useState([]);
@@ -149,15 +151,23 @@ export default function IndexRestaurant() {
             dataIndex: "photos",
             key: "photos",
             render: (photos) => (
-                <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
-                    {photos.map((url, index) => (
-                        <img
-                            key={index}
-                            src={url}
-                            alt={`Room Photo ${index + 1}`}
-                            style={{ width: 50, height: 50, objectFit: "cover", borderRadius: "4px" }}
-                        />
-                    ))}
+                <div style={{width: 120}}>
+                    <Carousel autoplay>
+                        {photos.map((url, index) => (
+                            <div key={index}>
+                                <img
+                                    src={url}
+                                    alt={`Branch Photo ${index + 1}`}
+                                    style={{
+                                        width: "100%",
+                                        height: 80,
+                                        objectFit: "cover",
+                                        borderRadius: "8px",
+                                    }}
+                                />
+                            </div>
+                        ))}
+                    </Carousel>
                 </div>
             ),
         },
@@ -165,6 +175,14 @@ export default function IndexRestaurant() {
             title: "Description",
             dataIndex: "restaurantDescription",
             key: "restaurantDescription",
+            width: 400,
+            render: (text) => (
+                <Tooltip title={text}>
+                    <Paragraph ellipsis={{rows: 2, expandable: false, symbol: '...'}}>
+                        {text}
+                    </Paragraph>
+                </Tooltip>
+            )
         },
         {
             title: "Actions",
@@ -175,11 +193,15 @@ export default function IndexRestaurant() {
                         icon={<EditOutlined />}
                         onClick={() => handleEdit(shuttle)}
                         type="primary"
+                        shape="circle"
+
                     />
                     <Button
                         icon={<DeleteOutlined />}
                         onClick={() => handleDelete(shuttle.id, shuttle.branchId)}
                         danger
+                        shape="circle"
+
                     />
                 </Space>
             ),
@@ -193,29 +215,29 @@ export default function IndexRestaurant() {
     ];
 
     return (
-        <div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+        <div className="branch-management">
+            <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
                 <Input
                     placeholder="Search by ID"
                     value={searchId}
                     onChange={(e) => setSearchId(e.target.value)}
-                    style={{ width: "30%" }}
+                    style={{width: "30%"}}
                 />
                 <Dropdown
                     menu={{
                         items: branchMenuItems,
-                        onClick: ({ key }) => setSelectedBranch(key === "all" ? null : key),
+                        onClick: ({key}) => setSelectedBranch(key === "all" ? null : key),
                     }}
                 >
                     <Button>{selectedBranch || "Filter by Branch"}</Button>
                 </Dropdown>
 
-                <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+                <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>
                     Add Shuttle
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={filteredRestaurants} rowKey="id" />
+            <Table columns={columns} dataSource={filteredRestaurants} rowKey="id"/>
 
             <ModalRestaurant
                 type={modalType}

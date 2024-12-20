@@ -3,6 +3,7 @@ import {Table, Button, Modal, Space, message, Dropdown, Input} from "antd";
 import {DeleteOutlined, PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import upstashService from "../../../services/upstashService.js";
 import ModalBookingShuttle from "./ModalBookingShuttle";
+import '../index.css'
 
 export default function IndexBookingShuttle() {
     const [listBookingShuttle, setListBookingShuttle] = useState([]);
@@ -180,6 +181,8 @@ export default function IndexBookingShuttle() {
                         icon={<DeleteOutlined />}
                         onClick={() => handleDelete(bookingShuttle.id, bookingShuttle.branchId)}
                         danger
+                        shape="circle"
+
                     />
                 </Space>
             ),
@@ -197,21 +200,20 @@ export default function IndexBookingShuttle() {
     ];
 
     return (
-        <div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-
+        <div className="branch-management">
+            <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
                 <Input
                     placeholder="Search by bookingConfirmationCode"
                     value={searchId}
                     onChange={(e) => setSearchId(e.target.value)}
-                    style={{ width: "30%" }}
-                    suffix={<SearchOutlined onClick={handleSearch} />}
+                    style={{width: "30%"}}
+                    suffix={<SearchOutlined onClick={handleSearch}/>}
                 />
 
                 <Dropdown
                     menu={{
                         items: branchMenuItems,
-                        onClick: ({ key }) => setSelectedBranch(key === "all" ? null : key),
+                        onClick: ({key}) => setSelectedBranch(key === "all" ? null : key),
                     }}
                 >
                     <Button>{selectedBranch || "Filter by Branch"}</Button>
@@ -220,19 +222,22 @@ export default function IndexBookingShuttle() {
                 <Dropdown
                     menu={{
                         items: shuttleMenuItems,
-                        onClick: ({ key }) =>
+                        onClick: ({key}) =>
                             setSelectedCarType(key === "all" ? null : key),
                     }}
                 >
                     <Button>{selectedCarType || "Filter by Car Type"}</Button>
                 </Dropdown>
 
-                <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+                <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>
                     Add New Booking Shuttle
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={filteredBookingShuttles} rowKey="id" />
+            <Table
+                className="branch-table"
+                scroll={{x: 1200}}
+                columns={columns} dataSource={filteredBookingShuttles} rowKey="id"/>
 
             <ModalBookingShuttle
                 type={modalType}
