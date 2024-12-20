@@ -120,14 +120,14 @@ export default function IndexBookingRestaurant() {
                 key: "restaurantType",
             },
             {
-                title: "Adult Price",
-                dataIndex: "restaurantAdultPrice",
-                key: "restaurantAdultPrice",
+                title: "numOfAdults",
+                dataIndex: "numOfAdults",
+                key: "numOfAdults",
             },
             {
-                title: "Adult Price",
-                dataIndex: "restaurantChildrenPrice",
-                key: "restaurantChildrenPrice",
+                title: "numOfChildren",
+                dataIndex: "numOfChildren",
+                key: "numOfChildren",
             },
             {
                 title: "CheckInDate",

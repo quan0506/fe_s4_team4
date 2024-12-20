@@ -42,7 +42,8 @@ function getItem(
 const itemRoute = {
     "1": "/admin/IndexDashboard",
     "2": "/admin/branches",
-    "3": "/admin/rooms",
+    "3.1": "/admin/rooms",
+    "3.2": "",
     "4": "/admin/reviews",
     "5": "",
     "6.1": "/admin/spas",
@@ -76,7 +77,10 @@ const PrivateLayoutAdmin = () => {
     const items: MenuItem[] = [
         getItem("Trang chủ", "1", <LayoutDashboard />),
         getItem("Chi nhánh", "2", <House />),
-        getItem("Loại phòng", "3", <Lectern />),
+        getItem("Loại phòng", "3", <Lectern />,[
+            getItem("Quản lý phòng", "3.1",<Lectern />),
+            getItem("Lịch đặt phòng", "3.2",<CalendarClock />),
+        ]),
         getItem("Đánh giá", "4", <MessageSquareText />),
         getItem("Tiện nghi", "5", <Heater />),
         getItem("Spa", "6", <HeartPulse />,[

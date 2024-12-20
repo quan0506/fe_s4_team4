@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Modal, Input, Button, message, Select, DatePicker } from "antd";
 import moment from "moment";
 
+const { Option } = Select;
+
 const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches, spas,}) => {
     const [form, setForm] = useState(data || {});
     const [spaServiceNames, setSpaServiceNames] = useState([]);
@@ -53,9 +55,10 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
         const updatedData = {
             ...form,
             appointmentTime: form.appointmentTime
-                ? moment(form.appointmentTime).format("YYYY-MM-DD HH:mm:ss")
+                ? moment(form.appointmentTime).format("YYYY-MM-DDTHH:mm:ss")
                 : null,
         };
+
 
         console.log("Data before send:", updatedData);
         onSave({
@@ -65,6 +68,9 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
         });
     };
 
+    const handleSelectChange = (value) => {
+        setForm({ ...form, spaServiceTime: value });
+    };
 
     return (
         <Modal
@@ -131,15 +137,28 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
                     style={{marginBottom: 16}}
                 />
             </label>
+            <label>
+                <strong>email</strong>
+                <Input
+                    value={form.userEmail || ""}
+                    onChange={(e) => setForm({...form, userEmail: e.target.value})}
+                    placeholder="Enter userEmail"
+                    style={{marginBottom: 16}}
+                />
+            </label>
 
             <label>
                 <strong>spaServiceTime</strong>
-                <Input
-                    value={form.spaServiceTime || ""}
-                    onChange={(e) => setForm({...form, spaServiceTime: e.target.value})}
-                    placeholder="spaServiceTime"
-                    style={{marginBottom: 16}}
-                />
+                <Select
+                    value={form.spaServiceTime || undefined}
+                    onChange={handleSelectChange}
+                    placeholder="Chọn thời gian dịch vụ (phút)"
+                    style={{width: "100%", marginBottom: 16}}
+                >
+                    <Option value="60">60</Option>
+                    <Option value="45">45</Option>
+                    <Option value="30">30</Option>
+                </Select>
             </label>
 
             <label>

@@ -3,7 +3,6 @@ import convertJsonToFormData from "../Page/Admin/convertData.js";
 import ForgotPassword from "../Page/auth/ForgotPassword.jsx";
 
 const upstashService = {
-    // me
     getme :async () => {
         const url = `/users/me`;
         return await   axiosClient.get(url);
