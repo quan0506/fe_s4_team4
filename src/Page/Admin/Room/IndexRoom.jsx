@@ -39,7 +39,7 @@ export default function IndexRoom() {
             }));
             setListRoom(normalizedData);
         } catch (error) {
-            console.error("Failed to fetch rooms:", error);
+            console.error("Lỗi khi tải danh sách phòng :", error);
         }
     };
 
@@ -51,14 +51,14 @@ export default function IndexRoom() {
 
     const handleDelete = async (id) => {
         Modal.confirm({
-            title: "Are you sure you want to delete this room?",
+            title: "Bạn có chắc chắn muốn xóa phòng này?",
             onOk: async () => {
                 try {
                     await upstashService.deleteRoom(id);
-                    message.success("Room deleted successfully!");
+                    message.success("Phòng được xóa thành công ");
                     fetchRooms();
                 } catch (error) {
-                    message.error("Failed to delete room!");
+                    message.error("Lỗi khi xóa phòng !", error);
                 }
             },
         });
@@ -84,21 +84,21 @@ export default function IndexRoom() {
     const handleSave = async (data) => {
         try {
             if (!data.branchId) {
-                message.error("Branch ID is required.");
+                message.error("ID Chi Nhánh là bắt buộc.");
                 return;
             }
 
             if (modalType === "add") {
                 await upstashService.addRoom(data);
-                message.success("Room added successfully!");
+                message.success("Thêm mới phòng thành công!");
             } else if (modalType === "edit") {
                 await upstashService.updateRoom(currentRoom.id, data);
-                message.success("Room updated successfully!");
+                message.success("Chỉnh sửa phòng thành công");
             }
             fetchRooms();
             setIsModalVisible(false);
         } catch (error) {
-            message.error("Failed to save room!");
+            message.error("Lỗi khi lưu phòng", error);
         }
     };
 
@@ -119,22 +119,22 @@ export default function IndexRoom() {
             key: "id",
         },
         {
-            title: "Branch Name",
+            title: "Chi Nhánh",
             dataIndex: "branchName",
             key: "branchName",
         },
         {
-            title: "Room Type",
+            title: "Loại Phòng",
             dataIndex: "roomType",
             key: "roomType",
         },
         {
-            title: "Room Price",
+            title: "Giá Phòng",
             dataIndex: "roomPrice",
             key: "roomPrice",
         },
         {
-            title: "Photos",
+            title: "Hình Ảnh",
             dataIndex: "photos",
             key: "photos",
             render: (photos) => (
@@ -151,7 +151,7 @@ export default function IndexRoom() {
             ),
         },
         {
-            title: "Description",
+            title: "Mô tả",
             dataIndex: "description",
             key: "description",
             render: (text) => (
@@ -162,18 +162,18 @@ export default function IndexRoom() {
                 </Tooltip>
             )
         },
+        // {
+        //     title: "Bookings",
+        //     dataIndex: "bookings",
+        //     key: "bookings",
+        // },
+        // {
+        //     title: "Booked",
+        //     dataIndex: "booked",
+        //     key: "booked",
+        // },
         {
-            title: "Bookings",
-            dataIndex: "bookings",
-            key: "bookings",
-        },
-        {
-            title: "Booked",
-            dataIndex: "booked",
-            key: "booked",
-        },
-        {
-            title: "Actions",
+            title: "Thực hiện",
             key: "actions",
             render: (_, room) => (
               <Space>
@@ -197,7 +197,7 @@ export default function IndexRoom() {
     ];
 
     const branchMenuItems = [
-        { key: "all", label: "All Branches" },
+        { key: "all", label: "Tất cả chi nhánh" },
         ...branches.map((branch) => ({ key: branch.branchName, label: branch.branchName })),
     ];
 
@@ -206,7 +206,7 @@ export default function IndexRoom() {
 
             <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
                 <Input
-                    placeholder="Search by ID"
+                    placeholder="Tìm kiếm"
                     value={searchId}
                     onChange={(e) => setSearchId(e.target.value)}
                     style={{width: "30%"}}
@@ -217,11 +217,11 @@ export default function IndexRoom() {
                         onClick: ({key}) => setSelectedBranch(key === "all" ? null : key),
                     }}
                 >
-                    <Button>{selectedBranch || "Filter by Branch"}</Button>
+                    <Button>{selectedBranch || "Lọc theo chi nhánh"}</Button>
                 </Dropdown>
 
                 <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>
-                    Add Room
+                    Thêm Phòng
                 </Button>
             </div>
 

@@ -71,24 +71,24 @@ const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
 
     return (
         <Modal
-            title={type === "add" ? "Add Branch" : type === "edit" ? "Edit Branch" : "View Branch"}
+            title={type === "add" ? "Thêm Mới Chi Nhánh" : type === "edit" ? "Chỉnh sửa chi nhánh" : "View Branch"}
             open={isModalVisible}
             onCancel={onClose}
             footer={
                 type === "view" ? (
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={onClose}>Đóng</Button>
                 ) : (
                     <>
                         <Button type="primary" onClick={handleSave}>
-                            Save
+                            Lưu
                         </Button>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={onClose}>Thoát</Button>
                     </>
                 )
             }
         >
             <label>
-                <strong>Branch Name:</strong>
+                <strong>Chi Nhánh:</strong>
                 <Input
                     value={form.branchName || ""}
                     onChange={(e) => setForm({ ...form, branchName: e.target.value })}
@@ -97,7 +97,7 @@ const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
                 />
             </label>
             <label >
-                <strong>Location:</strong>
+                <strong>Vị Trí:</strong>
                 <Input
                     value={form.location || ""}
                     onChange={(e) => setForm({ ...form, location: e.target.value })}
@@ -106,7 +106,7 @@ const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
                 />
             </label>
             <label>
-                <strong>Address:</strong>
+                <strong>Địa Chỉ:</strong>
                 <Input
                     value={form.address || ""}
                     onChange={(e) => setForm({ ...form, address: e.target.value })}
@@ -115,7 +115,7 @@ const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
                 />
             </label>
             <label>
-                <strong>Description:</strong>
+                <strong>Mô tả:</strong>
                 <Input
                     value={form.description || ""}
                     onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -124,7 +124,7 @@ const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
                 />
             </label>
             <label>
-                <strong>Upload Photos:</strong>
+                <strong>Tải Hình Ảnh lên:</strong>
                 <Upload
                     listType="picture"
                     // onRemove={(file) => {
@@ -141,7 +141,7 @@ const ModalBranch = ({ type, data, isModalVisible, onClose, onSave }) => {
                     fileList={fileList}
                     onPreview={handlePreview}
                 >
-                    <Button icon={<UploadOutlined />}>Upload</Button>
+                    <Button icon={<UploadOutlined />}>Tải lên</Button>
                 </Upload>
             </label>
         </Modal>

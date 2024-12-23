@@ -67,7 +67,7 @@ const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, br
         <Modal
             title={
                 type === "add"
-                    ? "Add Booking"
+                    ? "Thêm lịch đặt"
                     // : type === "edit"
                     //     ? "Edit Booking"
                     : "View Booking"
@@ -76,19 +76,19 @@ const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, br
             onCancel={onClose}
             footer={
                 type === "view" ? (
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={onClose}>Đóng</Button>
                 ) : (
                     <>
                         <Button type="primary" onClick={handleSave}>
-                            Save
+                            Lưu
                         </Button>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={onClose}>Thoát</Button>
                     </>
                 )
             }
         >
             <label>
-                <strong>Branch Name</strong>
+                <strong>Chi Nhánh</strong>
                 <Select
                     value={form.branchId || ""}
                     onChange={handleBranchChange}
@@ -104,7 +104,7 @@ const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, br
             </label>
 
             <label>
-                <strong>Restaurant Type</strong>
+                <strong>Nhà Hàng</strong>
                 <Select
                     value={form.restaurantTypes || ""}
                     onChange={handleRestaurantChange}
@@ -120,7 +120,7 @@ const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, br
             </label>
 
             <label>
-                <strong>Name</strong>
+                <strong>Tên người đặt</strong>
                 <Input
                     value={form.name || ""}
                     onChange={(e) => setForm({...form, name: e.target.value})}
@@ -129,7 +129,7 @@ const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, br
                 />
             </label>
             <label>
-                <strong>Phone</strong>
+                <strong>Số điện thoại </strong>
                 <Input
                     value={form.phone || ""}
                     onChange={(e) => setForm({...form, phone: e.target.value})}
@@ -139,7 +139,7 @@ const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, br
             </label>
 
             <label>
-                <strong>numOfAdults</strong>
+                <strong>Số Người Lớn</strong>
                 <Input
                     value={form.numOfAdults || ""}
                     onChange={(e) => setForm({...form, numOfAdults: e.target.value})}
@@ -148,7 +148,7 @@ const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, br
                 />
             </label>
             <label>
-                <strong>numOfChildren</strong>
+                <strong>Sô Trẻ Em</strong>
                 <Input
                     value={form.numOfChildren || ""}
                     onChange={(e) => setForm({...form, numOfChildren: e.target.value})}
@@ -158,7 +158,7 @@ const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, br
             </label>
 
             <label>
-                <strong>Check-In Day</strong>
+                <strong>Ngày Đặt Lịch</strong>
                 <DatePicker
                     value={form.dayCheckIn ? moment(form.dayCheckIn) : null}
                     onChange={(date, dateString) =>

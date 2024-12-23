@@ -54,14 +54,14 @@ export default function IndexSpa() {
 
     const handleDelete = async (id) => {
         Modal.confirm({
-            title: "Are you sure you want to delete spa?",
+            title: "Bạn có chắc chắn muốn xóa Spa này?",
             onOk: async () => {
                 try {
                     await upstashService.deleteSpa(id);
-                    message.success("Spa deleted successfully!");
+                    message.success("Spa xóa thành công!");
                     fetchSpas();
                 } catch (error) {
-                    message.error("Failed to delete spa!");
+                    message.error("Failed to delete spa!",error);
                 }
             },
         });
@@ -93,15 +93,15 @@ export default function IndexSpa() {
 
             if (modalType === "add") {
                 await upstashService.addSpa(data);
-                message.success("Shuttle added success!");
+                message.success("Thêm Spa thành công");
             } else if (modalType === "edit") {
                 await upstashService.updateSpa(currentSpa.id, data);
-                message.success("Shuttle updated success!");
+                message.success("Cập nhật Spa thành công!");
             }
             fetchSpas();
             setIsModalVisible(false);
         } catch (error) {
-            message.error("Failed to save room!");
+            message.error("Failed to save spa!",error);
         }
     };
 
@@ -122,22 +122,22 @@ export default function IndexSpa() {
             key: "id",
         },
         {
-            title: "Branch Name",
+            title: "Chi Nhánh",
             dataIndex: "branchName",
             key: "branchName",
         },
         {
-            title: "Spa Name",
+            title: "Tên Spa",
             dataIndex: "spaServiceName",
             key: "spaServiceName",
         },
         {
-            title: "Service Price",
+            title: "Giá Dịch Vụ",
             dataIndex: "spaServicePrice",
             key: "spaServicePrice",
         },
         {
-            title: "Photos",
+            title: "Hình Ảnh",
             dataIndex: "photos",
             key: "photos",
             render: (photos) => (
@@ -162,7 +162,7 @@ export default function IndexSpa() {
             ),
         },
         {
-            title: "Description",
+            title: "Mô tả",
             dataIndex: "spaDescription",
             key: "spaDescription",
             width: 400,
@@ -175,7 +175,7 @@ export default function IndexSpa() {
             )
         },
         {
-            title: "Actions",
+            title: "Thực hiện",
             key: "actions",
             render: (_, shuttle) => (
                 <Space>
@@ -198,7 +198,7 @@ export default function IndexSpa() {
     ];
 
     const branchMenuItems = [
-        { key: "all", label: "All Branches" },
+        { key: "all", label: "Tất cả chi nhánh" },
         ...branches.map((branch) => ({ key: branch.branchName, label: branch.branchName })),
     ];
 
@@ -206,7 +206,7 @@ export default function IndexSpa() {
         <div className="branch-management">
             <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
                 <Input
-                    placeholder="Search by ID"
+                    placeholder="Tìm kiếm"
                     value={searchId}
                     onChange={(e) => setSearchId(e.target.value)}
                     style={{width: "30%"}}
@@ -217,11 +217,11 @@ export default function IndexSpa() {
                         onClick: ({key}) => setSelectedBranch(key === "all" ? null : key),
                     }}
                 >
-                    <Button>{selectedBranch || "Filter by Branch"}</Button>
+                    <Button>{selectedBranch || "Lọc theo Chi Nhánh"}</Button>
                 </Dropdown>
 
                 <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>
-                    Add Shuttle
+                    Thêm Spa
                 </Button>
             </div>
 

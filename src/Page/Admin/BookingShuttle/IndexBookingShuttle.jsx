@@ -56,11 +56,11 @@ export default function IndexBookingShuttle() {
     const handleDelete = async (id, branchId) => {
         console.log("Deleting booking shuttle:", id, branchId);
         Modal.confirm({
-            title: "Are you sure you want to delete this booking shuttle?",
+            title: "Có chắc chắn muốn xóa lịch đặt xe?",
             onOk: async () => {
                 try {
                     await upstashService.deleteBookingShuttle(id, branchId);
-                    message.success("Booking Shuttle deleted successfully!");
+                    message.success("Xóa lịch đặt xe thành công!");
                     fetchBookingShuttles();
                 } catch (error) {
                     message.error("Failed to delete delete bookingshuttle:!");
@@ -73,7 +73,7 @@ export default function IndexBookingShuttle() {
         try {
             const userId = 1;
             await upstashService.postBookingShuttle(branchId, shuttleId, userId, data);
-            message.success("Shuttle booking addb success!");
+            message.success("Đặt xe thành công");
             fetchBookingShuttles();
             setIsModalVisible(false);
         } catch (error) {
@@ -125,22 +125,22 @@ export default function IndexBookingShuttle() {
             key: "id",
         },
         {
-            title: "Branch Name",
+            title: "Chi Nhánh",
             dataIndex: "branchName",
             key: "branchName",
         },
         {
-            title: "Car Type",
+            title: "Loại Xe",
             dataIndex: "carType",
             key: "carType",
         },
         {
-            title: "Car Price",
+            title: "Giá Xe",
             dataIndex: "carPrice",
             key: "carPrice",
         },
         {
-            title: "CheckInDate",
+            title: "Ngày Đặt Xe",
             dataIndex: "shuttleCheckInDate",
             key: "shuttleCheckInDate",
             render: (shuttleCheckInDate) => {
@@ -149,7 +149,7 @@ export default function IndexBookingShuttle() {
             },
         },
         {
-            title: "CheckOutDate",
+            title: "Ngày Hủy",
             dataIndex: "shuttleCheckOutDate",
             key: "shuttleCheckOutDate",
             render: (shuttleCheckOutDate) => {
@@ -158,22 +158,22 @@ export default function IndexBookingShuttle() {
             },
         },
         {
-            title: "totalPrice",
+            title: "Tổng Tiền",
             dataIndex: "totalPrice",
             key: "totalPrice",
         },
         {
-            title: "userEmail",
+            title: "Email",
             dataIndex: "userEmail",
             key: "userEmail",
         },
         {
-            title: "bookingConfirmationCode",
+            title: "Mã Xác nhận",
             dataIndex: "bookingConfirmationCode",
             key: "bookingConfirmationCode",
         },
         {
-            title: "Actions",
+            title: "Thực hiện",
             key: "actions",
             render: (_, bookingShuttle) => (
                 <Space>
@@ -190,12 +190,12 @@ export default function IndexBookingShuttle() {
     ];
 
     const branchMenuItems = [
-        { key: "all", label: "All Branches" },
+        { key: "all", label: "Tất cả chi nhánh" },
         ...branches.map((branch) => ({ key: branch.branchName, label: branch.branchName })),
     ];
 
     const shuttleMenuItems = [
-        { key: "all", label: "All Car Types" },
+        { key: "all", label: "Tất cả loại xe" },
         ...shuttles.map((shuttle) => ({ key: shuttle.carType, label: shuttle.carType })),
     ];
 
@@ -203,7 +203,7 @@ export default function IndexBookingShuttle() {
         <div className="branch-management">
             <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
                 <Input
-                    placeholder="Search by bookingConfirmationCode"
+                    placeholder="tìm kiếm"
                     value={searchId}
                     onChange={(e) => setSearchId(e.target.value)}
                     style={{width: "30%"}}
@@ -216,7 +216,7 @@ export default function IndexBookingShuttle() {
                         onClick: ({key}) => setSelectedBranch(key === "all" ? null : key),
                     }}
                 >
-                    <Button>{selectedBranch || "Filter by Branch"}</Button>
+                    <Button>{selectedBranch || "Lọc theo chi nhánh"}</Button>
                 </Dropdown>
 
                 <Dropdown
@@ -226,11 +226,11 @@ export default function IndexBookingShuttle() {
                             setSelectedCarType(key === "all" ? null : key),
                     }}
                 >
-                    <Button>{selectedCarType || "Filter by Car Type"}</Button>
+                    <Button>{selectedCarType || "Lọc theo loại xe"}</Button>
                 </Dropdown>
 
                 <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>
-                    Add New Booking Shuttle
+                    Thêm lịch đặt xe
                 </Button>
             </div>
 

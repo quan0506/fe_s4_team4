@@ -41,7 +41,7 @@ export default function IndexRestaurant() {
             }));
             setListRestaurant(normalizedData);
         } catch (error) {
-            console.error("Failed to fetch Shuttle:", error);
+            console.error("Failed to fetch Restaurant:", error);
         }
     };
 
@@ -54,14 +54,14 @@ export default function IndexRestaurant() {
 
     const handleDelete = async (id, branchId) => {
         Modal.confirm({
-            title: "Are you sure you want to delete this restaurant?",
+            title: "Có chắc chắn xóa nhà hàng này?",
             onOk: async () => {
                 try {
                     await upstashService.deleteRestaurant(id, branchId);
-                    message.success("Restaurant deleted success!");
+                    message.success("Xóa nhà hàng thành công!");
                     fetchRestaurants();
                 } catch (error) {
-                    message.error("Failed to delete restaurant!");
+                    message.error("Failed to delete restaurant!", error);
                 }
             },
         });
@@ -93,15 +93,15 @@ export default function IndexRestaurant() {
 
             if (modalType === "add") {
                 await upstashService.addRestaurant(data);
-                message.success("Shuttle added success!");
+                message.success("Thêm Nhà hàng thành công");
             } else if (modalType === "edit") {
                 await upstashService.updateRestaurant(currentRestaurant.id, data);
-                message.success("Shuttle updated success!");
+                message.success("Cập nhật nhà hàng thành công");
             }
             fetchRestaurants();
             setIsModalVisible(false);
         } catch (error) {
-            message.error("Failed to save room!");
+            message.error("Failed to save restaurant!", error);
         }
     };
 
@@ -122,32 +122,32 @@ export default function IndexRestaurant() {
             key: "id",
         },
         {
-            title: "Branch Name",
+            title: "Chi Nhánh",
             dataIndex: "branchName",
             key: "branchName",
         },
         {
-            title: "Restaurant Type",
+            title: "Loại Nhà Hàng",
             dataIndex: "restaurantType",
             key: "restaurantType",
         },
         {
-            title: "Time",
+            title: "Thời gian",
             dataIndex: "time",
             key: "time",
         },
         {
-            title: "Adult Price",
+            title: "Giá Người lớn",
             dataIndex: "restaurantAdultPrice",
             key: "restaurantAdultPrice",
         },
         {
-            title: "Children Price",
+            title: "Giá Trẻ em",
             dataIndex: "restaurantChildrenPrice",
             key: "restaurantChildrenPrice",
         },
         {
-            title: "Photos",
+            title: "Hình Ảnh",
             dataIndex: "photos",
             key: "photos",
             render: (photos) => (
@@ -172,7 +172,7 @@ export default function IndexRestaurant() {
             ),
         },
         {
-            title: "Description",
+            title: "Mô tả",
             dataIndex: "restaurantDescription",
             key: "restaurantDescription",
             width: 400,
@@ -185,7 +185,7 @@ export default function IndexRestaurant() {
             )
         },
         {
-            title: "Actions",
+            title: "Thực hiện",
             key: "actions",
             render: (_, shuttle) => (
                 <Space>
@@ -210,7 +210,7 @@ export default function IndexRestaurant() {
     ];
 
     const branchMenuItems = [
-        { key: "all", label: "All Branches" },
+        { key: "all", label: "Tất cả chi nhánh" },
         ...branches.map((branch) => ({ key: branch.branchName, label: branch.branchName })),
     ];
 
@@ -218,7 +218,7 @@ export default function IndexRestaurant() {
         <div className="branch-management">
             <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
                 <Input
-                    placeholder="Search by ID"
+                    placeholder="Tìm kiếm"
                     value={searchId}
                     onChange={(e) => setSearchId(e.target.value)}
                     style={{width: "30%"}}
@@ -229,11 +229,11 @@ export default function IndexRestaurant() {
                         onClick: ({key}) => setSelectedBranch(key === "all" ? null : key),
                     }}
                 >
-                    <Button>{selectedBranch || "Filter by Branch"}</Button>
+                    <Button>{selectedBranch || "Lọc theo chi nhánh"}</Button>
                 </Dropdown>
 
                 <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>
-                    Add Shuttle
+                    Thêm Nhà Hàng
                 </Button>
             </div>
 

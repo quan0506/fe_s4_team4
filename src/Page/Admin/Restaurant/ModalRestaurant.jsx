@@ -71,24 +71,24 @@ const ModalRestaurant = ({ type, data, isModalVisible, onClose, onSave, branches
 
     return (
         <Modal
-            title={type === "add" ? "Add restaurant" : type === "edit" ? "Edit restaurant" : "View restaurant"}
+            title={type === "add" ? "Thêm Nhà hàng" : type === "edit" ? "Chỉnh sửa nhà hàng" : "View restaurant"}
             open={isModalVisible}
             onCancel={onClose}
             footer={
                 type === "view" ? (
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={onClose}>Đóng</Button>
                 ) : (
                     <>
                         <Button type="primary" onClick={handleSave}>
-                            Save
+                            Lưu
                         </Button>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={onClose}>Thoát</Button>
                     </>
                 )
             }
         >
             <label>
-                <strong>Branch Name</strong>
+                <strong>Chi Nhánh</strong>
                 <Select
                     value={form.branchId || ""}
 
@@ -105,7 +105,7 @@ const ModalRestaurant = ({ type, data, isModalVisible, onClose, onSave, branches
             </label>
 
             <label>
-                <strong>Restaurant Type</strong>
+                <strong>Loại Nhà Hàng</strong>
                 <Input
                     value={form.restaurantType || ""}
                     onChange={(e) => setForm({...form, restaurantType: e.target.value})}
@@ -114,7 +114,7 @@ const ModalRestaurant = ({ type, data, isModalVisible, onClose, onSave, branches
                 />
             </label>
             <label>
-                <strong>Time</strong>
+                <strong>Thời gian</strong>
                 <Input
                     value={form.time || ""}
                     onChange={(e) => setForm({...form, time: e.target.value})}
@@ -123,7 +123,7 @@ const ModalRestaurant = ({ type, data, isModalVisible, onClose, onSave, branches
                 />
             </label>
             <label>
-                <strong>Adult Price</strong>
+                <strong>Giá cho Người lớn</strong>
                 <Input
                     value={form.restaurantAdultPrice || ""}
                     onChange={(e) => setForm({...form, restaurantAdultPrice: e.target.value})}
@@ -132,7 +132,7 @@ const ModalRestaurant = ({ type, data, isModalVisible, onClose, onSave, branches
                 />
             </label>
             <label>
-                <strong>Children Price</strong>
+                <strong>Giá cho Trẻ em</strong>
                 <Input
                     value={form.restaurantChildrenPrice || ""}
                     onChange={(e) => setForm({...form, restaurantChildrenPrice: e.target.value})}
@@ -141,7 +141,7 @@ const ModalRestaurant = ({ type, data, isModalVisible, onClose, onSave, branches
                 />
             </label>
             <label>
-                <strong>Description:</strong>
+                <strong>Mô tả</strong>
                 <Input
                     value={form.restaurantDescription || ""}
                     onChange={(e) => setForm({...form, restaurantDescription: e.target.value})}
@@ -151,7 +151,7 @@ const ModalRestaurant = ({ type, data, isModalVisible, onClose, onSave, branches
             </label>
 
             <label>
-                <strong>Upload Photos:</strong>
+                <strong>Tải lên hình ảnh:</strong>
                 <Upload
                     listType="picture"
                     beforeUpload={(file) => {
@@ -161,7 +161,7 @@ const ModalRestaurant = ({ type, data, isModalVisible, onClose, onSave, branches
                     fileList={fileList}
                     onPreview={handlePreview}
                 >
-                    <Button icon={<UploadOutlined/>}>Upload</Button>
+                    <Button icon={<UploadOutlined/>}>Tải lên</Button>
                 </Upload>
             </label>
         </Modal>

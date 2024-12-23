@@ -71,7 +71,7 @@ export default function IndexBookingSpa() {
     const handleDelete = async (id, branchId) => {
         console.log("Deleting booking spa:", id, branchId);
         Modal.confirm({
-            title: "Are you sure you want to delete this booking spa?",
+            title: "Có chắc chắn muốn xóa lịch đặt spa này?",
             onOk: async () => {
                 try {
                     if (!branchId) {
@@ -94,7 +94,7 @@ export default function IndexBookingSpa() {
         try {
             const userId = 1;
             await upstashService.postBookingSpa(branchId, spaId, userId, data);
-            message.success("Spa booking addb success!");
+            message.success("Thêm lịch đặt spa thành công!");
             fetchBookingSpas();
             setIsModalVisible(false);
         } catch (error) {
@@ -121,12 +121,12 @@ export default function IndexBookingSpa() {
             key: "id",
         },
         {
-            title: "Branch Name",
+            title: "Chi Nhánh",
             dataIndex: "branchName",
             key: "branchName",
         },
         {
-            title: "spaServiceName",
+            title: "Tên Spa",
             dataIndex: "spaServiceName",
             key: "spaServiceName",
         },
@@ -136,7 +136,7 @@ export default function IndexBookingSpa() {
         //     key: "spaServicePrice",
         // },
         {
-            title: "description",
+            title: "Mô tả",
             dataIndex: "description",
             key: "description",
             width: 200,
@@ -149,12 +149,12 @@ export default function IndexBookingSpa() {
             )
         },
         {
-            title: "spaServiceTime",
+            title: "Thời gian phục vụ",
             dataIndex: "spaServiceTime",
             key: "spaServiceTime",
         },
         {
-            title: "appointmentTime",
+            title: "Thời gian đặt spa",
             dataIndex: "appointmentTime",
             key: "appointmentTime",
             render: (appointmentTime) => {
@@ -163,17 +163,17 @@ export default function IndexBookingSpa() {
             },
         },
         {
-            title: "numberOfPeople",
+            title: "Số Lượng",
             dataIndex: "numberOfPeople",
             key: "numberOfPeople",
         },
         {
-            title: "Name",
+            title: "Tên",
             dataIndex: "fullName",
             key: "fullName",
         },
         {
-            title: "Phone",
+            title: "Số điện thoại",
             dataIndex: "phone",
             key: "phone",
         },
@@ -183,7 +183,7 @@ export default function IndexBookingSpa() {
         //     key: "userEmail",
         // },
         {
-            title: "Actions",
+            title: "Thực hiện",
             key: "actions",
             render: (_, bookingSpa) => (
                 <Space>
@@ -199,12 +199,12 @@ export default function IndexBookingSpa() {
     ];
 
     const branchMenuItems = [
-        { key: "all", label: "All Branches" },
+        { key: "all", label: "Tất cả chi nhánh" },
         ...branches.map((branch) => ({ key: branch.branchName, label: branch.branchName })),
     ];
 
     const spaServiceNameItems = [
-        { key: "all", label: "All Spa Services" },
+        { key: "all", label: "Tất cả Spa" },
         ...spas.map((spa) => ({ key: spa.spaServiceName, label: spa.spaServiceName })),
     ];
 
@@ -217,7 +217,7 @@ export default function IndexBookingSpa() {
                         onClick: ({ key }) => setSelectedBranch(key === "all" ? null : key),
                     }}
                 >
-                    <Button>{selectedBranch || "Filter by Branch"}</Button>
+                    <Button>{selectedBranch || "Lọc theo chi nhánh"}</Button>
                 </Dropdown>
 
                 <Dropdown
@@ -227,11 +227,11 @@ export default function IndexBookingSpa() {
                             setSelectedSpaServiceName(key === "all" ? null : key),
                     }}
                 >
-                    <Button>{selectedSpaServiceName || "Filter by Spa Service"}</Button>
+                    <Button>{selectedSpaServiceName || "Lọc theo spa"}</Button>
                 </Dropdown>
 
                 <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-                    Add New Booking Spa
+                    Thêm lịch đặt Spa mới
                 </Button>
             </div>
 

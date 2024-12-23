@@ -71,52 +71,24 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
 
     return (
         <Modal
-            title={type === "add" ? "Add shuttle" : type === "edit" ? "Edit shuttle" : "View shuttle"}
+            title={type === "add" ? "Thêm DV đặt xe" : type === "edit" ? "Sửa DV đặt xe" : "View shuttle"}
             open={isModalVisible}
             onCancel={onClose}
             footer={
                 type === "view" ? (
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={onClose}>Đóng</Button>
                 ) : (
                     <>
                         <Button type="primary" onClick={handleSave}>
-                            Save
+                            Lưu
                         </Button>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={onClose}>Thoát</Button>
                     </>
                 )
             }
         >
             <label>
-                <strong>Car Type</strong>
-                <Input
-                    value={form.carType || ""}
-                    onChange={(e) => setForm({...form, carType: e.target.value})}
-                    placeholder="Enter Car Type"
-                    style={{marginBottom: 16}}
-                />
-            </label>
-            <label>
-                <strong>Car Price</strong>
-                <Input
-                    value={form.carPrice || ""}
-                    onChange={(e) => setForm({...form, carPrice: e.target.value})}
-                    placeholder="Enter Car Price"
-                    style={{marginBottom: 16}}
-                />
-            </label>
-            <label>
-                <strong>Description:</strong>
-                <Input
-                    value={form.carDescription || ""}
-                    onChange={(e) => setForm({...form, carDescription: e.target.value})}
-                    placeholder="Enter Car Description"
-                    style={{marginBottom: 16}}
-                />
-            </label>
-
-            <label>
-                <strong>Branch Name</strong>
+                <strong>Chi Nhánh</strong>
                 <Select
                     value={form.branchId || ""}
 
@@ -133,7 +105,35 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
             </label>
 
             <label>
-                <strong>Upload Photos:</strong>
+                <strong>Loại Xe</strong>
+                <Input
+                    value={form.carType || ""}
+                    onChange={(e) => setForm({...form, carType: e.target.value})}
+                    placeholder="Enter Car Type"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+            <label>
+                <strong>Giá Xe</strong>
+                <Input
+                    value={form.carPrice || ""}
+                    onChange={(e) => setForm({...form, carPrice: e.target.value})}
+                    placeholder="Enter Car Price"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+            <label>
+                <strong>Mô tả</strong>
+                <Input
+                    value={form.carDescription || ""}
+                    onChange={(e) => setForm({...form, carDescription: e.target.value})}
+                    placeholder="Enter Car Description"
+                    style={{marginBottom: 16}}
+                />
+            </label>
+
+            <label>
+                <strong>Tải lên hình ảnh:</strong>
                 <Upload
                     listType="picture"
                     beforeUpload={(file) => {
@@ -143,7 +143,7 @@ const ModalShuttle = ({ type, data, isModalVisible, onClose, onSave, branches}) 
                     fileList={fileList}
                     onPreview={handlePreview}
                 >
-                    <Button icon={<UploadOutlined/>}>Upload</Button>
+                    <Button icon={<UploadOutlined/>}>Tải lên</Button>
                 </Upload>
             </label>
         </Modal>

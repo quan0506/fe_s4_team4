@@ -30,7 +30,7 @@ const ModalRoom = ({ type, data, isModalVisible, onClose, onSave, branches}) => 
         const updatedData = { ...form, photos };
 
         if (!updatedData.branchId) {
-            message.error("Please select a branch.");
+            message.error("Vui lòng chọn chi nhánh.");
             return;
         }
 
@@ -73,25 +73,25 @@ const ModalRoom = ({ type, data, isModalVisible, onClose, onSave, branches}) => 
 
     return (
         <Modal
-            title={type === "add" ? "Add room" : type === "edit" ? "Edit room" : "View room"}
+            title={type === "add" ? "Thêm Phòng" : type === "edit" ? "Cập Nhật Phòng" : "View room"}
             open={isModalVisible}
             onCancel={onClose}
             footer={
                 type === "view" ? (
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={onClose}>Đóng</Button>
                 ) : (
                     <>
                         <Button type="primary" onClick={handleSave}>
-                            Save
+                            Lưu
                         </Button>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={onClose}>Thoát</Button>
                     </>
                 )
             }
         >
 
             <label>
-                <strong>Branch Name</strong>
+                <strong>Chi Nhánh</strong>
                 <Select
                     value={form.branchId || ""}
                     onChange={(value) => setForm({...form, branchId: value})}
@@ -108,7 +108,7 @@ const ModalRoom = ({ type, data, isModalVisible, onClose, onSave, branches}) => 
 
 
             <label>
-                <strong>Room Type</strong>
+                <strong>Loại Phòng</strong>
                 <Input
                     value={form.roomType || ""}
                     onChange={(e) => setForm({...form, roomType: e.target.value})}
@@ -117,7 +117,7 @@ const ModalRoom = ({ type, data, isModalVisible, onClose, onSave, branches}) => 
                 />
             </label>
             <label>
-                <strong>Room Price</strong>
+                <strong>Giá Phòng</strong>
                 <Input
                     value={form.roomPrice || ""}
                     onChange={(e) => setForm({...form, roomPrice: e.target.value})}
@@ -126,7 +126,7 @@ const ModalRoom = ({ type, data, isModalVisible, onClose, onSave, branches}) => 
                 />
             </label>
             <label>
-                <strong>Description:</strong>
+                <strong>Mô tả</strong>
                 <Input
                     value={form.description || ""}
                     onChange={(e) => setForm({...form, description: e.target.value})}
@@ -136,7 +136,7 @@ const ModalRoom = ({ type, data, isModalVisible, onClose, onSave, branches}) => 
             </label>
 
             <label>
-                <strong>Upload Photos:</strong>
+                <strong>Tải Lên Hình Ảnh:</strong>
                 <Upload
                     listType="picture"
                     beforeUpload={(file) => {
@@ -146,7 +146,7 @@ const ModalRoom = ({ type, data, isModalVisible, onClose, onSave, branches}) => 
                     fileList={fileList}
                     onPreview={handlePreview}
                 >
-                    <Button icon={<UploadOutlined/>}>Upload</Button>
+                    <Button icon={<UploadOutlined/>}>Tải lên</Button>
                 </Upload>
             </label>
         </Modal>

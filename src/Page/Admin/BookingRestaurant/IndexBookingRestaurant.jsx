@@ -65,14 +65,14 @@ export default function IndexBookingRestaurant() {
         const handleDelete = async (id, branchId) => {
             console.log("Deleting booking restaurant:", id, branchId);
             Modal.confirm({
-                title: "Are you sure you want to delete this booking restaurant?",
+                title: "Có chắc chắn xóa lịch đặt nhà hàng này",
                 onOk: async () => {
                     try {
                         await upstashService.deleteBookingRestaurant(id, branchId);
-                        message.success("Booking Restaurant deleted successfully!");
+                        message.success("Lịch đặt nhà hàng được xóa thành công");
                         fetchBookingRestaurants();
                     } catch (error) {
-                        message.error("Failed to delete delete booking restaurant:!");
+                        message.error("Failed to delete delete booking restaurant:!", error);
                     }
                 },
             });
@@ -82,7 +82,7 @@ export default function IndexBookingRestaurant() {
             try {
                 const userId = 1;
                 await upstashService.postBookingRestaurant(branchId, restaurantId, userId, data);
-                message.success("Restaurant booking addb success!");
+                message.success("Lịch đặt nhà hàng được đặt thành công");
                 fetchBookingRestaurants();
                 setIsModalVisible(false);
             } catch (error) {
@@ -110,27 +110,27 @@ export default function IndexBookingRestaurant() {
                 key: "id",
             },
             {
-                title: "Branch Name",
+                title: "Chi Nhánh",
                 dataIndex: "branchName",
                 key: "branchName",
             },
             {
-                title: "Restaurant Type",
+                title: "Loại Nhà Hàng",
                 dataIndex: "restaurantType",
                 key: "restaurantType",
             },
             {
-                title: "numOfAdults",
+                title: "Số Người lớn",
                 dataIndex: "numOfAdults",
                 key: "numOfAdults",
             },
             {
-                title: "numOfChildren",
+                title: "Số trẻ em",
                 dataIndex: "numOfChildren",
                 key: "numOfChildren",
             },
             {
-                title: "CheckInDate",
+                title: "Ngày đặt lịch",
                 dataIndex: "dayCheckIn",
                 key: "dayCheckIn",
                 render: (dayCheckIn) => {
@@ -139,22 +139,22 @@ export default function IndexBookingRestaurant() {
                 },
             },
             {
-                title: "totalPrice",
+                title: "Tổng tiền",
                 dataIndex: "totalPrice",
                 key: "totalPrice",
             },
             {
-                title: "Name",
+                title: "Tên người đặt",
                 dataIndex: "name",
                 key: "name",
             },
             {
-                title: "Phone",
+                title: "Số điện thoại",
                 dataIndex: "phone",
                 key: "phone",
             },
             {
-                title: "Actions",
+                title: "Thực hiện",
                 key: "actions",
                 render: (_, bookingRestaurant) => (
                     <Space>
@@ -169,12 +169,12 @@ export default function IndexBookingRestaurant() {
         ];
 
         const branchMenuItems = [
-            { key: "all", label: "All Branches" },
+            { key: "all", label: "Tất cả chi nhánh" },
             ...branches.map((branch) => ({ key: branch.branchName, label: branch.branchName })),
         ];
 
         const restaurantMenuItems = [
-            { key: "all", label: "All Restaurant Types" },
+            { key: "all", label: "Tất cả nhà hàng" },
             ...restaurants.map((restaurant) => ({ key: restaurant.restaurantType, label: restaurant.restaurantType })),
         ];
 
@@ -187,7 +187,7 @@ export default function IndexBookingRestaurant() {
                             onClick: ({ key }) => setSelectedBranch(key === "all" ? null : key),
                         }}
                     >
-                        <Button>{selectedBranch || "Filter by Branch"}</Button>
+                        <Button>{selectedBranch || "Lọc theo chi nhánh"}</Button>
                     </Dropdown>
 
                     <Dropdown
@@ -197,11 +197,11 @@ export default function IndexBookingRestaurant() {
                                 setSelectedRestaurantType(key === "all" ? null : key),
                         }}
                     >
-                        <Button>{selectedRestaurantType || "Filter by Restaurant Type"}</Button>
+                        <Button>{selectedRestaurantType || "Lọc theo nhà hàng"}</Button>
                     </Dropdown>
 
                     <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-                        Add New Booking Restaurant
+                        Thêm lịch đặt
                     </Button>
                 </div>
 

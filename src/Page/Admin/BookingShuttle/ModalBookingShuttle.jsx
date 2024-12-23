@@ -65,7 +65,7 @@ const ModalBookingShuttle = ({ type, data, isModalVisible, onClose, onSave, bran
         <Modal
             title={
                 type === "add"
-                    ? "Add shuttle"
+                    ? "Thêm lịch đặt xe"
                     // : type === "edit"
                     //     ? "Edit shuttle"
                         : "View shuttle"
@@ -74,19 +74,19 @@ const ModalBookingShuttle = ({ type, data, isModalVisible, onClose, onSave, bran
             onCancel={onClose}
             footer={
                 type === "view" ? (
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={onClose}>Đóng</Button>
                 ) : (
                     <>
                         <Button type="primary" onClick={handleSave}>
-                            Save
+                            Lưu
                         </Button>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={onClose}>Thoát</Button>
                     </>
                 )
             }
         >
             <label>
-                <strong>Branch Name</strong>
+                <strong>Chi Nhánh</strong>
                 <Select
                     value={form.branchId || ""}
                     onChange={handleBranchChange}
@@ -102,7 +102,7 @@ const ModalBookingShuttle = ({ type, data, isModalVisible, onClose, onSave, bran
             </label>
 
             <label>
-                <strong>Car Type</strong>
+                <strong>Loại Xe</strong>
                 <Select
                     value={form.carType || ""}
                     onChange={handleShuttleChange}
@@ -118,7 +118,7 @@ const ModalBookingShuttle = ({ type, data, isModalVisible, onClose, onSave, bran
             </label>
 
             <label>
-                <strong>Car Price</strong>
+                <strong>Giá Xe</strong>
                 <Input
                     value={carPrice || ""}
                     readOnly
@@ -128,7 +128,7 @@ const ModalBookingShuttle = ({ type, data, isModalVisible, onClose, onSave, bran
             </label>
 
             <label>
-                <strong>CheckIn Date</strong>
+                <strong>Ngày Đặt xe</strong>
                 <DatePicker
                     value={form.shuttleCheckInDate ? moment(form.shuttleCheckInDate) : null}
                     onChange={(date, dateString) => setForm({ ...form, shuttleCheckInDate: dateString })}
@@ -138,7 +138,7 @@ const ModalBookingShuttle = ({ type, data, isModalVisible, onClose, onSave, bran
             </label>
 
             <label>
-                <strong>CheckOut Date</strong>
+                <strong>Ngày Hủy </strong>
                 <DatePicker
                     value={form.shuttleCheckOutDate ? moment(form.shuttleCheckOutDate) : null}
                     onChange={(date, dateString) => setForm({ ...form, shuttleCheckOutDate: dateString })}

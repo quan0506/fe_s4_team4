@@ -76,7 +76,7 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
         <Modal
             title={
                 type === "add"
-                    ? "Add Booking"
+                    ? "Đặt lịch spa mới"
                     // : type === "edit"
                     //     ? "Edit Booking"
                     : "View Booking"
@@ -85,19 +85,19 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
             onCancel={onClose}
             footer={
                 type === "view" ? (
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={onClose}>Đóng</Button>
                 ) : (
                     <>
                         <Button type="primary" onClick={handleSave}>
-                            Save
+                            Lưu
                         </Button>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={onClose}>Thoát</Button>
                     </>
                 )
             }
         >
             <label>
-                <strong>Branch Name</strong>
+                <strong>Chi Nhánh</strong>
                 <Select
                     value={form.branchId || ""}
                     onChange={handleBranchChange}
@@ -113,7 +113,7 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
             </label>
 
             <label>
-                <strong>Spa Service</strong>
+                <strong>Tên Spa</strong>
                 <Select
                     value={form.spaServiceNames || ""}
                     onChange={handleSpaChange}
@@ -129,7 +129,7 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
             </label>
 
             <label>
-                <strong>fullName</strong>
+                <strong>Tên người đặt</strong>
                 <Input
                     value={form.fullName || ""}
                     onChange={(e) => setForm({...form, fullName: e.target.value})}
@@ -148,7 +148,7 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
             </label>
 
             <label>
-                <strong>spaServiceTime</strong>
+                <strong>Thời gian phục vụ</strong>
                 <Select
                     value={form.spaServiceTime || undefined}
                     onChange={handleSelectChange}
@@ -162,7 +162,7 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
             </label>
 
             <label>
-                <strong>description</strong>
+                <strong>Mô tả</strong>
                 <Input
                     value={form.description || ""}
                     onChange={(e) => setForm({...form, description: e.target.value})}
@@ -172,7 +172,7 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
             </label>
 
             <label>
-                <strong>Phone</strong>
+                <strong>Số điện thoại </strong>
                 <Input
                     value={form.phone || ""}
                     onChange={(e) => setForm({...form, phone: e.target.value})}
@@ -182,7 +182,7 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
             </label>
 
             <label>
-                <strong>numberOfPeople</strong>
+                <strong>Số lượng</strong>
                 <Input
                     value={form.numberOfPeople || ""}
                     onChange={(e) => setForm({...form, numberOfPeople: e.target.value})}
@@ -193,7 +193,7 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
 
 
             <label>
-                <strong>appointmentTime</strong>
+                <strong>Thời gian đặt</strong>
                 <DatePicker
                     value={form.appointmentTime ? moment(form.appointmentTime) : null}
                     onChange={(date, dateString) =>

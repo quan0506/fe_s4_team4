@@ -54,11 +54,11 @@ export default function IndexShuttle() {
 
     const handleDelete = async (id, branchId) => {
         Modal.confirm({
-            title: "Are you sure you want to delete this shuttle?",
+            title: "Chắc chắn xóa dịch vụ đặt xe?",
             onOk: async () => {
                 try {
                     await upstashService.deleteShuttle(id, branchId);
-                    message.success("Shuttle deleted successfully!");
+                    message.success("Xóa DV đặt xe thành công!");
                     fetchShuttles();
                 } catch (error) {
                     message.error("Failed to delete shuttle!");
@@ -93,10 +93,10 @@ export default function IndexShuttle() {
 
             if (modalType === "add") {
                 await upstashService.addShuttle(data);
-                message.success("Shuttle added success!");
+                message.success("Thêm DV đặt xe thành công!");
             } else if (modalType === "edit") {
                 await upstashService.updateShuttle(currentShuttle.id, data);
-                message.success("Shuttle updated success!");
+                message.success("Cập nhật DV đặt xe thành công ");
             }
             fetchShuttles();
             setIsModalVisible(false);
@@ -122,22 +122,22 @@ export default function IndexShuttle() {
             key: "id",
         },
         {
-            title: "Branch Name",
+            title: "Chi Nhánh",
             dataIndex: "branchName",
             key: "branchName",
         },
         {
-            title: "Car Type",
+            title: "Loại Xe",
             dataIndex: "carType",
             key: "carType",
         },
         {
-            title: "Car Price",
+            title: "Giá Xe",
             dataIndex: "carPrice",
             key: "carPrice",
         },
         {
-            title: "Photos",
+            title: "Hình Ảnh",
             dataIndex: "photos",
             key: "photos",
             render: (photos) => (
@@ -162,7 +162,7 @@ export default function IndexShuttle() {
             ),
         },
         {
-            title: "Description",
+            title: "Mô tả",
             dataIndex: "carDescription",
             key: "carDescription",
             width: 400,
@@ -175,7 +175,7 @@ export default function IndexShuttle() {
             )
         },
         {
-            title: "Actions",
+            title: "Thực hiện",
             key: "actions",
             render: (_, shuttle) => (
                 <Space>
@@ -199,7 +199,7 @@ export default function IndexShuttle() {
     ];
 
     const branchMenuItems = [
-        { key: "all", label: "All Branches" },
+        { key: "all", label: "Tất cả chi nhánh" },
         ...branches.map((branch) => ({ key: branch.branchName, label: branch.branchName })),
     ];
 
@@ -207,7 +207,7 @@ export default function IndexShuttle() {
         <div className="branch-management">
             <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
                 <Input
-                    placeholder="Search by ID"
+                    placeholder="Tìm kiếm"
                     value={searchId}
                     onChange={(e) => setSearchId(e.target.value)}
                     style={{width: "30%"}}
@@ -218,7 +218,7 @@ export default function IndexShuttle() {
                         onClick: ({key}) => setSelectedBranch(key === "all" ? null : key),
                     }}
                 >
-                    <Button>{selectedBranch || "Filter by Branch"}</Button>
+                    <Button>{selectedBranch || "Lọc theo chi nhánh"}</Button>
                 </Dropdown>
 
                 <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>

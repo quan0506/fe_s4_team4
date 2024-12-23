@@ -71,25 +71,25 @@ const ModalSpa = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
 
     return (
         <Modal
-            title={type === "add" ? "Add spa" : type === "edit" ? "Edit spa" : "View spa"}
+            title={type === "add" ? "Thêm Spa" : type === "edit" ? "Chỉnh sửa Spa" : "View spa"}
             open={isModalVisible}
             onCancel={onClose}
             footer={
                 type === "view" ? (
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={onClose}>Đóng</Button>
                 ) : (
                     <>
                         <Button type="primary" onClick={handleSave}>
-                            Save
+                            Lưu
                         </Button>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={onClose}>Thoát</Button>
                     </>
                 )
             }
         >
 
             <label>
-                <strong>Branch Name</strong>
+                <strong>Chi Nhánh</strong>
                 <Select
                     value={form.branchId || ""}
 
@@ -106,7 +106,7 @@ const ModalSpa = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
             </label>
 
             <label>
-                <strong>Spa Name</strong>
+                <strong>Tên Spa</strong>
                 <Input
                     value={form.spaServiceName || ""}
                     onChange={(e) => setForm({...form, spaServiceName: e.target.value})}
@@ -115,7 +115,7 @@ const ModalSpa = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
                 />
             </label>
             <label>
-                <strong>Service Price</strong>
+                <strong>Giá Dịch Vụ</strong>
                 <Input
                     value={form.spaServicePrice || ""}
                     onChange={(e) => setForm({...form, spaServicePrice: e.target.value})}
@@ -124,7 +124,7 @@ const ModalSpa = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
                 />
             </label>
             <label>
-                <strong>Description:</strong>
+                <strong>Mô tả</strong>
                 <Input
                     value={form.spaDescription || ""}
                     onChange={(e) => setForm({...form, spaDescription: e.target.value})}
@@ -134,7 +134,7 @@ const ModalSpa = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
             </label>
 
             <label>
-                <strong>Upload Photos:</strong>
+                <strong>Tải lên hình ảnh:</strong>
                 <Upload
                     listType="picture"
                     beforeUpload={(file) => {
@@ -144,7 +144,7 @@ const ModalSpa = ({ type, data, isModalVisible, onClose, onSave, branches}) => {
                     fileList={fileList}
                     onPreview={handlePreview}
                 >
-                    <Button icon={<UploadOutlined/>}>Upload</Button>
+                    <Button icon={<UploadOutlined/>}>Tải lên</Button>
                 </Upload>
             </label>
         </Modal>

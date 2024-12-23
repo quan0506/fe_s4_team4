@@ -26,13 +26,13 @@ export default function IndexBranch() {
             }));
             setListBranch(normalizedData);
         } catch (error) {
-            console.error("Failed to fetch branches:", error);
+            console.error("Failed to fetch data", error);
         }
     };
 
     const handleSearch = async () => {
         if (!searchId) {
-            message.error("Please enter an ID to search!");
+            message.error("Vui lòng nhập ID để tìm kiếm");
             return;
         }
 
@@ -40,7 +40,7 @@ export default function IndexBranch() {
             const branch = await upstashService.getBranchesid(searchId);
             setListBranch([branch]);
         } catch (error) {
-            message.error("Branch not found!");
+            message.error("Branch Not Found", error);
         }
     };
 
@@ -52,14 +52,14 @@ export default function IndexBranch() {
 
     const handleDelete = async (id) => {
         Modal.confirm({
-            title: "Are you sure to delete this branch?",
+            title: "Bạn có chắc chắn xóa chi nhánh này",
             onOk: async () => {
                 try {
                     await upstashService.deleteBranch(id);
-                    message.success("Branch deleted successfully!");
+                    message.success("Xóa chi nhánh thành công");
                     fetchBranches();
                 } catch (error) {
-                    message.error("Failed to delete branch!");
+                    message.error("Failed to delete branch", error);
                 }
             },
         });
@@ -86,15 +86,15 @@ export default function IndexBranch() {
         try {
             if (modalType === "add") {
                 await upstashService.addBranch(data);
-                message.success("Branch added successfully!");
+                message.success("Thêm mới Chi nhánh thành công");
             } else if (modalType === "edit") {
                 await upstashService.updateBranch(currentBranch.id, data);
-                message.success("Branch updated successfully!");
+                message.success("Chỉnh sửa chi nhánh thành cônh");
             }
             fetchBranches();
             setIsModalVisible(false);
         } catch (error) {
-            message.error("Failed to save branch!");
+            message.error("Failed to save branch!", error);
         }
     };
 
@@ -110,7 +110,7 @@ export default function IndexBranch() {
             width: 80,
         },
         {
-            title: "Branch Name",
+            title: "Chi Nhánh",
             dataIndex: "branchName",
             key: "branchName",
             width: 150,
@@ -123,7 +123,7 @@ export default function IndexBranch() {
             ),
         },
         {
-            title: "Location",
+            title: "Vị trí",
             dataIndex: "location",
             key: "location",
             width: 120,
@@ -136,7 +136,7 @@ export default function IndexBranch() {
             ),
         },
         {
-            title: "Photos",
+            title: "Hình Ảnh",
             dataIndex: "photos",
             key: "photos",
             width: 120,
@@ -162,7 +162,7 @@ export default function IndexBranch() {
             ),
         },
         {
-            title: "Description",
+            title: "Mô Tả",
             dataIndex: "description",
             key: "description",
             width: 200,
@@ -175,7 +175,7 @@ export default function IndexBranch() {
             ),
         },
         {
-            title: "Address",
+            title: "Địa Chỉ",
             dataIndex: "address",
             key: "address",
             width: 200,
@@ -188,14 +188,14 @@ export default function IndexBranch() {
             ),
         },
         {
-            title: "Created At",
+            title: "Ngày tạo",
             dataIndex: "createdAt",
             key: "createdAt",
             width: 120,
             render: (date) => new Date(date).toLocaleDateString(),
         },
         {
-            title: "Actions",
+            title: "Thực hiện",
             key: "actions",
             width: 100,
             render: (_, branch) => (
@@ -224,14 +224,14 @@ export default function IndexBranch() {
           </Title>
           <div className='mb-3 flexs' >
               <Input
-                placeholder="Search by ID"
+                placeholder="Tìm Kiếm"
                 value={searchId}
                 onChange={(e) => setSearchId(e.target.value)}
                 style={{ width: "300px" }}
                 suffix={<SearchOutlined onClick={handleSearch} />}
               />
               <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-                  Add Branch
+                  Thêm Chi Nhánh
               </Button>
           </div>
           <Table

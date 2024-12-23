@@ -244,12 +244,21 @@ const upstashService = {
         return await axiosClient.delete(url);
     },
 
-
     //  book
     postbookingsRoom : async (param) => {
         const url ='/bookings/create';
         return await axiosClient.post(url , param)
     },
+    getAllBookingRoom : async () => {
+        const url =`/bookings/all`;
+        return await axiosClient.get(url)
+    },
+    deleteBookingRoom: async (id) => {
+        const url = `/bookings/delete/${id}`;
+        return await axiosClient.delete(url);
+    },
+
+
 //BookingHistory
     gethistoryshuttle : async (id) => {
         const url = `/shuttle-bookings/user/${id}`;

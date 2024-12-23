@@ -63,14 +63,14 @@ export default function IndexReview() {
 
     const handleDelete = async (id) => {
         Modal.confirm({
-            title: "Are you delete this review?",
+            title: "Bạn có muốn xóa đánh giá này?",
             onOk: async () => {
                 try {
                     await upstashService.deleteReview(id);
-                    message.success("review delete success");
+                    message.success("Xóa đánh giá thành công");
                     fetchReviews();
                 } catch (error) {
-                    message.error("Fail delete review");
+                    message.error("Failed to delete review", error);
                 }
             },
         });
@@ -85,12 +85,12 @@ export default function IndexReview() {
 
             if (modalType === "add") {
                 await upstashService.addReview(data);
-                message.success("room add success!");
+                message.success("Thêm đánh giá thành công");
             }
             fetchReviews();
             setIsModalVisible(false);
         } catch (error) {
-            message.error("Failed to save room!");
+            message.error("Failed to save review!", error);
         }
     };
 
@@ -108,27 +108,27 @@ export default function IndexReview() {
             key: "reviewId",
         },
         {
-            title: "Branch Name",
+            title: "Chi nhánh",
             dataIndex: "branchName",
             key: "branchName",
         },
         {
-            title: "Room Type",
+            title: "Loại Phòng",
             dataIndex: "roomType",
             key: "roomType",
         },
         {
-            title: "Rating",
+            title: "Xếp hạng",
             dataIndex: "rating",
             key: "rating",
         },
         {
-            title: "Review text",
+            title: "Bài Đánh Giá",
             dataIndex: "reviewText",
             key: "reviewText",
         },
         {
-            title: "Review Image",
+            title: "Hình Ảnh",
             dataIndex: "photos",
             key: "photos",
             render: (photos) => (
@@ -150,7 +150,7 @@ export default function IndexReview() {
             ),
         },
         {
-            title: "Created At",
+            title: "Ngày tạo",
             dataIndex: "createdAt",
             key: "createdAt",
             render: (createdAt) => {
@@ -159,12 +159,12 @@ export default function IndexReview() {
             },
         },
         {
-            title: "User Email",
+            title: "Email",
             dataIndex: "userEmail",
             key: "userEmail",
         },
         {
-            title: "Actions",
+            title: "Thực hiện",
             key: "actions",
             render: (_, review) => (
                 <Space>
@@ -179,12 +179,12 @@ export default function IndexReview() {
     ];
 
     const branchMenuItems = [
-        { key: "all", label: "All Branches" },
+        { key: "all", label: "Tất cả chi nhánh" },
         ...branches.map((branch) => ({ key: branch.branchName, label: branch.branchName })),
     ];
 
     const roomTypeMenuItems = [
-        { key: "all", label: "All Room Types" },
+        { key: "all", label: "Tất cả loại phòng" },
         ...rooms.map((room) => ({ key: room.roomType, label: room.roomType })),
     ];
 
@@ -192,7 +192,7 @@ export default function IndexReview() {
         <div>
             <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
                 <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>
-                    Add Review
+                    Thêm đánh giá
                 </Button>
                 <div style={{display: "flex", gap: "8px"}}>
                     <Dropdown
@@ -202,7 +202,7 @@ export default function IndexReview() {
                                 setSelectedBranch(key === "all" ? null : key),
                         }}
                     >
-                        <Button>{selectedBranch || "Filter by Branch"}</Button>
+                        <Button>{selectedBranch || "Lọc theo chi nhánh"}</Button>
                     </Dropdown>
                     <Dropdown
                         menu={{
@@ -211,7 +211,7 @@ export default function IndexReview() {
                                 setSelectedRoomType(key === "all" ? null : key),
                         }}
                     >
-                        <Button>{selectedRoomType || "Filter by Room Type"}</Button>
+                        <Button>{selectedRoomType || "Lọc theo loại phòng"}</Button>
                     </Dropdown>
                 </div>
             </div>

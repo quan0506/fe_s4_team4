@@ -17,6 +17,7 @@ import IndexRoom from "../Page/Admin/Room/IndexRoom";
 import BookingHistory from "../component/History";
 import IndexShuttle from "../Page/Admin/Shuttle/IndexShuttle";
 import IndexSpa from "../Page/Admin/Spa/IndexSpa";
+import IndexUser from "../Page/Admin/User/IndexUser";
 import IndexRestaurant from  "../Page/Admin/Restaurant/IndexRestaurant";
 import IndexBookingShuttle from "../Page/Admin/BookingShuttle/IndexBookingShuttle";
 import IndexBookingSpa from "../Page/Admin/BookingSpa/IndexBookingSpa";
@@ -24,6 +25,8 @@ import IndexBookingRestaurant from "../Page/Admin/BookingRestaurant/IndexBooking
 import Restaurants from "../Page/FasterDetails/Service/Restaurants"
 import HistoryShuttle from "../Page/History/Shuttle"
 import HistoryRoomuser from '../Page/History/roomuser'
+import IndexBookingRoom from "../Page/Admin/BookingRoom/IndexBookingRoom";
+
 const privateRoutes = {
   home: {
     path: '/',
@@ -108,9 +111,19 @@ const privateRoutes = {
     component : IndexSpa
   },
 
+  IndexUser: {
+    path: '/admin/users',
+    component : IndexUser
+  },
+
   IndexRestaurant: {
     path: '/admin/restaurants',
     component : IndexRestaurant
+  },
+
+  IndexRoomBooking: {
+    path: '/admin/room-bookings',
+    component : IndexBookingRoom
   },
 
   IndexShuttleBooking: {
