@@ -2,7 +2,10 @@ import SearchBooking from "./SearchBooking.jsx";
 import Room from "./Room.jsx";
 import HeaderPega from "../../component/HeaderPega.jsx";
 import {Col, Row} from "antd";
+import {useState} from "react";
 const IndexBooking = () => {
+  const [city , setCity] = useState('');
+  console.log(city)
   return (
     <div className="bg-[#1c2638] ">
       <HeaderPega
@@ -12,7 +15,10 @@ const IndexBooking = () => {
       />
       <Row className='p-4' gutter={16}>
         <Col md={7}>
-            <SearchBooking/>
+            <SearchBooking
+              city={city}
+              setCity={setCity}
+            />
         </Col>
         <Col md={17}>
           <Room/>

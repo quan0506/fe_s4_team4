@@ -13,7 +13,6 @@ const HeaderHome = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const token = localStorage.getItem("accessToken");
-  console.log(user)
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -34,7 +33,6 @@ const HeaderHome = () => {
 
   const menuItems = [
     { to: '/', label: 'Trang chủ' },
-    { to: '/services', label: 'Dịch vụ' },
     { to: '/booking', label: 'Đặt phòng' },
     { to: '/fasterdetails', label: 'Chi nhanh' },
   ];

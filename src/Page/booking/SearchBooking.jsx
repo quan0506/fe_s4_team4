@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DatePicker, Input, InputNumber, Slider, Button } from "antd";
 import { SearchOutlined ,AccountBookOutlined} from "@ant-design/icons";
 const { RangePicker } = DatePicker;
- const SearchBooking = () => {
+ const SearchBooking = ({setCity, city}) => {
   const [date, setDate] = useState();
   const [guests, setGuests] = useState(1);
   const [priceRange, setPriceRange] = useState([0]);
@@ -20,6 +20,8 @@ const { RangePicker } = DatePicker;
             <label className="block text-sm font-medium text-white/80">Địa điểm</label>
             <Input
               size='large'
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
               placeholder="Bạn đang cần tìm thành phố nào?"
               className="border-white/10 text-white"
               prefix={<SearchOutlined className="text-amber-400"/>}

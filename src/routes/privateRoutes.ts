@@ -31,7 +31,8 @@ import IndexBookingRoom from "../Page/Admin/BookingRoom/IndexBookingRoom";
 const privateRoutes = {
   home: {
     path: '/',
-    component: HomePage
+    component: HomePage,
+    requiredLogin : true
   },
   services : {
     path: '/fasterdetails/services/:id',
@@ -55,7 +56,8 @@ const privateRoutes = {
   },
   Bookinginformation: {
     path: '/bookinginformation/:id',
-    component: Bookinginformation
+    component: Bookinginformation,
+    requiredLogin : false
   },
   DiscountCode : {
     path: '/discountcode',

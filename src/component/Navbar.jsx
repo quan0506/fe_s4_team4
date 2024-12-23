@@ -7,21 +7,23 @@ import {
   X,
   Heart,
   User,
-  ArrowRightFromLine
+  ArrowRightFromLine, CalendarClock
 } from "lucide-react";
 import { useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {Avatar, Button, Dropdown} from "antd";
 import {UserOutlined} from "@ant-design/icons";
+import UserStore from "../constants/states/user.js";
 export const Header = () => {
   const [showCart, setShowCart] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const {user}=UserStore()
   const menuItems = [
     { icon: Home, label: "Trang chủ", path: "/" },
     { icon: Hotel , label: "Đặt phòng", path: "/booking" },
     { icon: BookOpen, label: "Chi nhánh", path: "/fasterdetails" },
-    { icon: ShoppingCart, label: "Dịch vụ", path: "/services" },
   ];
+
   const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
   const handleLogout = () => {
@@ -31,8 +33,13 @@ export const Header = () => {
   const items = [
     {
       key: '1',
-      label: 'Tên khách hàng ',
+      label: `${user?.lastName}`,
       icon: <User />,
+    },
+    {
+      key: '3',
+      label:<Link to='/bookinghistory/room'>Lịch sử hoạt động</Link>,
+      icon: <CalendarClock  />,
     },
     ...(token ? [
       {
@@ -40,6 +47,7 @@ export const Header = () => {
         label: <div onClick={handleLogout}>Đăng xuất</div>,
         icon: <ArrowRightFromLine size={20} />,
       },
+
     ] : []),
   ];
   return (
