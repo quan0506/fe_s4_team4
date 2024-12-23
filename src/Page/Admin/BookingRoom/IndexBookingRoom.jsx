@@ -19,11 +19,9 @@ export default function IndexBookingRoom() {
 
             const roomsResponse = await upstashService.getAllRoom();
             console.log("Rooms Response:", roomsResponse);
-
             const rooms = Array.isArray(roomsResponse?.data) ? roomsResponse.data : [];
             setRooms(rooms);
-
-            const bookingRoomsData = Array.isArray(bookingRoomResponse?.data) ? bookingRoomResponse.data : [];
+            const bookingRoomsData = Array.isArray(bookingRoomResponse?.bookings) ? bookingRoomResponse.bookings : [];
 
             const normalizedData = bookingRoomsData.map((booking) => {
                 const room = rooms.find((r) => r.roomType === booking.roomType);

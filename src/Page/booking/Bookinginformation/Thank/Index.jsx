@@ -5,10 +5,12 @@ import Suggestions from "./Suggestions.jsx";
 import './Thank.css'
 import {useQuery} from "react-query";
 import upstashService from "../../../../services/upstashService.js";
-const Index = ({idbook}) => {
+import {useParams} from "react-router-dom";
+const Index = () => {
+  const { id } = useParams();
   const { data: listIDbook } = useQuery(
     "av.listIDbook",
-    () => upstashService.getIDbook(idbook)
+    () => upstashService.getIDbook(id)
   );
   return (
     <div className="min-h-screen py-12 px-4 relative overflow-hidden bg-amber-50 rounded-2xl	">
@@ -28,7 +30,7 @@ const Index = ({idbook}) => {
           listIDbook={listIDbook}
         />
       </div>
-      <ShareButtons />
+      {/*<ShareButtons />*/}
       <div className="text-center mb-12 relative">
         <h2 className="font-playfair text-2xl text-navy mb-8 inline-block relative">
           Trải nghiệm thêm dịch vụ của chúng tôi

@@ -257,7 +257,11 @@ const upstashService = {
         const url = `/bookings/delete/${id}`;
         return await axiosClient.delete(url);
     },
-
+    //vnpay
+    vnpay : async (bookingId , modeOfPayment) => {
+      const url =`/api/submitOrder?bookingId=${bookingId}&modeOfPayment=${modeOfPayment}`
+        return await axiosClient.post(url )
+    },
 
 //BookingHistory
     gethistoryshuttle : async (id) => {

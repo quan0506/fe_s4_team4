@@ -198,12 +198,12 @@ input::placeholder , .ant-picker .ant-picker-input >input{
 }
 
 
-/*.fillininformation .ant-picker-outlined , .ant-input-outlined , .ant-input-number-outlined , .ant-picker-outlined{*/
-/*    background: rgb(108 106 126) !important;*/
-/*}*/
-/*.fillininformation .ant-input-number-outlined:hover , .ant-input-number-outlined:focus-within{*/
-/*    background: rgb(108 106 126) !important;*/
-/*}*/
+.fillininformation .ant-picker-outlined , .ant-input-outlined , .ant-input-number-outlined , .ant-picker-outlined{
+    background: rgb(108 106 126) !important;
+}
+.fillininformation .ant-input-number-outlined:hover , .ant-input-number-outlined:focus-within{
+    background: rgb(108 106 126) !important;
+}
 .Article .slick-next{
     display: none !important;
 }

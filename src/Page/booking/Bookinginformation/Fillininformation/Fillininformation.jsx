@@ -10,17 +10,17 @@ import {
   DatePicker,
   InputNumber
 } from "antd";
-import { HomeOutlined, ClockCircleOutlined, CreditCardOutlined } from '@ant-design/icons';
-import { Tag, Wallet } from 'lucide-react'
+import { HomeOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { Tag} from 'lucide-react'
 import toast from "react-hot-toast";
 import upstashService from "../../../../services/upstashService.js";
 import UserStore from "../../../../constants/states/user.js";
 import {useState} from "react";
 const { Title } = Typography;
 
-const Fillininformation = ({ setCurrentStep, setStartDate, setDiscountcode,
+const Fillininformation = ({ setStartDate, setDiscountcode,
                              setAdults, setChildren, children, startDate,
-                             litsroomid, adults, TotalAmount, discountcode , setIdbook }) => {
+                             litsroomid, adults }) => {
   const { RangePicker } = DatePicker;
   const { user } = UserStore()
   const [paymentMethod, setPaymentMethod] = useState('zalopay');
@@ -33,7 +33,7 @@ const Fillininformation = ({ setCurrentStep, setStartDate, setDiscountcode,
       toast.error('Vui lòng chọn phương thức thanh toán');
       return;
     }
-   try {
+    try {
      const checkInDateISO = formatToISODate(startDate[0]); // "2024-12-10"
      const checkOutDateISO = formatToISODate(startDate[1]); // "2024-12-12"
       const res =await  upstashService.postbookingsRoom({
@@ -47,9 +47,10 @@ const Fillininformation = ({ setCurrentStep, setStartDate, setDiscountcode,
          // confirmBookingCode: discountcode, // Mã giảm giá (nếu có)
          status: ""
      });
-     setIdbook(res?.bookingId)
+      const modeOfPayment='DEPOSIT'
+     const resvnay = await upstashService.vnpay(res?.bookingId ,modeOfPayment )
+      window.location.href =(resvnay?.vnpayUrl)
     toast.success('Đặt phòng thành công')
-     setCurrentStep(2);
    }catch (e) {
      console.log(e)
    }
@@ -149,10 +150,7 @@ const Fillininformation = ({ setCurrentStep, setStartDate, setDiscountcode,
         </Space>
       </div>
       <div>
-        <Title level={4} className="mb-4 text-gray-800 flex items-center">
-          <CreditCardOutlined className="mr-2 text-yellow-500"/>
-          <div className='text-amber-400'>Chọn phương thức thanh toán</div>
-        </Title>
+
         <Radio.Group
           onChange={(e) => setPaymentMethod(e.target.value)}
           value={paymentMethod}

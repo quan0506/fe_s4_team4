@@ -1,12 +1,10 @@
-import {useEffect, useState} from 'react';
-import { Card, Steps, Row, Col, Typography, Divider, Space } from 'antd';
+import {useState} from 'react';
+import { Card,  Row, Col, Typography, Divider, Space } from 'antd';
 import { PhoneOutlined } from '@ant-design/icons';
 import Fillininformation from "./Fillininformation/Fillininformation.jsx";
-import VNPay from "./Fillininformation/VNPay.jsx";
-import Index from "./Thank/Index.jsx";
 import {useQuery} from "react-query";
 import upstashService from "../../../services/upstashService.js";
-import {useNavigate, useParams} from "react-router-dom";
+import { useParams} from "react-router-dom";
 const { Title, Text } = Typography;
 export default function BookingInformation() {
   const { data: litsroomid } = useQuery(
@@ -14,7 +12,6 @@ export default function BookingInformation() {
     () => upstashService.getRoomId(id)
   );
   // console.log('litsroomid' ,litsroomid)
-  const [currentStep, setCurrentStep] = useState(0);
   const [startDate, setStartDate] = useState([]);
   const date1 = new Date(startDate[0]?.split("-").reverse().join("-"));
   const date2 = new Date(startDate[1]?.split("-").reverse().join("-"));
@@ -27,7 +24,6 @@ export default function BookingInformation() {
   const [adults , setAdults] = useState(0);
   const [children , setChildren] = useState(0);
   const [discountcode , setDiscountcode] = useState('');
-  const [idbook , setIdbook] = useState(null);
   const { id } = useParams();
   return (
     <div
@@ -39,50 +35,20 @@ export default function BookingInformation() {
       }}
     >
       <div style={{maxWidth: 1200, margin: '0 auto', padding: '24px'}}>
-        <Steps
-          current={currentStep}
-          items={[
-            {title: 'Điền thông tin'},
-            {title: 'Thanh Toán'},
-            {title: 'Xác nhận'},
-          ]}
-          style={{marginBottom: 32}}
-        />
         <Row gutter={24}>
-          <Col xs={24} sm={16} md={currentStep === 2 ? 24 : 16}>
-            {currentStep === 0 && (
+          <Col xs={24} sm={16}>
               <Fillininformation
-                setIdbook={setIdbook}
                 discountcode={discountcode}
                 TotalAmount={TotalAmount}
                 adults={adults}
                 litsroomid={litsroomid}
                 setDiscountcode={setDiscountcode}
                 setStartDate={setStartDate}
-                setCurrentStep={setCurrentStep}
                 setAdults={setAdults}
                 setChildren={setChildren}
-                children={children}
                 startDate={startDate}
               />
-            )}
-            {currentStep === 1 && (
-              <div>
-                <Title level={4}>Thanh Toán</Title>
-                <VNPay
-                  setCurrentStep={setCurrentStep}
-                />
-              </div>
-            )}
-            {currentStep === 2 && (
-              <div>
-                <Index
-                  idbook={idbook}
-                />
-              </div>
-            )}
           </Col>
-          {(currentStep === 0 || currentStep === 1) && (
             <Col xs={24} sm={8} md={8}>
               <Card>
                 <Title level={4}>Thông tin đặt phòng</Title>
@@ -148,8 +114,6 @@ export default function BookingInformation() {
                 </div>
               </Card>
             </Col>
-          )
-          }
         </Row>
       </div>
     </div>

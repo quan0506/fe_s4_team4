@@ -10,6 +10,7 @@ import DetailBranches from '../Page/FasterDetails/DetailBranches'
 import IndexBranchoffice from '../Page/FasterDetails/AllBranchoffice/IndexBranchoffice'
 import IndexDashboard from "../Page/Admin/Dashboard/IndexDashboard";
 // import IndexHotel from "../Page/Admin/Hotel/IndexHotel"
+import Index from '../Page/booking/Bookinginformation/Thank/Index'
 import Shuttles from "../Page/FasterDetails/Service/Shuttles.jsx"
 import IndexBranch from "../Page/Admin/Branch/IndexBranch";
 import IndexReview from "../Page/Admin/Review/IndexReview";
@@ -81,6 +82,11 @@ const privateRoutes = {
     path: '/bookinghistory/room',
     component: HistoryRoomuser,
   },
+  Thankuser : {
+    path : '/thank/:id',
+    component: Index,
+
+  },
   // Admin
   indexAdmin : {
     path: '/admin/IndexDashboard',
@@ -139,6 +145,7 @@ const privateRoutes = {
     path: '/admin/spa-bookings',
     component : IndexBookingSpa
   },
+
 };
 
 export default privateRoutes;
