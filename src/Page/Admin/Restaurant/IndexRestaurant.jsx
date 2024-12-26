@@ -52,12 +52,12 @@ export default function IndexRestaurant() {
         setIsModalVisible(true);
     };
 
-    const handleDelete = async (id, branchId) => {
+    const handleDelete = async (id) => {
         Modal.confirm({
             title: "Có chắc chắn xóa nhà hàng này?",
             onOk: async () => {
                 try {
-                    await upstashService.deleteRestaurant(id, branchId);
+                    await upstashService.deleteRestaurant(id);
                     message.success("Xóa nhà hàng thành công!");
                     fetchRestaurants();
                 } catch (error) {
@@ -187,18 +187,18 @@ export default function IndexRestaurant() {
         {
             title: "Thực hiện",
             key: "actions",
-            render: (_, shuttle) => (
+            render: (_, restaurant) => (
                 <Space>
                     <Button
                         icon={<EditOutlined />}
-                        onClick={() => handleEdit(shuttle)}
+                        onClick={() => handleEdit(restaurant)}
                         type="primary"
                         shape="circle"
 
                     />
                     <Button
                         icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(shuttle.id, shuttle.branchId)}
+                        onClick={() => handleDelete(restaurant.id)}
                         danger
                         shape="circle"
 

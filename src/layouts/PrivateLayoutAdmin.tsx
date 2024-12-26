@@ -76,6 +76,7 @@ const PrivateLayoutAdmin = () => {
 
     const items: MenuItem[] = [
         getItem("Trang chủ", "1", <LayoutDashboard />),
+        getItem("Chi nhánh", "2", <House />),
         getItem("Loại phòng", "3", <Lectern />,[
             getItem("Quản lý phòng", "3.1",<Lectern />),
             getItem("Lịch đặt phòng", "3.2",<CalendarClock />),

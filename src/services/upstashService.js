@@ -23,6 +23,14 @@ const upstashService = {
         const url='/auth/reset-password-no-auth'
         return await axiosClient.post( url, param)
     },
+
+    // users
+    getAllUsers :async () => {
+        const url = `/users/all`;
+        return await   axiosClient.get(url);
+    },
+
+
     // Branch
     addBranch: async (data) => {
         const url = '/admin/branches/add';
@@ -214,8 +222,8 @@ const upstashService = {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
     },
-    deleteRestaurant: async (id) => {
-        const url = `/restaurants/delete/${id}`;
+    deleteRestaurant: async (restaurantId) => {
+        const url = `/restaurants/delete/${restaurantId}`;
         return await axiosClient.delete(url);
     },
 

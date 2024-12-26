@@ -1,9 +1,9 @@
 const convertJsonToFormData = (json) => {
     const formData = new FormData();
 
-    Object.keys(json).forEach((key) => {
+    Object.keys(json)?.forEach((key) => {
         if (key === 'photos' && Array.isArray(json[key])) {
-            json[key].forEach((fileObj) => {
+            json[key]?.forEach((fileObj) => {
                 if (fileObj.originFileObj instanceof File) {
                     formData.append(key, fileObj.originFileObj, fileObj.originFileObj.name);
                 }
@@ -11,7 +11,7 @@ const convertJsonToFormData = (json) => {
         } else if (key === 'reviewImageURL') {
             const value = json[key];
             if (Array.isArray(value)) {
-                value.forEach((url) => {
+                value?.forEach((url) => {
                     if (url instanceof File) {
                         formData.append(key, url, url.name);
                     } else {
@@ -26,7 +26,7 @@ const convertJsonToFormData = (json) => {
         }
     });
 
-    for (let pair of formData.entries()) { //log
+    for (let pair of formData.entries()) { 
         console.log(pair[0] + ':', pair[1]);
     }
 
