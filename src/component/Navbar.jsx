@@ -56,9 +56,7 @@ export const Header = () => {
         {/* Left Section: Logo */}
         <div className="flex items-center gap-2">
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              Logo
-            </div>
+              <img src='./logo-Photoroom.png' alt='logo' width={200}/>
           </Link>
         </div>
         {/* Center Section: Menu */}

@@ -11,7 +11,7 @@ export default function BookingInformation() {
     'av.litsroomid',
     () => upstashService.getRoomId(id)
   );
-  // console.log('litsroomid' ,litsroomid)
+
   const [startDate, setStartDate] = useState([]);
   const date1 = new Date(startDate[0]?.split("-").reverse().join("-"));
   const date2 = new Date(startDate[1]?.split("-").reverse().join("-"));

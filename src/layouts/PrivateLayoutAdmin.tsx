@@ -160,16 +160,7 @@ const PrivateLayoutAdmin = () => {
                                 {desktopCollapsed ? <MdSkipNext /> : <MdSkipPrevious />}
                             </button>
                         ) : (
-                            <img
-                                onClick={() => {
-                                    navigate("/");
-                                }}
-                                src="./Logo.svg"
-                                alt="logo"
-                                style={{
-                                    width: "150px",
-                                }}
-                            />
+                            <img src='/logo-Photoroom.png' alt='logo' width={200}/>
                         )}
                     </div>
                     <Menu

@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import {Avatar, Button, Drawer, Dropdown , } from "antd";
 import { User, Menu, X, Gift ,ArrowRightFromLine } from 'lucide-react';
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import upstashService from "../../../services/upstashService.js";
 import {UserOutlined} from "@ant-design/icons";
-import { Bed } from 'lucide-react';
 import { CalendarClock } from 'lucide-react';
 import UserStore from "../../../constants/states/user.js";
 const HeaderHome = () => {
@@ -69,11 +67,10 @@ const HeaderHome = () => {
     ] : []),
   ];
 
-
   return (
     <div id='menuhome'>
       <header className="absolute top-0 left-0 right-0 z-10 flex justify-between items-center px-4 sm:px-8 py-4 bg-transparent">
-        <div className="text-xl sm:text-2xl font-bold text-white">Logo</div>
+          <div className="flex items-center justify-between"></div>
         {!isMobile && (
           <nav className="hidden md:block">
             {renderMenuItems()}
