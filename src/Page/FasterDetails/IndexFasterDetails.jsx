@@ -86,13 +86,14 @@ const IndexFasterDetails = () => {
                     text="Dịch vụ xe"
                   />
                   <CardWithMotion
-                    onClick={() => {
-                      navigate(`restaurants/${branch?.id}`);
-                    }}
+
                     icon={WandSparkles}
                     text="Spa"
                   />
                   <CardWithMotion
+                    onClick={() => {
+                      navigate(`restaurants/${branch?.id}`);
+                    }}
                     icon={Utensils}
                     text="Nhà hàng"
                   />

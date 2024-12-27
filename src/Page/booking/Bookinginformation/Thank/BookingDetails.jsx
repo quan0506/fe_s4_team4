@@ -16,7 +16,7 @@ const BookingDetails = ({listIDbook}) => {
         </div>
 
         <div className="flex justify-between items-center pb-4 border-b border-gray-200">
-          <span className="text-gray-600">Tên người đặt</span>
+          <span className="text-black">Tên người đặt</span>
           <span className="font-semibold bg-gold/10 px-3 py-1 rounded-full">{listIDbook?.userName}</span>
         </div>
 

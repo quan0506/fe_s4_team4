@@ -33,7 +33,7 @@ const Shuttles = () => {
   }
 
   return (
-    <div>
+    <div className='shuttles'>
       <Restaurant
         handleRowClick={handleRowClick}
         id={id}

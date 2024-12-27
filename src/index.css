@@ -190,20 +190,21 @@ margin: 0 !important;
 .ant-slider .ant-slider-rail{
     background-color: rgb(154 135 62)!important;
 }
-.ant-input-number .ant-input-number-input{
-    color: white;
-}
+
 input::placeholder , .ant-picker .ant-picker-input >input{
     color: rgb(213, 208, 204) !important;
 }
 
-
-/*.fillininformation .ant-picker-outlined , .ant-input-outlined , .ant-input-number-outlined , .ant-picker-outlined{*/
+.logo-vertical, .ant-menu-dark.ant-menu-inline .ant-menu-sub.ant-menu-inline{
+    background:#141420!important;
+}
+    /*.fillininformation .ant-picker-outlined , .ant-input-outlined , .ant-input-number-outlined , .ant-picker-outlined{*/
 /*    background: rgb(108 106 126) !important;*/
 /*}*/
 /*.fillininformation .ant-input-number-outlined:hover , .ant-input-number-outlined:focus-within{*/
 /*    background: rgb(108 106 126) !important;*/
 /*}*/
+
 .Article .slick-next{
     display: none !important;
 }

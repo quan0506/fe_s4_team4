@@ -135,7 +135,6 @@ const PrivateLayoutAdmin = () => {
                         height: "100vh",
                         position: "fixed",
                         zIndex: 900,
-                        margin: isTablet ? "10px 0px" : "10px 60px",
                         paddingBottom: "10px",
                     }}
                 >
@@ -186,7 +185,7 @@ const PrivateLayoutAdmin = () => {
                         marginLeft: isTablet ? 0 : desktopCollapsed ? 80 : 200,
                         transition: "margin-left 0.3s",
                         minHeight: "100vh",
-                        padding: isTablet ? "0" : "10px 105px",
+                        padding: isTablet ? "0" : "10px 55px",
                     }}
                     onClick={() => {
                         if (!collapsed && width && width < 992) {

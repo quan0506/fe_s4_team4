@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Table, Button, Modal, Space, message, Dropdown, Input, Tooltip, Typography} from "antd";
+import {Table, Button, Modal, Space, message, Dropdown, Input, Tooltip, Typography, Carousel} from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import upstashService from "../../../services/upstashService.js";
 import ModalRoom from "./ModalRoom";
@@ -138,15 +138,23 @@ export default function IndexRoom() {
             dataIndex: "photos",
             key: "photos",
             render: (photos) => (
-              <div style={{ gap: "8px" }}>
-                  {photos.map((url, index) => (
-                    <img
-                      key={index}
-                      src={url}
-                      alt={`Room Photo ${index + 1}`}
-                      style={{ width: 50, height: 50, objectFit: "cover", borderRadius: "4px" }}
-                    />
-                  ))}
+              <div style={{width: 120}}>
+                  <Carousel autoplay>
+                      {photos.map((url, index) => (
+                        <div key={index}>
+                            <img
+                              src={url}
+                              alt={`Branch Photo ${index + 1}`}
+                              style={{
+                                  width: "100%",
+                                  height: 80,
+                                  objectFit: "cover",
+                                  borderRadius: "8px",
+                              }}
+                            />
+                        </div>
+                      ))}
+                  </Carousel>
               </div>
             ),
         },
@@ -154,12 +162,13 @@ export default function IndexRoom() {
             title: "Mô tả",
             dataIndex: "description",
             key: "description",
+            width: 400,
             render: (text) => (
-                <Tooltip title={text}>
-                    <Paragraph ellipsis={{rows: 2, expandable: false, symbol: '...'}}>
-                        {text}
-                    </Paragraph>
-                </Tooltip>
+              <Tooltip title={text}>
+                  <Paragraph ellipsis={{rows: 2, expandable: false, symbol: '...'}}>
+                      {text}
+                  </Paragraph>
+              </Tooltip>
             )
         },
         // {
@@ -177,7 +186,7 @@ export default function IndexRoom() {
             key: "actions",
             render: (_, room) => (
               <Space>
-                  <Button
+              <Button
                     icon={<EditOutlined />}
                     onClick={() => handleEdit(room)}
                     type="primary"

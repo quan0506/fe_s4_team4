@@ -1,0 +1,52 @@
+.custom-modal .ant-modal-content {
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.custom-modal .ant-modal-header {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.custom-modal .ant-modal-body {
+    padding: 24px;
+}
+
+.custom-modal .ant-modal-footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 12px 24px;
+}
+
+.custom-select .ant-select-selector {
+    border-radius: 8px !important;
+    border-color: #d1d5db !important;
+}
+
+.custom-input,
+.custom-textarea {
+    border-radius: 8px !important;
+    border-color: #d1d5db !important;
+}
+
+.custom-upload .ant-upload-list-picture-card .ant-upload-list-item,
+.custom-upload .ant-upload.ant-upload-select-picture-card {
+    border-radius: 8px;
+    border-color: #d1d5db;
+}
+
+.custom-upload .ant-upload-list-picture-card .ant-upload-list-item-info::before,
+.custom-upload .ant-upload.ant-upload-select-picture-card:hover {
+    border-radius: 8px;
+}
+
+.bg-primary {
+    background-color: #1890ff;
+}
+
+.bg-primary-dark {
+    background-color: #096dd9;
+}
+
+.text-primary {
+    color: #1890ff;
+}
+

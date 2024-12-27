@@ -53,6 +53,7 @@ const Fillininformation = ({ setStartDate, setDiscountcode,
     toast.success('Đặt phòng thành công')
    }catch (e) {
      console.log(e)
+      toast.error(e.message)
    }
   };
 
