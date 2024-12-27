@@ -62,91 +62,98 @@ const ModalBookingShuttle = ({ type, data, isModalVisible, onClose, onSave, bran
 
 
     return (
-        <Modal
+      <div className="modal-admin">
+          <Modal
+            className="custom-modal"
             title={
                 type === "add"
-                    ? "Thêm lịch đặt xe"
-                    // : type === "edit"
-                    //     ? "Edit shuttle"
-                        : "View shuttle"
+                  ? "Thêm lịch đặt xe"
+                  // : type === "edit"
+                  //     ? "Edit shuttle"
+                  : "View shuttle"
             }
             open={isModalVisible}
             onCancel={onClose}
             footer={
                 type === "view" ? (
-                    <Button onClick={onClose}>Đóng</Button>
+                  <Button onClick={onClose}>Đóng</Button>
                 ) : (
-                    <>
-                        <Button type="primary" onClick={handleSave}>
-                            Lưu
-                        </Button>
-                        <Button onClick={onClose}>Thoát</Button>
-                    </>
+                  <>
+                      <Button type="primary" onClick={handleSave}>
+                          Lưu
+                      </Button>
+                      <Button onClick={onClose}>Thoát</Button>
+                  </>
                 )
             }
-        >
-            <label>
-                <strong>Chi Nhánh</strong>
-                <Select
-                    value={form.branchId || ""}
-                    onChange={handleBranchChange}
-                    placeholder="Select Branch"
-                    style={{ width: "100%", marginBottom: 16 }}
-                >
-                    {branches.map((branch) => (
-                        <Select.Option key={branch.id} value={branch.id}>
-                            {branch.branchName}
-                        </Select.Option>
-                    ))}
-                </Select>
-            </label>
+          >
+              <div className="grid grid-cols-1 gap-4">
+                  <div>
+                      <strong className="block text-sm font-medium text-gray-700 ">Chi Nhánh</strong>
+                      <Select
+                        value={form.branchId || ""}
+                        onChange={handleBranchChange}
+                        placeholder="Select Branch"
+                        style={{width: "100%", marginBottom: 16}}
+                      >
+                          {branches.map((branch) => (
+                            <Select.Option key={branch.id} value={branch.id}>
+                                {branch.branchName}
+                            </Select.Option>
+                          ))}
+                      </Select>
+                  </div>
 
-            <label>
-                <strong>Loại Xe</strong>
-                <Select
-                    value={form.carType || ""}
-                    onChange={handleShuttleChange}
-                    placeholder="Select Car Type"
-                    style={{ width: "100%", marginBottom: 16 }}
-                >
-                    {carTypes.map((car) => (
-                        <Select.Option key={car.type} value={car.type}>
-                            {car.type}
-                        </Select.Option>
-                    ))}
-                </Select>
-            </label>
+                  <div>
+                      <strong className="block text-sm font-medium text-gray-700 ">Loại Xe</strong>
+                      <Select
+                        value={form.carType || ""}
+                        onChange={handleShuttleChange}
+                        placeholder="Select Car Type"
+                        style={{width: "100%", marginBottom: 16}}
+                      >
+                          {carTypes.map((car) => (
+                            <Select.Option key={car.type} value={car.type}>
+                                {car.type}
+                            </Select.Option>
+                          ))}
+                      </Select>
+                  </div>
 
-            <label>
-                <strong>Giá Xe</strong>
-                <Input
-                    value={carPrice || ""}
-                    readOnly
-                    placeholder="Car Price"
-                    style={{ marginBottom: 16 }}
-                />
-            </label>
+                  <div>
+                      <strong className="block text-sm font-medium text-gray-700 ">Giá Xe</strong>
+                      <Input
+                        value={carPrice || ""}
+                        readOnly
+                        placeholder="Car Price"
+                        style={{marginBottom: 16}}
+                      />
+                  </div>
 
-            <label>
-                <strong>Ngày Đặt xe</strong>
-                <DatePicker
-                    value={form.shuttleCheckInDate ? moment(form.shuttleCheckInDate) : null}
-                    onChange={(date, dateString) => setForm({ ...form, shuttleCheckInDate: dateString })}
-                    placeholder="Select CheckIn Date"
-                    style={{ marginBottom: 16, width: "100%" }}
-                />
-            </label>
+                  <div>
+                      <strong className="block text-sm font-medium text-gray-700 ">Ngày Đặt xe</strong>
+                      <DatePicker
+                        value={form.shuttleCheckInDate ? moment(form.shuttleCheckInDate) : null}
+                        onChange={(date, dateString) => setForm({...form, shuttleCheckInDate: dateString})}
+                        placeholder="Select CheckIn Date"
+                        style={{marginBottom: 16, width: "100%"}}
+                      />
+                  </div>
 
-            <label>
-                <strong>Ngày Hủy </strong>
-                <DatePicker
-                    value={form.shuttleCheckOutDate ? moment(form.shuttleCheckOutDate) : null}
-                    onChange={(date, dateString) => setForm({ ...form, shuttleCheckOutDate: dateString })}
-                    placeholder="Select CheckOut Date"
-                    style={{ marginBottom: 16, width: "100%" }}
-                />
-            </label>
-        </Modal>
+                  <div>
+                      <strong className="block text-sm font-medium text-gray-700 ">Ngày Hủy </strong>
+                      <DatePicker
+                        value={form.shuttleCheckOutDate ? moment(form.shuttleCheckOutDate) : null}
+                        onChange={(date, dateString) => setForm({...form, shuttleCheckOutDate: dateString})}
+                        placeholder="Select CheckOut Date"
+                        style={{marginBottom: 16, width: "100%"}}
+                      />
+                  </div>
+              </div>
+
+          </Modal>
+      </div>
+
     );
 };
 

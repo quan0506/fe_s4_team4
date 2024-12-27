@@ -19,7 +19,6 @@ export default function IndexRestaurant() {
         try {
             const response = await upstashService.getAllRestaurant();
             const restaurants = response.data;
-            console.log('response' , response)
             const branches = await upstashService.getallbranches();
             setBranches(branches);
 
