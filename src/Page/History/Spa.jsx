@@ -3,21 +3,20 @@ import upstashService from "../../services/upstashService.js";
 import UserStore from "../../constants/states/user.js";
 import BookingHistory from "../../component/History.tsx";
 
-const HistoryShuttle = () => {
+const HistorySpa = () => {
   const {user}=UserStore()
-  const { data: listhistoryshuttle } = useQuery(
-    ['av.listhistoryshuttle' , user],
-    () => upstashService.gethistoryshuttle(user?.id)
+  const { data: listhistoryspa } = useQuery(
+    ['av.listhistoryspa' , user],
+    () => upstashService.gethistoryspa(user?.id)
   );
-
   return (
     <>
       <BookingHistory
-        shuttle={true}
-        title='xe'
-       data={listhistoryshuttle?.shuttleBookingList}
+        spa={ true}
+        title='spa'
+        data={listhistoryspa?.spaBookingList}
       />
     </>
   )
 }
-export default HistoryShuttle
+export default HistorySpa

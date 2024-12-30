@@ -231,11 +231,17 @@ const upstashService = {
         const url =`/restaurants/all?branchId=${id}`;
         return await axiosClient.get(url)
     },
+    getSpabranchId : async  (id) => {
+      const url =`/spas/all?branchId=${id}`;
+      return await axiosClient.get(url)
+    },
     bookrestaurant : async (branchId , restaurantId , userId , param) => {
         const url =`/restaurant-bookings/book-restaurant/${branchId}/${restaurantId}/${userId}`;
         return await axiosClient.post(url , param)
     },
+    bookSpa : async () => {
 
+    },
     // booking restaurant
     postBookingRestaurant: async (branchId, restaurantId, userId, param) => {
         const url = `/restaurant-bookings/book-restaurant/${branchId}/${restaurantId}/${userId}`;
@@ -282,6 +288,10 @@ const upstashService = {
     },
     gethistorybookings : async (id) => {
         const url =`/bookings/user/${id}`;
+        return await axiosClient.get(url)
+    },
+    gethistoryspa : async (id) => {
+        const url =`/spa-bookings/user-bookings/${id}`;
         return await axiosClient.get(url)
     }
 }

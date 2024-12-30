@@ -10,8 +10,10 @@ import { Eye } from 'lucide-react';
 import {useQuery} from "react-query";
 import upstashService from "../services/upstashService";
 import UserStore from "../constants/states/user.js"
+import dayjs from 'dayjs';
 import {useNavigate} from "react-router-dom";
-export default function BookingHistory({data , shuttle = false , title}) {
+
+export default function BookingHistory({data , shuttle = false , spa=false, title}) {
     const [selectedBooking, setSelectedBooking] = useState<string | null>(null);
     const getStatusColor = (status: string) => {
         switch (status) {
@@ -35,9 +37,11 @@ export default function BookingHistory({data , shuttle = false , title}) {
             })
         };
     };
+
     const pathname = location.pathname
     const [selectedOption, setSelectedOption] = useState('Lịch sử đặt phòng');
     const navigate = useNavigate();
+    console.log(data)
     useEffect(() => {
         if (pathname.includes('/bookinghistory/room')) {
             setSelectedOption('Lịch sử đặt phòng');
@@ -83,21 +87,16 @@ export default function BookingHistory({data , shuttle = false , title}) {
                                 <div className="space-y-4">
                                     <div className="flex items-center">
                                         <Avatar
-                                            src={booking?.shuttle?.carPhotoUrl}
+                                            src={booking?.shuttle?.photos[0] || booking?.spa?.photos[0]}
                                             size={50}
                                             icon={<CarOutlined/>}
                                             className="bg-gradient-to-r from-blue-400 to-blue-500"
                                         />
-                                        {shuttle === true && (
                                             <div className="ml-4">
                                                 <p className="text-sm font-semibold text-white">
-                                                    {booking?.shuttle?.carType}
-                                                </p>
-                                                <p className="text-xs text-gray-300">
-                                                    Biển số: 1111
+                                                    {booking?.carType || booking?.spa?.spaServiceName}
                                                 </p>
                                             </div>
-                                        )}
 
                                     </div>
                                     <div className="flex items-center">
@@ -106,29 +105,43 @@ export default function BookingHistory({data , shuttle = false , title}) {
                                             icon={<UserOutlined/>}
                                             className="bg-gradient-to-r from-purple-400 to-purple-500"
                                         />
-                                        {shuttle === true && (
+                                        {shuttle === true || spa=== true && (
                                             <div className="ml-4">
                                                 <p className="text-sm font-semibold text-white">
-                                                    {booking?.user?.lastName} {booking?.user?.firstName}
+                                                    {spa ? booking?.fullName : `${booking?.user?.lastName} ${booking?.user?.firstName}`}
+                                                </p>
+                                                <p className="text-xs text-gray-300">
+                                                    Số điện thoại: {booking?.user?.phone}
+                                                </p>
+                                                {spa === true && (
+                                                    <div>
+                                                        <p className="text-xs text-gray-300">
+                                                            Số lượng người: {booking?.numberOfPeople}/người
+                                                        </p>
+                                                        <p className="text-xs text-gray-300">
+                                                            {booking?.userEmail}
+                                                        </p>
+                                                    </div>
+
+                                                )}
+                                            </div>
+                                        )}
+                                        {!shuttle === true || !spa === true && (
+                                            <div className="ml-4">
+                                                <p className="text-sm font-semibold text-white">
+                                                </p>
+                                                <p className="text-xs text-gray-300">
+                                                    Số lượng người lớn: {booking?.adults}/người
+                                                </p>
+                                                <p className="text-xs text-gray-300">
+                                                    Số lượng người trẻ em: {booking?.children}/người
                                                 </p>
                                                 <p className="text-xs text-gray-300">
                                                     Số điện thoại: {booking?.user?.phone}
                                                 </p>
                                             </div>
                                         )}
-                                        <div className="ml-4">
-                                            <p className="text-sm font-semibold text-white">
-                                            </p>
-                                            <p className="text-xs text-gray-300">
-                                                Số lượng người lớn: {booking?.adults}/người
-                                            </p>
-                                            <p className="text-xs text-gray-300">
-                                                Số lượng người trẻ em: {booking?.children}/người
-                                            </p>
-                                            <p className="text-xs text-gray-300">
-                                                Số điện thoại: {booking?.user?.phone}
-                                            </p>
-                                        </div>
+
                                     </div>
                                     <div className="flex items-center">
                                         <HomeOutlined className="text-white text-xl"/>
@@ -137,33 +150,59 @@ export default function BookingHistory({data , shuttle = false , title}) {
                                                 {booking?.locationInfo?.name}
                                             </p>
                                             <p className="text-sm text-yellow-300">
-                                                {booking?.shuttle?.branchAddress}
+                                                {booking?.branchName|| booking?.spa?.branchName}<br/> Địa chỉ: {' '}
+                                                {booking?.shuttle?.branchAddress || booking?.spa?.branchAddress}
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center">
-                                        <CalendarOutlined className="text-white text-xl"/>
-                                        <div className="ml-4 flex items-center space-x-2 ">
-                                            <div className="text-sm text-pink-200">
-                                                <span className="font-semibold">Bắt đầu: </span>
-                                                <span>{formatDateTime(booking?.shuttleCheckInDate || booking.checkInDate).date}</span>
-                                            </div>
-                                            <div className="text-sm text-pink-200">
-                                                <span className="font-semibold">Kết thúc: </span>
-                                                <span>{formatDateTime(booking?.shuttleCheckOutDate || booking?.checkOutDate).date}</span>
+                                    {!spa === true && (
+                                        <div className="flex items-center">
+                                            <CalendarOutlined className="text-white text-xl"/>
+                                            <div className="ml-4 flex items-center space-x-2 ">
+                                                <div className="text-sm text-pink-200">
+                                                    <span className="font-semibold">Bắt đầu: </span>
+                                                    <span>{formatDateTime(booking?.shuttleCheckInDate || booking.checkInDate).date}</span>
+                                                </div>
+                                                <div className="text-sm text-pink-200">
+                                                    <span className="font-semibold">Kết thúc: </span>
+                                                    <span>{formatDateTime(booking?.shuttleCheckOutDate || booking?.checkOutDate).date}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    )}
+                                    {spa === true && (
+                                        <div className="flex items-center">
+                                            <CalendarOutlined className="text-white text-xl"/>
+                                            <div className="ml-4">
+                                                <div className="text-sm text-pink-200">
+                                                    <span className="font-semibold">Thời gian đặt lịch: </span>
+                                                    <span>
+                                                         {booking?.appointmentTime
+                                                             ? dayjs(new Date(...booking.appointmentTime)).format('YYYY-MM-DD HH:mm')
+                                                                : 'N/A'}
+                                                    </span>
+                                                </div>
+                                                <div className="text-sm text-pink-200">
+                                                <span className="font-semibold">Thời gian sử dụng dịch vụ: </span>
+                                                    <span>{booking?.spaServiceTime}/Phút</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     <div className="flex justify-between items-center">
                                         <span
                                             className={`px-4 py-1 text-xs font-semibold text-white rounded-full ${getStatusColor(
                                                 booking?.status
                                             )}`}
                                         >
-                                            {booking?.totalPrice.toLocaleString()}/VNĐ
+                                            {booking?.totalPrice?.toLocaleString() || booking?.spa?.spaServicePrice.toLocaleString()}/VNĐ
                                         </span>
+
                                         <div className="flex items-center gap-2">
-                                            <p className="text-xs text-gray-400">Mã: {booking?.bookingConfirmationCode || booking?.confirmBookingCode}</p>
+                                            {!spa === true && (
+                                                <p className="text-xs text-gray-400">Mã: {booking?.bookingConfirmationCode || booking?.confirmBookingCode}</p>
+                                            )}
                                             <button
                                                 onClick={() =>
                                                     setSelectedBooking(
@@ -195,9 +234,9 @@ export default function BookingHistory({data , shuttle = false , title}) {
                                     onClick={(e) => e.stopPropagation()}
                                 >
                                     <h3 className="text-lg font-semibold text-white mb-2">
-                                        Chi tiết đặt xe
+                                        Chi tiết đặt  {shuttle ? 'loại xe' : spa ? 'spa' : 'nhà hàng'}
                                     </h3>
-                                    <p className="text-gray-200">{booking?.shuttle?.carDescription}</p>
+                                    <p className="text-gray-200">{booking?.shuttle?.carDescription || booking?.spa?.spaDescription}</p>
                                 </div>
                             </div>
                         </div>

@@ -27,7 +27,8 @@ import Restaurants from "../Page/FasterDetails/Service/Restaurants"
 import HistoryShuttle from "../Page/History/Shuttle"
 import HistoryRoomuser from '../Page/History/roomuser'
 import IndexBookingRoom from "../Page/Admin/BookingRoom/IndexBookingRoom";
-
+import Spa from "../Page/FasterDetails/Service/Spa"
+import HistorySpa from '../Page/History/Spa'
 const privateRoutes = {
   home: {
     path: '/',
@@ -37,6 +38,10 @@ const privateRoutes = {
   services : {
     path: '/fasterdetails/services/:id',
     component : Shuttles
+  },
+  spa: {
+    path: '/fasterdetails/spa/:id',
+    component : Spa
   },
   Restaurants :{
     path: '/fasterdetails/restaurants/:id',
@@ -83,6 +88,10 @@ const privateRoutes = {
   BookingHistoryroom: {
     path: '/bookinghistory/room',
     component: HistoryRoomuser,
+  },
+  SpaHistory : {
+    path: '/bookinghistory/spa',
+    component : HistorySpa
   },
   Thankuser : {
     path : '/thank/:id',

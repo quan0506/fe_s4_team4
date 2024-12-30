@@ -12,6 +12,7 @@ const  HistoryRoomuser = () => {
   return (
     <>
       <BookingHistory
+
         title='đặt phòng'
         data={listhistorybookings}
       />

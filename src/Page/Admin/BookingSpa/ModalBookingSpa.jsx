@@ -59,8 +59,6 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
                 : null,
         };
 
-
-        console.log("Data before send:", updatedData);
         onSave({
             data: updatedData,
             branchId: form.branchId,
