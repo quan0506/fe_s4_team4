@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Input, Button, message, Select, DatePicker } from "antd";
 import moment from "moment";
 
-const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, branches, restaurants,}) => {
+const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, branches, restaurants,users}) => {
     const [form, setForm] = useState(data || {});
     const [restaurantTypes, setRestaurantTypes] = useState([]);
     const [restaurantPrice, setRestaurantPrice] = useState([]);
@@ -34,8 +34,19 @@ const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, br
         setRestaurantPrice(selectedRestaurant ? [selectedRestaurant] : []);
     };
 
+    const handleUserChange = (value) => {
+        const selectedUser = users.find((user) => user.userName === value);
+        if (selectedUser) {
+            setForm({
+                ...form,
+                userName: selectedUser.userName,
+                phone: selectedUser.phone,
+            });
+        }
+    };
+
     const handleSave = () => {
-        if (!form.branchId || !form.restaurantTypes) {
+        if (!form.branchId || !form.restaurantTypes || !form.userName) {
             message.error("Please select a branch and restaurant type.");
             return;
         }
@@ -48,18 +59,25 @@ const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, br
             return;
         }
 
+        const selectedUser = users.find((user) => user.userName === form.userName);
+        if (!selectedUser) {
+            message.error(`Invalid user selected: ${form.userName}`);
+            return;
+        }
+
         const updatedData = {
             ...form,
             dayCheckIn: form.dayCheckIn
                 ? moment(form.dayCheckIn).format("YYYY-MM-DD")
                 : null,
+            name: selectedUser.userName,
         };
 
-        console.log("Data before send:", updatedData);
         onSave({
             data: updatedData,
             branchId: form.branchId,
             restaurantId: selectedRestaurant.id,
+            userId: selectedUser.id,
         });
     };
 
@@ -124,20 +142,26 @@ const ModalBookingRestaurant = ({type, data, isModalVisible, onClose, onSave, br
 
                   <div>
                       <strong className="block text-sm font-medium text-gray-700 ">Tên người đặt</strong>
-                      <Input
-                        value={form.name || ""}
-                        onChange={(e) => setForm({...form, name: e.target.value})}
-                        placeholder="Enter Name"
-                        style={{marginBottom: 16}}
-                      />
+                      <Select
+                          value={form.userName || ""}
+                          onChange={handleUserChange}
+                          placeholder="Select User"
+                          style={{ width: "100%", marginBottom: 16 }}
+                      >
+                          {users && users.map((user) => (
+                              <Select.Option key={user.id} value={user.userName}>
+                                  {user.userName}
+                              </Select.Option>
+                          ))}
+                      </Select>
                   </div>
                   <div>
                       <strong className="block text-sm font-medium text-gray-700 ">Số điện thoại </strong>
                       <Input
-                        value={form.phone || ""}
-                        onChange={(e) => setForm({...form, phone: e.target.value})}
-                        placeholder="Enter Phone"
-                        style={{marginBottom: 16}}
+                          value={form.phone || ""}
+                          onChange={(e) => setForm({...form, phone: e.target.value})}
+                          placeholder="Enter Phone"
+                          style={{marginBottom: 16}}
                       />
                   </div>
 

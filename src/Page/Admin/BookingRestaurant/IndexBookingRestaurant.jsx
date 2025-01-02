@@ -11,8 +11,9 @@ export default function IndexBookingRestaurant() {
         const [isModalVisible, setIsModalVisible] = useState(false);
         const [searchId, setSearchId] = useState("");
         const [branches, setBranches] = useState([]);
-
+        const [searchPhone, setSearchPhone] = useState("");
         const [restaurants, setRestaurants] = useState([]);
+        const [users, setUsers] = useState(null);
 
         const [selectedBranch, setSelectedBranch] = useState(null);
         const [selectedRestaurantType, setSelectedRestaurantType] = useState(null);
@@ -21,7 +22,6 @@ export default function IndexBookingRestaurant() {
             try {
                 const response = await upstashService.getAllBookingRestaurant();
                 const bookingRestaurantsData = response.data;
-                console.log(bookingRestaurantsData);
 
                 const bookingRestaurants = Object.values(bookingRestaurantsData).flat();
 
@@ -31,10 +31,18 @@ export default function IndexBookingRestaurant() {
                 const restaurantsResponse = await upstashService.getAllRestaurant();
                 const restaurants = restaurantsResponse.data;
                 setRestaurants(restaurants);
-                console.log(restaurants);
+
+                const UserResponse = await upstashService.getAllUsers();
+                const users = UserResponse.data;
+                setUsers(users);
 
                 const branchMap = branches.reduce((map, branch) => {
                     map[branch.id] = branch.branchName;
+                    return map;
+                }, {});
+
+                const userMap = users.reduce((map, user) => {
+                    map[user.id] = user.userName;
                     return map;
                 }, {});
 
@@ -42,9 +50,13 @@ export default function IndexBookingRestaurant() {
                     const restaurant = bookingRestaurant.restaurant || {};
                     const branchName = branchMap[bookingRestaurant.branchId] || "Unknown";
 
+                    const userId = bookingRestaurant.user?.id;
+                    const userName = userMap[userId] || "Unknown";
+
                     return {
                         ...bookingRestaurant,
                         branchName,
+                        userName,
                         restaurantType: restaurant.restaurantType || "Unknown",
                         restaurantAdultPrice: restaurant.restaurantAdultPrice || 0,
                         restaurantChildrenPrice: restaurant.restaurantChildrenPrice || 0,
@@ -78,9 +90,8 @@ export default function IndexBookingRestaurant() {
             });
         };
 
-        const handleSave = async ({ data, branchId, restaurantId }) => {
+        const handleSave = async ({ data, branchId, restaurantId, userId }) => {
             try {
-                const userId = 1;
                 await upstashService.postBookingRestaurant(branchId, restaurantId, userId, data);
                 message.success("Lịch đặt nhà hàng được đặt thành công");
                 fetchBookingRestaurants();
@@ -99,8 +110,9 @@ export default function IndexBookingRestaurant() {
         const filteredBookingRestaurants = listBookingRestaurant.filter((bookingRestaurant) => {
             const matchesBranch = selectedBranch === null || bookingRestaurant.branchName === selectedBranch;
             const matchesRestaurantType = selectedRestaurantType === null || bookingRestaurant.restaurantType === selectedRestaurantType;
-            const matchesSearch = searchId ? bookingRestaurant.bookingConfirmationCode.includes(searchId) : true;  // Sử dụng bookingConfirmationCode
-            return matchesBranch && matchesSearch && matchesRestaurantType;
+            // const matchesSearch = searchId ? bookingRestaurant.bookingConfirmationCode.includes(searchId) : true;
+            const matchesPhone = searchPhone ? bookingRestaurant.phone?.includes(searchPhone) : true;
+            return matchesBranch && matchesPhone && matchesRestaurantType;
         });
 
         const columns = [
@@ -181,6 +193,15 @@ export default function IndexBookingRestaurant() {
         return (
             <div>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+
+                    <Input
+                        placeholder="Tìm kiếm theo số điện thoại"
+                        value={searchPhone}
+                        onChange={(e) => setSearchPhone(e.target.value)}
+                        style={{ width: 200, marginRight: 8 }}
+                    />
+
+
                     <Dropdown
                         menu={{
                             items: branchMenuItems,
@@ -215,6 +236,7 @@ export default function IndexBookingRestaurant() {
                     onSave={handleSave}
                     branches={branches}
                     restaurants={restaurants}
+                    users={users}
                 />
             </div>
         );

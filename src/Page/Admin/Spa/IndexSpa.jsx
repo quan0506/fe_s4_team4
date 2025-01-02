@@ -205,12 +205,12 @@ export default function IndexSpa() {
     return (
         <div className="branch-management">
             <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
-                <Input
-                    placeholder="Tìm kiếm"
-                    value={searchId}
-                    onChange={(e) => setSearchId(e.target.value)}
-                    style={{width: "30%"}}
-                />
+                {/*<Input*/}
+                {/*    placeholder="Tìm kiếm"*/}
+                {/*    value={searchId}*/}
+                {/*    onChange={(e) => setSearchId(e.target.value)}*/}
+                {/*    style={{width: "30%"}}*/}
+                {/*/>*/}
                 <Dropdown
                     menu={{
                         items: branchMenuItems,

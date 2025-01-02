@@ -9,6 +9,8 @@ import IndexFasterDetails from '../Page/FasterDetails/IndexFasterDetails'
 import DetailBranches from '../Page/FasterDetails/DetailBranches'
 import IndexBranchoffice from '../Page/FasterDetails/AllBranchoffice/IndexBranchoffice'
 import IndexDashboard from "../Page/Admin/Dashboard/IndexDashboard";
+import IndexAmenitie from "../Page/Admin/Amenities/IndexAmenities";
+
 // import IndexHotel from "../Page/Admin/Hotel/IndexHotel"
 import Index from '../Page/booking/Bookinginformation/Thank/Index'
 import Shuttles from "../Page/FasterDetails/Service/Shuttles.jsx"
@@ -156,6 +158,10 @@ const privateRoutes = {
     path: '/admin/spa-bookings',
     component : IndexBookingSpa
   },
+  IndexAmenitie:{
+    path: '/admin/amenitie',
+    component: IndexAmenitie
+  }
 
 };
 

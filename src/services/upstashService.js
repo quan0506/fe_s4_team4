@@ -95,6 +95,34 @@ const upstashService = {
         return await axiosClient.get(url);
     },
 
+    // amentities
+    addAmentities : async (data) => {
+        const url = `/amenities/add`;
+        return await axiosClient.post(url, convertJsonToFormData(data), {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+    getAllAmenities : async () => {
+        const url =`/amenities`;
+        return await axiosClient.get(url)
+    },
+
+    updateAmenities: async (id, data) => {
+        const url = `/amenities/updateAmenity/${id}`;
+        return await axiosClient.put(url, convertJsonToFormData(data), {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+
+    deleteAmentities: async (id) => {
+        const url = `/amenities/deleteAmenity/${id}`;
+        return await axiosClient.delete(url);
+    },
+
+
+
+
+
     // reviews
     addReview : async (data) => {
         const url = `/reviews/create`;
@@ -278,8 +306,8 @@ const upstashService = {
     },
 
 //BookingHistory
-    gethistoryshuttle : async (id) => {
-        const url = `/shuttle-bookings/user/${id}`;
+    gethistoryshuttle : async (userId) => {
+        const url = `/shuttle-bookings/user/${userId}`;
         return await axiosClient.get(url)
     },
     getIDbook : async (id) => {

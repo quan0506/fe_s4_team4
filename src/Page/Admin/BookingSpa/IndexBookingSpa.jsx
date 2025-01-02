@@ -13,11 +13,14 @@ export default function IndexBookingSpa() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [searchId, setSearchId] = useState("");
     const [branches, setBranches] = useState([]);
+    const [searchPhone, setSearchPhone] = useState("");
 
     const [spas, setSpas] = useState([]);
+    const [users, setUsers] = useState(null);
 
     const [selectedBranch, setSelectedBranch] = useState(null);
     const [selectedSpaServiceName, setSelectedSpaServiceName] = useState(null);
+
 
     const fetchBookingSpas = async () => {
         try {
@@ -33,24 +36,35 @@ export default function IndexBookingSpa() {
             const spasResponse = await upstashService.getAllSpas();
             const spas = spasResponse.data;
             setSpas(spas);
-            console.log(spas);
+
+            const UserResponse = await upstashService.getAllUsers();
+            const users = UserResponse.data;
+            setUsers(users);
 
             const branchMap = branches.reduce((map, branch) => {
                 map[branch.id] = branch.branchName;
                 return map;
             }, {});
 
-            console.log(branchMap);
+            const userMap = users.reduce((map, user) => {
+                map[user.id] = user.userName;
+                return map;
+            }, {});
 
             const normalizedData = bookingSpas.map((bookingSpa) => {
                 const spa = bookingSpa.spa || {};
                 console.log(spa);
+
                 const branchId = spa.branchId;
                 const branchName = branchMap[branchId] || "Unknown1";
+
+                const userId = bookingSpa.user?.id;
+                const userName = userMap[userId] || "Unknown";
 
                 return {
                     ...bookingSpa,
                     branchName,
+                    userName,
                     spaServiceName: spa.spaServiceName || "Unknown2",
                     spaServicePrice: spa.spaServicePrice || 0,
                 };
@@ -63,11 +77,13 @@ export default function IndexBookingSpa() {
         }
     };
 
+
     const handleAdd = () => {
         setModalType("add");
         setCurrentBookingSpa(null);
         setIsModalVisible(true);
     };
+
     const handleDelete = async (id, branchId) => {
         console.log("Deleting booking spa:", id, branchId);
         Modal.confirm({
@@ -89,10 +105,8 @@ export default function IndexBookingSpa() {
         });
     };
 
-
-    const handleSave = async ({ data, branchId, spaId }) => {
+    const handleSave = async ({ data, branchId, spaId, userId }) => {
         try {
-            const userId = 1;
             await upstashService.postBookingSpa(branchId, spaId, userId, data);
             message.success("Thêm lịch đặt spa thành công!");
             fetchBookingSpas();
@@ -103,6 +117,7 @@ export default function IndexBookingSpa() {
         }
     };
 
+
     useEffect(() => {
         fetchBookingSpas();
     }, []);
@@ -110,8 +125,9 @@ export default function IndexBookingSpa() {
     const filteredBookingSpas = listBookingSpa.filter((bookingSpa) => {
         const matchesBranch = selectedBranch === null || bookingSpa.branchName === selectedBranch;
         const matchesSpaServiceName = selectedSpaServiceName === null || bookingSpa.spaServiceName === selectedSpaServiceName;
-        const matchesSearch = searchId ? bookingSpa.bookingConfirmationCode.includes(searchId) : true;
-        return matchesBranch && matchesSearch && matchesSpaServiceName;
+        // const matchesSearch = searchId ? bookingSpa.bookingConfirmationCode.includes(searchId) : true;
+        const matchesPhone = searchPhone ? bookingSpa.phone?.includes(searchPhone) : true;
+        return matchesBranch && matchesSpaServiceName && matchesPhone;
     });
 
     const columns = [
@@ -130,11 +146,6 @@ export default function IndexBookingSpa() {
             dataIndex: "spaServiceName",
             key: "spaServiceName",
         },
-        // {
-        //     title: "spaServicePrice",
-        //     dataIndex: "spaServicePrice",
-        //     key: "spaServicePrice",
-        // },
         {
             title: "Mô tả",
             dataIndex: "description",
@@ -168,20 +179,15 @@ export default function IndexBookingSpa() {
             key: "numberOfPeople",
         },
         {
-            title: "Tên",
-            dataIndex: "fullName",
-            key: "fullName",
+            title: "Tên khách hàng",
+            dataIndex: "userName",
+            key: "userName",
         },
         {
             title: "Số điện thoại",
             dataIndex: "phone",
             key: "phone",
         },
-        // {
-        //     title: "userEmail",
-        //     dataIndex: "userEmail",
-        //     key: "userEmail",
-        // },
         {
             title: "Thực hiện",
             key: "actions",
@@ -195,7 +201,6 @@ export default function IndexBookingSpa() {
                 </Space>
             ),
         }
-
     ];
 
     const branchMenuItems = [
@@ -210,11 +215,19 @@ export default function IndexBookingSpa() {
 
     return (
         <div className="branch-management">
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+            <div style={{display: "flex", justifyContent: "space-between", marginBottom: 16}}>
+
+                <Input
+                    placeholder="Tìm kiếm theo số điện thoại"
+                    value={searchPhone}
+                    onChange={(e) => setSearchPhone(e.target.value)}
+                    style={{ width: 200, marginRight: 8 }}
+                />
+
                 <Dropdown
                     menu={{
                         items: branchMenuItems,
-                        onClick: ({ key }) => setSelectedBranch(key === "all" ? null : key),
+                        onClick: ({key}) => setSelectedBranch(key === "all" ? null : key),
                     }}
                 >
                     <Button>{selectedBranch || "Lọc theo chi nhánh"}</Button>
@@ -223,23 +236,23 @@ export default function IndexBookingSpa() {
                 <Dropdown
                     menu={{
                         items: spaServiceNameItems,
-                        onClick: ({ key }) =>
+                        onClick: ({key}) =>
                             setSelectedSpaServiceName(key === "all" ? null : key),
                     }}
                 >
                     <Button>{selectedSpaServiceName || "Lọc theo spa"}</Button>
                 </Dropdown>
 
-                <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+                <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>
                     Thêm lịch đặt Spa mới
                 </Button>
             </div>
 
             <Table
                 className="branch-table"
-                scroll={{ x: 1200 }}
-                columns={columns} dataSource={filteredBookingSpas} rowKey="id" />
-
+                scroll={{x: 1200}}
+                columns={columns} dataSource={filteredBookingSpas} rowKey="id"
+            />
             <ModalBookingSpa
                 type={modalType}
                 data={currentBookingSpa}
@@ -248,6 +261,7 @@ export default function IndexBookingSpa() {
                 onSave={handleSave}
                 branches={branches}
                 spas={spas}
+                users={users}
             />
         </div>
     );

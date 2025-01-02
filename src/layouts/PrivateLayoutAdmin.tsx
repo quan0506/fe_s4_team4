@@ -19,7 +19,7 @@ import {
     ChartBar,
     Lectern,
     Heater,
-    CalendarClock, Activity, BookUser,
+    CalendarClock, Activity, BookUser, AlarmSmoke,
 } from "lucide-react";
 
 const { Content, Sider } = Layout;
@@ -52,7 +52,7 @@ const itemRoute = {
     "7.2": "/admin/restaurant-bookings",
     "8.1": '/admin/shuttles',
     "8.2": "/admin/shuttle-bookings",
-    "9": "",
+    "9": "/admin/amenitie",
     "10": "",
 };
 
@@ -82,7 +82,7 @@ const PrivateLayoutAdmin = () => {
             getItem("Lịch đặt phòng", "3.2",<CalendarClock />),
         ]),
         getItem("Đánh giá", "4", <MessageSquareText />),
-        getItem("Khach hang", "5", <BookUser />),
+        getItem("Khách hàng", "5", <BookUser />),
         getItem("Spa", "6", <HeartPulse />,[
             getItem("Quản lý spa", "6.1",<Activity />),
             getItem("Lịch đặt spa", "6.2",<CalendarClock />),
@@ -100,7 +100,7 @@ const PrivateLayoutAdmin = () => {
                 getItem("Lịch đặt xe", "8.2",<CalendarClock />),
             ]
         ),
-        getItem("Khuyến mãi - Giảm Giá", "9", <TicketPercent />),
+        getItem("Tiện nghi", "9", <AlarmSmoke />),
         getItem("Cài đặt", "10", <Settings />),
     ];
 

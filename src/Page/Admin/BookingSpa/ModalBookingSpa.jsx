@@ -4,12 +4,12 @@ import moment from "moment";
 
 const { Option } = Select;
 
-const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches, spas,}) => {
+const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches, spas, users}) => {
     const [form, setForm] = useState(data || {});
     const [spaServiceNames, setSpaServiceNames] = useState([]);
     const [spaServicePrice, setSpaServicePrice] = useState([]);
     const [filteredSpas, setFilteredSpas] = useState([]);
-    console.log("spas",spas);
+
 
     useEffect(() => {
         setForm(data || {});
@@ -31,14 +31,25 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
 
     const handleSpaChange = (value) => {
         setForm({ ...form, spaServiceNames: value });
-
         const selectedSpa = spaServiceNames.find((spa) => spa.type === value);
         setSpaServicePrice(selectedSpa ? [selectedSpa] : []);
     };
 
+    const handleUserChange = (value) => {
+        const selectedUser = users.find((user) => user.userName === value);
+        if (selectedUser) {
+            setForm({
+                ...form,
+                userName: selectedUser.userName,
+                phone: selectedUser.phone,
+                userEmail: selectedUser.thisEmail,
+            });
+        }
+    };
+
     const handleSave = () => {
-        if (!form.branchId || !form.spaServiceNames) {
-            message.error("Please select a branch and spa service name.");
+        if (!form.branchId || !form.spaServiceNames || !form.userName) {
+            message.error("Please select a branch, spa service name, and user.");
             return;
         }
 
@@ -48,7 +59,13 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
 
         if (!selectedSpa) {
             message.error(`Invalid spa service selected: ${form.spaServiceNames}`);
-            console.log("Filtered Spas:", filteredSpas);
+            // console.log("Filtered Spas:", filteredSpas);
+            return;
+        }
+
+        const selectedUser = users.find((user) => user.userName === form.userName);
+        if (!selectedUser) {
+            message.error(`Invalid user selected: ${form.userName}`);
             return;
         }
 
@@ -57,14 +74,18 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
             appointmentTime: form.appointmentTime
                 ? moment(form.appointmentTime).format("YYYY-MM-DDTHH:mm:ss")
                 : null,
+            fullName: selectedUser.userName,
+
         };
 
         onSave({
             data: updatedData,
             branchId: form.branchId,
             spaId: selectedSpa.id,
+            userId: selectedUser.id,
         });
     };
+
 
     const handleSelectChange = (value) => {
         setForm({ ...form, spaServiceTime: value });
@@ -75,8 +96,6 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
             title={
                 type === "add"
                     ? "Đặt lịch spa mới"
-                    // : type === "edit"
-                    //     ? "Edit Booking"
                     : "View Booking"
             }
             open={isModalVisible}
@@ -127,16 +146,24 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
             </label>
 
             <label>
-                <strong>Tên người đặt</strong>
-                <Input
-                    value={form.fullName || ""}
-                    onChange={(e) => setForm({...form, fullName: e.target.value})}
-                    placeholder="Enter Full Name"
-                    style={{marginBottom: 16}}
-                />
+                <strong>Tên Người Dùng</strong>
+                <Select
+                    value={form.userName || ""}
+                    onChange={handleUserChange}
+                    placeholder="Select User"
+                    style={{ width: "100%", marginBottom: 16 }}
+                >
+                    {users && users.map((user) => (
+                        <Select.Option key={user.id} value={user.userName}>
+                            {user.userName}
+                        </Select.Option>
+                    ))}
+                </Select>
+
             </label>
+
             <label>
-                <strong>email</strong>
+                <strong>Email</strong>
                 <Input
                     value={form.userEmail || ""}
                     onChange={(e) => setForm({...form, userEmail: e.target.value})}
@@ -188,8 +215,6 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
                     style={{marginBottom: 16}}
                 />
             </label>
-
-
             <label>
                 <strong>Thời gian đặt</strong>
                 <DatePicker
@@ -205,7 +230,6 @@ const ModalBookingSpa = ({type, data, isModalVisible, onClose, onSave, branches,
                     style={{marginBottom: 16, width: "100%"}}
                 />
             </label>
-
 
         </Modal>
     );

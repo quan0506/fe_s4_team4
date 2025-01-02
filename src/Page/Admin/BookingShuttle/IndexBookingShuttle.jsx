@@ -13,6 +13,7 @@ export default function IndexBookingShuttle() {
     const [searchId, setSearchId] = useState("");
     const [branches, setBranches] = useState([]);
     const [shuttles, setShuttles] = useState([]);
+    const [users, setUsers] = useState(null);
 
     const [selectedBranch, setSelectedBranch] = useState(null);
     const [selectedCarType, setSelectedCarType] = useState(null);
@@ -21,7 +22,6 @@ export default function IndexBookingShuttle() {
         try {
             const response = await upstashService.getAllBookingShuttle();
             const bookingShuttlesData = response.data;
-            console.log(bookingShuttlesData);
 
             const bookingShuttles = Object.values(bookingShuttlesData).flat();
 
@@ -32,20 +32,41 @@ export default function IndexBookingShuttle() {
             const shuttles = shuttlesResponse.data;
             setShuttles(shuttles);
 
+            const UserResponse = await upstashService.getAllUsers();
+            const users = UserResponse.data;
+            setUsers(users);
+
             const branchMap = branches.reduce((map, branch) => {
                 map[branch.id] = branch.branchName;
                 return map;
             }, {});
 
-            const normalizedData = bookingShuttles.map((bookingShuttle) => ({
-                ...bookingShuttle,
-                branchName: branchMap[bookingShuttle.branchId] || "Unknown",
-            }));
+            const userMap = users.reduce((map, user) => {
+                map[user.id] = user.userName;
+                return map;
+            }, {});
+
+            const normalizedData = bookingShuttles.map((bookingShuttle) => {
+                const shuttle = bookingShuttle.shuttle || {};
+
+                const userId = bookingShuttle.user?.id;
+                const userName = userMap[userId] || "Unknown";
+
+                return {
+                    ...bookingShuttle,
+                    userName,
+                    branchName: branchMap[shuttle.branchId] || "Unknown",
+                    carType: shuttle.carType || "N/A",
+                    carPrice: shuttle.carPrice || 0,
+                };
+            });
+
             setListBookingShuttle(normalizedData);
         } catch (error) {
             console.error("Failed to fetch Shuttle:", error);
         }
     };
+
 
     const handleAdd = () => {
         setModalType("add");
@@ -69,9 +90,8 @@ export default function IndexBookingShuttle() {
         });
     };
 
-    const handleSave = async ({ data, branchId, shuttleId }) => {
+    const handleSave = async ({ data, branchId, shuttleId, userId }) => {
         try {
-            const userId = 1;
             await upstashService.postBookingShuttle(branchId, shuttleId, userId, data);
             message.success("Đặt xe thành công");
             fetchBookingShuttles();
@@ -247,6 +267,7 @@ export default function IndexBookingShuttle() {
                 onSave={handleSave}
                 branches={branches}
                 shuttles={shuttles}
+                users={users}
             />
         </div>
     );
