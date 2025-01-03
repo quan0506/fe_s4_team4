@@ -30,6 +30,10 @@ const upstashService = {
         return await   axiosClient.get(url);
     },
 
+    deleteUser: async (thisEmail) => {
+        const url = `/users/delete/${thisEmail}`;
+        return await axiosClient.delete(url);
+    },
 
     // Branch
     addBranch: async (data) => {
@@ -318,9 +322,21 @@ const upstashService = {
         const url =`/bookings/user/${id}`;
         return await axiosClient.get(url)
     },
-    gethistoryspa : async (id) => {
-        const url =`/spa-bookings/user-bookings/${id}`;
+    gethistoryspa : async (userId) => {
+        const url =`/spa-bookings/user-bookings/${userId}`;
         return await axiosClient.get(url)
+    },
+
+    gethistoryrestaurant : async (userId) => {
+        const url =`/restaurant-bookings/user-bookings/${userId}`;
+        return await axiosClient.get(url)
+    },
+
+    // statics revenue
+    getMonthlyRevenue : async (year) => {
+        const url = `/api/monthly-total-price?year=${year}`;
+        return await axiosClient.get(url);
     }
+
 }
 export default upstashService

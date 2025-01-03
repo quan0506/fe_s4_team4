@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   AreaChart,
   Area,
@@ -15,155 +15,122 @@ import {
   Typography,
   Box,
 } from '@mui/material';
-import { Select, DatePicker } from 'antd';
-import dayjs from 'dayjs';
-
-// Tạo dữ liệu mẫu 24 giờ
-const generateEmptyData = () => {
-  const data = [];
-  for (let hour = 0; hour < 24; hour++) {
-    const time = `${hour.toString().padStart(2, '0')}:00`;
-    data.push({ time, amount: 0 });
-  }
-  return data;
-};
-
-// Nhóm dữ liệu và tính tổng amount theo giờ
-const groupDataByHour = (data, emptyData) => {
-  const groupedData = { ...Object.fromEntries(emptyData.map(item => [item.time, 0])) };
-
-  data.forEach(item => {
-    const hour = dayjs(item.createdAt).format('HH:00');
-    if (groupedData[hour] !== undefined) {
-      groupedData[hour] += item.amount || 0;
-    }
-  });
-
-  return Object.entries(groupedData).map(([time, amount]) => ({ time, amount }));
-};
+import { Select } from 'antd';
+import upstashService from "../../../../services/upstashService.js";
 
 const Chart = () => {
-  const [status, setStatus] = useState('unstake');
-  const [selectedDate, setSelectedDate] = useState(dayjs(new Date()));
+  const [chartData, setChartData] = useState([]);
+  const [year, setYear] = useState(new Date().getFullYear());
 
-  // Dữ liệu mẫu
-  const liststakes = {
-    contents: [
-      { createdAt: '2024-12-01T10:15:00Z', amount: 50 },
-      { createdAt: '2024-12-01T11:20:00Z', amount: 100 },
-      { createdAt: '2024-12-01T13:45:00Z', amount: 75 },
-    ],
+  const fetchMonthlyRevenue = async (selectedYear) => {
+    try {
+      const response = await upstashService.getMonthlyRevenue(selectedYear);
+      console.log("API Response:", response);
+
+      if (!response || typeof response !== "object") {
+        throw new Error("Invalid data format received from API");
+      }
+
+      const formattedData = Object.entries(response).map(([month, amount]) => ({
+        month,
+        amount: parseFloat(amount) || 0,
+      }));
+      setChartData(formattedData);
+    } catch (error) {
+      console.error("Failed to fetch monthly revenue:", error.message);
+      setChartData([]);
+    }
   };
 
-  // Lọc dữ liệu theo ngày đã chọn
-  const filteredListStakes = liststakes?.contents?.filter(item => {
-    const itemDate = dayjs(item.createdAt).startOf('day');
-    const selected = selectedDate.startOf('day');
-    return itemDate.isSame(selected);
-  });
-
-  // Tổng amount
-  const totalAmount =
-    filteredListStakes?.reduce((sum, item) => sum + (item.amount || 0), 0) || 0;
-
-  // Xử lý dữ liệu cho biểu đồ
-  const emptyData = generateEmptyData();
-  const chartData = filteredListStakes
-    ? groupDataByHour(filteredListStakes, emptyData)
-    : emptyData;
+  useEffect(() => {
+    fetchMonthlyRevenue(year);
+  }, [year]);
 
   return (
-    <div className='fillininformation '>
-      <Card
-        sx={{
-          width: '100%',
-          bgcolor: 'rgba(20,20,32,1)',
-          borderRadius: '15px',
-          background:'rgb(49 54 66)'
-        }}
-      >
-        <CardHeader
-          title={
-            <Box>
-              <Box
-                className="flexs boderbottm"
-                sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}
-              >
-                <Typography variant="h6" className='text-white'>User CTO number stake/unstake</Typography>
-                <DatePicker
-                  defaultValue={selectedDate}
-                  onChange={date => setSelectedDate(date || dayjs(new Date()))}
-                  allowClear={false}
-                />
-
-              </Box>
-              <Box
-                className="flexs"
-              >
+      <div className='fillininformation '>
+        <Card
+            sx={{
+              width: '100%',
+              bgcolor: 'rgba(20,20,32,1)',
+              borderRadius: '15px',
+              background: 'rgb(49 54 66)',
+            }}
+        >
+          <CardHeader
+              title={
                 <Box>
-                  <span className="text-xs text-gray-400">TOTAL CT0</span>
-                  <Typography variant="h5" fontWeight="bold"  className='text-white'>
-                    {totalAmount.toLocaleString()}/CTO
-                  </Typography>
+                  <Box
+                      className="flexs boderbottm"
+                      sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}
+                  >
+                    <Typography variant="h6" className='text-white'>
+                      Doanh Thu theo Thang trong nam {year}
+                    </Typography>
+                    <Select
+                        defaultValue={year}
+                        style={{ width: 120 }}
+                        onChange={setYear}
+                        options={[...Array(5).keys()].map(i => ({
+                          value: new Date().getFullYear() - i,
+                          label: new Date().getFullYear() - i,
+                        }))}
+                    />
+                  </Box>
                 </Box>
-              </Box>
+              }
+          />
+          <CardContent>
+            <Box height={300}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData}>
+                  <defs>
+                    <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#FFD700" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#FFD700" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid
+                      horizontal={true}
+                      vertical={false}
+                      strokeDasharray="6 6"
+                      stroke="rgba(255,255,255,0.1)"
+                  />
+                  <XAxis
+                      dataKey="month"
+                      stroke="#718096"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#718096' }}
+                      interval={0}
+                  />
+                  <YAxis
+                      stroke="#718096"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#718096' }}
+                      domain={['auto', 'auto']}
+                      allowDecimals={false}
+                  />
+                  <Tooltip
+                      contentStyle={{
+                        backgroundColor: '#2D3748',
+                        border: 'none',
+                        color: 'white',
+                      }}
+                  />
+                  <Area
+                      type="monotone"
+                      dataKey="amount"
+                      stroke="#FFD700"
+                      fillOpacity={1}
+                      fill="url(#colorAmount)"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
             </Box>
-          }
-        />
-        <CardContent>
-          <Box height={300}>
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData}>
-                <defs>
-                  <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#FFD700" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#FFD700" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid
-                  horizontal={true}
-                  vertical={false}
-                  strokeDasharray="6 6"
-                  stroke="rgba(255,255,255,0.1)"
-                />
-                <XAxis
-                  dataKey="time"
-                  stroke="#718096"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#718096' }}
-                  interval={1}
-                  minTickGap={20}
-                />
-                <YAxis
-                  stroke="#718096"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#718096' }}
-                  domain={['auto', 'auto']}
-                  allowDecimals={false}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: '#2D3748',
-                    border: 'none',
-                    color: 'white',
-                  }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="amount"
-                  stroke="#FFD700"
-                  fillOpacity={1}
-                  fill="url(#colorAmount)"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </Box>
-        </CardContent>
-      </Card>
-    </div>
-
+          </CardContent>
+        </Card>
+      </div>
   );
 };
 
